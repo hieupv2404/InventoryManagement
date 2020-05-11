@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="593b5b69-0712-4a3c-a572-6efffd224370">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+E:/Do An/Do An OOP Nam 3/ProjectOOP/src/main/resources/hibernate.cfg.xml</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory_management</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="dataSource" uuid="a8275661-8d58-4b32-9dfb-913cd953a26c">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>jakarta commons-dbcp
+
+E:/Do An/Do An OOP Nam 3/ProjectOOP/src/main/webapp/WEB-INF/spring-mvc-servlet.xml</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory_management</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="jdbc" uuid="a4aa5f20-9c1f-4625-a3ad-72d5c37f9109">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>jdbc.properties
+
+E:/Do An/Do An OOP Nam 3/ProjectOOP/src/main/resources/jdbc.properties</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory_management</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="src:main:resources:hibernate.cfg.xml/Hibernate" uuid="c935cf23-d701-488b-a3c6-4267eab8bb1c">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+E:/Do An/Do An OOP Nam 3/ProjectOOP/src/main/resources/hibernate.cfg.xml</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory_management</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="inventory_management@localhost" uuid="bd760308-cd96-4735-a237-6e5fc8897e72">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory_management</jdbc-url>
+    </data-source>
+  </component>
+</project>

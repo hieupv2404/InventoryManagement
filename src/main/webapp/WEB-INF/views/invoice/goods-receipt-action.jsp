@@ -15,6 +15,7 @@
 
 					<div class="x_content">
 						<br />
+						<%--@elvariable id="modelForm" type=""--%>
 						<form:form modelAttribute="modelForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/goods-receipt/save" method="POST">
 							<form:hidden path="id" />
 							<form:hidden path="createDate" />

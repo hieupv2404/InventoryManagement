@@ -30,6 +30,7 @@ public class BaseDAOImpl<E> implements BaseDAO<E>{
 		if(queryStr!=null && !queryStr.isEmpty()) {
 			queryString.append(queryStr);
 			countQuery.append(queryStr);
+
 		}
 		Query<E> query  = sessionFactory.getCurrentSession().createQuery(queryString.toString());
 		Query<E> countQ = sessionFactory.getCurrentSession().createQuery(countQuery.toString());

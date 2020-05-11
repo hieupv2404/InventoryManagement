@@ -22,6 +22,7 @@
 					<a href="<c:url value="/goods-issue/add"/>" class="btn btn-app"><i class="fa fa-plus"></i>Add</a>
 					<a href="<c:url value="/goods-issue/export"/>" class="btn btn-app"><i class="fa fa-cloud-download"></i>Export</a>
 					<div class="container" style="padding: 50px;">
+						<%--@elvariable id="searchForm" type=""--%>
 						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/goods-issue/list/1" method="POST">
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code </label>
@@ -113,7 +114,7 @@
 		 }
 	 }
 	 function gotoPage(page){
-		 $('#searchForm').attr('action','<c:url value="/goods-issue/list/"/>'+page);
+		 $('#searchForm').attr('action','<c:url value="/goods-issue/list"/>'+page);
 		 $('#searchForm').submit();
 	 }
 	 $(document).ready(function(){

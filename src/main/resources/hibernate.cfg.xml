@@ -23,7 +23,7 @@
     <property name="current_session_context_class">thread</property>
       <mapping class="inventory.model.ProductDetail"/>
 
-      <!--    <mapping resource="Auth.hbm.xml"></mapping>-->
+    <!--    <mapping resource="Auth.hbm.xml"></mapping>-->
 <!--    <mapping resource="Category.hbm.xml"></mapping>-->
 <!--    <mapping resource="History.hbm.xml"></mapping>-->
 <!--    <mapping resource="Invoice.hbm.xml"></mapping>-->

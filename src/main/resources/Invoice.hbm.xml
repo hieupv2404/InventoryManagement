@@ -25,7 +25,7 @@
             <column name="active_flag" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="createDate" optimistic-lock="true" type="timestamp" unique="false">
-            <column length="19" name="create_flag" not-null="true"/>
+            <column length="19" name="create_date" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
             <column length="19" name="update_date" not-null="true"/>

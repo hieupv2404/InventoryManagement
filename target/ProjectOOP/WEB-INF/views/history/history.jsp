@@ -16,13 +16,9 @@
 
 				<div class="x_content">
 					<div class="container" style="padding: 50px;">
+						<%--@elvariable id="searchForm" type=""--%>
 						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/history/list/1" method="POST">
-							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code </label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="productInfo.code" cssClass="form-control col-md-7 col-xs-12" />
-								</div>
-							</div>
+							
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Category</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -61,7 +57,7 @@
 								<tr class="headings">
 									<th class="column-title">#</th>
 									<th class="column-title">Category</th>
-									<th class="column-title">Code</th>
+
 									<th class="column-title">Name</th>
 									<th class="column-title">Qty</th>
 									<th class="column-title">Price</th>
@@ -83,7 +79,7 @@
 									</c:choose>
 									<td class=" ">${pageInfo.getOffset()+loop.index+1}</td>
 									<td class=" ">${history.productInfo.category.name }</td>
-									<td class=" ">${history.productInfo.code }</td>
+
 									<td class=" ">${history.productInfo.name }</td>
 									<td class="">${history.qty}</td>
 									<td class="">${history.price }</td>
@@ -111,7 +107,7 @@
 <script type="text/javascript">
 	function gotoPage(page) {
 		$('#searchForm').attr('action',
-				'<c:url value="/history/list/"/>' + page);
+				'<c:url value="/history/list"/>' + page);
 		$('#searchForm').submit();
 	}
 	$(document).ready(function() {
