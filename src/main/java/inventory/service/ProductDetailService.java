@@ -1,9 +1,6 @@
 package inventory.service;
 
-import inventory.dao.CategoryDAO;
-import inventory.dao.ProductDetailDAO;
-import inventory.dao.ProductInfoDAO;
-import inventory.dao.SupplierDAO;
+import inventory.dao.*;
 import inventory.model.*;
 import inventory.util.ConfigLoader;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +18,7 @@ import java.util.Map;
 
 @Service
 public class ProductDetailService {
+
     @Autowired
     private ProductInfoDAO<ProductInfo> productInfoDAO;
 
@@ -31,19 +29,24 @@ public class ProductDetailService {
     private SupplierDAO<Supplier> supplierDAO;
 
     @Autowired
+    private InvoiceDAO<Invoice> invoiceDAO;
+
+    @Autowired
     private ProductDetailDAO<ProductDetail> productDetailDAO;
 
     private static final Logger log = Logger.getLogger(ProductDetailService.class);
 
     // PRODUCT Deatil
 
-    public void saveProductDetail(ProductDetail productDetail)  throws Exception{
+    public void saveProductDetail(ProductDetail productDetail){
         log.info("Insert productDetail "+productDetail.toString());
         productDetail.setActiveFlag(1);
         productDetail.setCreateDate(new Date());
         productDetail.setUpdateDate(new Date());
+
         productDetailDAO.save(productDetail);
     }
+
     public void updateProductDetail(ProductDetail productDetail) throws Exception {
         log.info("Update productDetail "+productDetail.toString());
 
@@ -96,6 +99,7 @@ public class ProductDetailService {
         productInfo.setActiveFlag(1);
         productInfo.setCreateDate(new Date());
         productInfo.setUpdateDate(new Date());
+
         String fileName = System.currentTimeMillis()+"_"+productInfo.getMultipartFile().getOriginalFilename();
         processUploadFile(productInfo.getMultipartFile(),fileName);
         productInfo.setImgUrl("/upload/"+fileName);
@@ -179,6 +183,27 @@ public class ProductDetailService {
             }
         }
         return supplierDAO.findAll(queryStr.toString(), mapParams,paging);
+    }
+
+    public List<Invoice> getAllInvoice(Invoice invoice, Paging paging){
+        log.info("show all Invoice");
+        StringBuilder queryStr = new StringBuilder();
+        Map<String, Object> mapParams = new HashMap<>();
+        if(invoice!=null) {
+            if(invoice.getId()!=null && invoice.getId()!=0) {
+                queryStr.append(" and model.id=:id");
+                mapParams.put("id", invoice.getId());
+            }
+//            if(productInfo.getCode()!=null && !StringUtils.isEmpty(productInfo.getCode())) {
+//                queryStr.append(" and model.code=:code");
+//                mapParams.put("code", productInfo.getCode());
+//            }
+            if(invoice.getCode()!=null && !StringUtils.isEmpty(invoice.getCode()) ) {
+                queryStr.append(" and model.code like :code");
+                mapParams.put("code", "%"+invoice.getCode()+"%");
+            }
+        }
+        return invoiceDAO.findAll(queryStr.toString(), mapParams,paging);
     }
 
 }

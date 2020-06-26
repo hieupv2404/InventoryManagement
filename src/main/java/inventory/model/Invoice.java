@@ -28,7 +28,11 @@ public class Invoice implements java.io.Serializable {
 	private Date fromDate;
 	private Integer productId;
 	private Set productDetails = new HashSet(0);
-	private Customer customer;
+//	private Customer customer;
+	private Supplier supplier;
+//	private Integer customerId;
+	private Integer supplierId;
+
 
 	public Invoice() {
 	}
@@ -149,11 +153,35 @@ public class Invoice implements java.io.Serializable {
 		this.productDetails = productDetails;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+//	public Customer getCustomer() {
+//		return customer;
+//	}
+//
+//	public void setCustomer(Customer customer) {
+//		this.customer = customer;
+//	}
+
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+//	public Integer getCustomerId() {
+//		return customerId;
+//	}
+//
+//	public void setCustomerId(Integer customerId) {
+//		this.customerId = customerId;
+//	}
+
+	public Integer getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Integer supplierId) {
+		this.supplierId = supplierId;
 	}
 }

@@ -48,17 +48,18 @@ public class ProductInfoController {
 			binder.setValidator(productInfoValidator);
 		}
 	}
-	@RequestMapping(value= {"/product-info/list","/product-info/list/"})
+	@RequestMapping(value= {"/product-info/list", "/vat/list/"})
 	
 	public String redirect() {
 		return "redirect:/product-info/list/1";
 	}
 	
-	@RequestMapping(value="/product-info/list/{page}")
+	@RequestMapping(value= "/product-info/list/{page}")
 	public String showProductInfoList(Model model,HttpSession session , @ModelAttribute("searchForm") ProductInfo productInfo,@PathVariable("page") int page) {
 		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		List<ProductInfo> products = productInfoService.getAllProductInfo(productInfo,paging);
+
 		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
 			session.removeAttribute(Constant.MSG_SUCCESS);
@@ -131,6 +132,7 @@ public class ProductInfoController {
 			for(Category category : categories) {
 				mapCategory.put(String.valueOf(category.getId()), category.getName());
 			}
+
 			model.addAttribute("mapCategory", mapCategory);
 			model.addAttribute("modelForm", productInfo);
 			model.addAttribute("viewOnly", false);
@@ -139,6 +141,7 @@ public class ProductInfoController {
 		Category category = new Category();
 		category.setId(productInfo.getCateId());
 		productInfo.setCategory(category);
+
 		if(productInfo.getId()!=null && productInfo.getId()!=0 ) {
 			try {
 				productInfoService.updateProductInfo(productInfo);

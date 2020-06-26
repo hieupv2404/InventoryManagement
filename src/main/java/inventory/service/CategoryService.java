@@ -27,6 +27,7 @@ public class CategoryService {
         category.setUpdateDate(new Date());
         categoryDAO.save(category);
     }
+
     public void updateCategory(Category category) throws Exception {
         log.info("Update category "+category.toString());
         category.setUpdateDate(new Date());
@@ -43,6 +44,7 @@ public class CategoryService {
         log.info("property ="+property +" value"+ value.toString());
         return categoryDAO.findByProperty(property, value);
     }
+
     public List<Category> getAllCategory(Category category, Paging paging){
         log.info("show all category");
         StringBuilder queryStr = new StringBuilder();
@@ -63,6 +65,7 @@ public class CategoryService {
         }
         return categoryDAO.findAll(queryStr.toString(), mapParams,paging);
     }
+
     public Category findByIdCategory(int id) {
         log.info("find category by id ="+id);
         return categoryDAO.findById(Category.class, id);

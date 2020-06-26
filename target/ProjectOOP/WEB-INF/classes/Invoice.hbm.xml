@@ -19,7 +19,7 @@
             <column name="qty" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="price" optimistic-lock="true" type="big_decimal" unique="false">
-            <column name="price" not-null="true" precision="15"/>
+            <column name="price" not-null="false" precision="15"/>
         </property>
         <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
             <column name="active_flag" not-null="true"/>
@@ -30,8 +30,8 @@
         <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
             <column length="19" name="update_date" not-null="true"/>
         </property>
-        <many-to-one class="inventory.model.Customer" embed-xml="true" fetch="select" insert="true" name="customer" not-found="exception" optimistic-lock="true" unique="false" update="true">
-            <column name="customer_id" not-null="true"/>
+        <many-to-one class="inventory.model.Supplier" embed-xml="true" fetch="select" insert="true" name="supplier" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="supplier_id" not-null="false"/>
         </many-to-one>
     </class>
 </hibernate-mapping>

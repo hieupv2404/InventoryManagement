@@ -1,13 +1,17 @@
 package inventory.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "customer", schema = "inventory_management", catalog = "")
-public class Customer {
+
+public class Customer implements Serializable {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue
     private int id;
     private String name;
     private String phone;
@@ -15,10 +19,8 @@ public class Customer {
     private Timestamp createDate;
     private Timestamp updateDate;
     private Integer activeFlag;
-    private Set invoices = new HashSet(0);
 
-    @Id
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
@@ -27,8 +29,7 @@ public class Customer {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name")
+
     public String getName() {
         return name;
     }
@@ -37,8 +38,7 @@ public class Customer {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "phone")
+
     public String getPhone() {
         return phone;
     }
@@ -47,8 +47,7 @@ public class Customer {
         this.phone = phone;
     }
 
-    @Basic
-    @Column(name = "address")
+
     public String getAddress() {
         return address;
     }
@@ -57,8 +56,7 @@ public class Customer {
         this.address = address;
     }
 
-    @Basic
-    @Column(name = "create_date")
+
     public Timestamp getCreateDate() {
         return createDate;
     }
@@ -67,8 +65,7 @@ public class Customer {
         this.createDate = createDate;
     }
 
-    @Basic
-    @Column(name = "update_date")
+
     public Timestamp getUpdateDate() {
         return updateDate;
     }
@@ -77,8 +74,7 @@ public class Customer {
         this.updateDate = updateDate;
     }
 
-    @Basic
-    @Column(name = "active_flag")
+
     public Integer getActiveFlag() {
         return activeFlag;
     }
@@ -87,13 +83,6 @@ public class Customer {
         this.activeFlag = activeFlag;
     }
 
-    public Set getInvoices() {
-        return invoices;
-    }
-
-    public void setInvoices(Set invoices) {
-        this.invoices = invoices;
-    }
 
     @Override
     public boolean equals(Object o) {

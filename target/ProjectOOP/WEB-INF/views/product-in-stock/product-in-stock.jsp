@@ -92,7 +92,7 @@
 </div>
 <script type="text/javascript">
 	 function gotoPage(page){
-		 $('#searchForm').attr('action','<c:url value="/product-in-stock/list//"/>'+page);
+		 $('#searchForm').attr('action','<c:url value="/product-in-stock/list/"/>'+page);
 		 $('#searchForm').submit();
 	 }
 	 $(document).ready(function(){

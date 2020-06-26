@@ -52,5 +52,12 @@
             </key>
             <one-to-many class="inventory.model.ProductDetail" embed-xml="true" not-found="exception"/>
         </set>
+
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vatDetails" optimistic-lock="true" sort="unsorted" table="vat_detail">
+            <key on-delete="noaction">
+                <column name="vat_id" not-null="true"/>
+            </key>
+            <one-to-many class="inventory.model.VatDetail" embed-xml="true" not-found="exception"/>
+        </set>
     </class>
 </hibernate-mapping>

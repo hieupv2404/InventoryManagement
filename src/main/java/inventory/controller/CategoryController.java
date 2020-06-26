@@ -31,6 +31,7 @@ import inventory.validate.CategoryValidator;
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
+
 	@Autowired
 	private CategoryValidator categoryValidator;
 	static final Logger log = Logger.getLogger(CategoryController.class);
@@ -88,6 +89,7 @@ public class CategoryController {
 		}
 		return "redirect:/category/list";
 	}
+
 	@GetMapping("/category/view/{id}")
 	public String view(Model model , @PathVariable("id") int id) {
 		log.info("View category with id="+id);

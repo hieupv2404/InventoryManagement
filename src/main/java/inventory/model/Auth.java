@@ -6,7 +6,6 @@ import java.util.Date;
 @Entity
 public class Auth implements java.io.Serializable {
 	@Id
-	@Column(name = "id")
 	@GeneratedValue
 	private Integer id;
 
@@ -16,6 +15,8 @@ public class Auth implements java.io.Serializable {
 	private int activeFlag;
 	private Date createDate;
 	private Date updateDate;
+
+
 
 
 	public Auth() {

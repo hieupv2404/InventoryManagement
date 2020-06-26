@@ -29,6 +29,7 @@ public class ProductInfo implements java.io.Serializable {
 	private MultipartFile multipartFile;
 	private Integer cateId;
 	private Set productDetails = new HashSet(0);
+	private Set vatDetails = new HashSet(0);
 
 
 
@@ -171,5 +172,13 @@ public class ProductInfo implements java.io.Serializable {
 
 	public void setProductDetails(Set productDetails) {
 		this.productDetails = productDetails;
+	}
+
+	public Set getVatDetails() {
+		return vatDetails;
+	}
+
+	public void setVatDetails(Set vatDetails) {
+		this.vatDetails = vatDetails;
 	}
 }

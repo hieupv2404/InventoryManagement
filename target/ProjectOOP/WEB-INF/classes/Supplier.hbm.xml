@@ -26,9 +26,24 @@
         </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="productDetails" optimistic-lock="true" sort="unsorted" table="product_detail">
             <key on-delete="noaction">
-                <column name="supplier_id" not-null="true"/>
+                <column name="supplier_id" not-null="false"/>
             </key>
             <one-to-many class="inventory.model.ProductDetail" embed-xml="true" not-found="exception"/>
         </set>
+
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="invoices" optimistic-lock="true" sort="unsorted" table="invoice">
+            <key on-delete="noaction">
+                <column name="supplier_id" not-null="false"/>
+            </key>
+            <one-to-many class="inventory.model.Invoice" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vats" optimistic-lock="true" sort="unsorted" table="vat">
+            <key on-delete="noaction">
+                <column name="supplier_id" not-null="false"/>
+            </key>
+            <one-to-many class="inventory.model.Vat" embed-xml="true" not-found="exception"/>
+        </set>
+
+
     </class>
 </hibernate-mapping>

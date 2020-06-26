@@ -54,7 +54,7 @@
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
     <property name="dataSource" ref="dataSource"></property>
-      <property name="packagesToScan" value="inventory.model.mapping"/>
+      <property name="packagesToScan" value="java"/>
     <property name="hibernateProperties"
               value="classpath:hibernate.properties">
     </property>
@@ -71,9 +71,12 @@
                 <value>UserRole.hbm.xml</value>
                 <value>Users.hbm.xml</value>
 <!--                <value>inventory/model/mapping/Users.hbm.xml</value>-->
-                <value>Customer.hbm.xml</value>
+<!--                <value>Customer.hbm.xml</value>-->
                 <value>ProductDetail.hbm.xml</value>
                 <value>Supplier.hbm.xml</value>
+                <value>Vat.hbm.xml</value>
+                <value>VatDetail.hbm.xml</value>
+                <value>ProductStatusList.hbm.xml</value>
             </list>
         </property>
     </bean>

@@ -67,7 +67,8 @@ public class ProductInStockService {
 				product.setUpdateDate(new Date());
 				productInStockDAO.update(product);
 			
-			}else if(invoice.getType()==1){
+			}
+			else if(invoice.getType()==1){
 				log.info("insert to stock qty="+invoice.getQty()+" and price="+invoice.getPrice());
 				product = new ProductInStock();
 				ProductInfo productInfo = new ProductInfo();

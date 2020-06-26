@@ -20,10 +20,10 @@ public class ProductDetail implements Serializable {
     private String code;
     private ProductInfo productInfo;
     private Invoice invoice;
-    private History history;
     private Supplier supplier;
     private Integer productInfoId;
     private Integer supplierId;
+    private Integer invoiceId;
 
 
     public Integer getId() {
@@ -137,13 +137,6 @@ public class ProductDetail implements Serializable {
     }
 
 
-    public History getHistory() {
-        return history;
-    }
-
-    public void setHistory(History history) {
-        this.history = history;
-    }
 
 
     public Supplier getSupplier() {
@@ -168,5 +161,13 @@ public class ProductDetail implements Serializable {
 
     public void setSupplierId(Integer supplierId) {
         this.supplierId = supplierId;
+    }
+
+    public Integer getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(Integer invoiceId) {
+        this.invoiceId = invoiceId;
     }
 }

@@ -8,9 +8,6 @@ import java.util.Base64;
 
 import org.apache.commons.collections.buffer.CircularFifoBuffer;
 
-
-
-
 public class HashingPassword {
 	static final String SALT ="inventory_management";
 	public static String encrypt(String originPassword) {

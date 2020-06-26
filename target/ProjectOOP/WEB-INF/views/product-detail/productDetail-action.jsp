@@ -45,6 +45,7 @@
 
 							</div>
 
+
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code <span class="required">*</span>
 								</label>
@@ -74,6 +75,29 @@
 <%--									</div>--%>
 <%--								</div>--%>
 <%--							</div>--%>
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceIn">Price In <span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="priceIn" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
+									<div class="has-error">
+										<form:errors path="priceIn" cssClass="help-block"></form:errors>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceOut">Price Out <span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="priceOut" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
+									<div class="has-error">
+										<form:errors path="priceOut" cssClass="help-block"></form:errors>
+									</div>
+								</div>
+							</div>
+
 							<div class="form-group">
 
 									<%--@declare id="supplierId"--%>
@@ -92,6 +116,30 @@
 										</c:when>
 										<c:otherwise>
 											<form:input path="supplier.name" disabled="true" cssClass="form-control col-md-7 col-xs-12"/>
+										</c:otherwise>
+									</c:choose>
+								</div>
+
+							</div>
+
+							<div class="form-group">
+
+									<%--@declare id="invoiceid"--%>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="invoiceId">Invoice<span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<c:choose>
+										<c:when test="${!viewOnly}">
+
+											<form:select path="invoiceId" cssClass="form-control">
+												<form:options items="${mapInvoice}" />
+											</form:select>
+											<div class="has-error">
+												<form:errors path="invoiceId" cssClass="help-block"></form:errors>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<form:input path="invoice.code" disabled="true" cssClass="form-control col-md-7 col-xs-12"/>
 										</c:otherwise>
 									</c:choose>
 								</div>

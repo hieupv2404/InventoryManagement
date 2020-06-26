@@ -33,5 +33,6 @@
 <!--    <mapping resource="Role.hbm.xml"></mapping>-->
 <!--    <mapping resource="UserRole.hbm.xml"></mapping>-->
 <!--    <mapping resource="Users.hbm.xml"></mapping>-->
+<!--        <mapping resource="Vat.hbm.xml"></mapping>-->
   </session-factory>
 </hibernate-configuration>

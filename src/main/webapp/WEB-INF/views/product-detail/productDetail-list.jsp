@@ -114,7 +114,7 @@
 		 }
 	 }
 	 function gotoPage(page){
-		 $('#searchForm').attr('action','<c:url value="/product-detail/list"/>'+page);
+		 $('#searchForm').attr('action','<c:url value="/product-detail/list/"/>'+page);
 		 $('#searchForm').submit();
 	 }
 	 $(document).ready(function(){

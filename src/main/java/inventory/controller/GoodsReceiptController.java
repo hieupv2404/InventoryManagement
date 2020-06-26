@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import inventory.service.ProductInfoService;
+import inventory.model.Supplier;
+import inventory.service.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -17,19 +20,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import inventory.model.Invoice;
 import inventory.model.Paging;
 import inventory.model.ProductInfo;
-import inventory.service.GoodsReceiptReport;
-import inventory.service.InvoiceService;
 import inventory.util.Constant;
 import inventory.validate.InvoiceValidator;
 
@@ -41,6 +37,12 @@ public class GoodsReceiptController {
 	private InvoiceValidator invoiceValidator;
 	@Autowired
 	private ProductInfoService productInfoService;
+
+	@Autowired
+	private SupplierService supplierService;
+
+	@Autowired
+	private ProductDetailService productDetailService;
 	static final Logger log = Logger.getLogger(GoodsReceiptController.class);
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
@@ -60,31 +62,68 @@ public class GoodsReceiptController {
 	}
 	
 	@RequestMapping(value="/goods-receipt/list/{page}")
-	public String showInvoiceList(Model model,HttpSession session , @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) {
+	public String showInvoiceList(Model model,HttpSession session ,
+//								  HttpServletRequest request, @RequestParam("digest") int digest,
+								  @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) {
 		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
-		if(invoice==null) {
+		if (invoice == null) {
 			invoice = new Invoice();
 		}
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
-		List<Invoice> invoices = invoiceService.getList(invoice,paging);
+		List<Invoice> invoices = invoiceService.getList(invoice, paging);
+
+//		if (session.getAttribute("DigestRequest") == null) {
+//			// lan vao dau tien, Digest null va tham so null
+//
+//			if (StringUtils.isEmpty(invoice.getCode()) && invoice.getFromDate() == null && invoice.getToDate() == null) {
+//				session.setAttribute("DigestRequest", System.currentTimeMillis());
+//			}
+//
+//		}
+//		// load lai trang, giu nguyen session
+//		else
+//		{
+//			// tu trang khac ve
+//			if ()
+//		}
+//			session.setAttribute("searchedCode", invoice.getCode());
+//			session.setAttribute("searchedFromDate", invoice.getFromDate());
+//			session.setAttribute("searchedToDate", invoice.getToDate());
+//		}
+
 		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+
 			session.removeAttribute(Constant.MSG_SUCCESS);
 		}
 		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
 			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
 			session.removeAttribute(Constant.MSG_ERROR);
 		}
+
 		model.addAttribute("pageInfo", paging);
 		model.addAttribute("invoices", invoices);
+
 		return "goods-receipt-list";
 		
 	}
 	@GetMapping("/goods-receipt/add")
 	public String add(Model model) {
+
 		model.addAttribute("titlePage", "Add Invoice");
 		model.addAttribute("modelForm", new Invoice());
+
+		List<Supplier> suppliers = supplierService.getAllSupplier(null, null);
+		Map<String, String> mapSupplier = new HashMap<>();
+		for(Supplier supplier : suppliers) {
+			mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
+		}
+
+
+		model.addAttribute("mapSupplier",mapSupplier);
+		model.addAttribute("mapSupplier",mapSupplier);
+//		model.addAttribute("mapSupplier",initMapSupplier());
 		model.addAttribute("viewOnly", false);
 		model.addAttribute("mapProduct", initMapProduct());
 		return "goods-receipt-action";
@@ -95,6 +134,16 @@ public class GoodsReceiptController {
 		Invoice invoice = invoiceService.find("id",id).get(0);
 		if(invoice!=null) {
 			model.addAttribute("titlePage", "Edit Invoice");
+
+			List<Supplier> suppliers = productDetailService.getAllSupplier(null, null);
+			Map<String, String> mapSupplier = new HashMap<>();
+			for(Supplier supplier : suppliers) {
+				mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
+			}
+
+			invoice.setSupplierId(invoice.getSupplier().getId());
+
+			model.addAttribute("mapSupplier",initMapSupplier());
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("mapProduct", initMapProduct());
@@ -110,7 +159,7 @@ public class GoodsReceiptController {
 			model.addAttribute("titlePage", "View Invoice");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
-			return "invoice-action";
+			return "goods-receipt-action";
 		}
 		return "redirect:/goods-receipt/list";
 	}
@@ -122,13 +171,26 @@ public class GoodsReceiptController {
 			}else {
 				model.addAttribute("titlePage", "Add Invoice");
 			}
+
+			List<Supplier> suppliers = productDetailService.getAllSupplier(null, null);
+			Map<String, String> mapSupplier = new HashMap<>();
+			for(Supplier supplier : suppliers) {
+				mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
+			}
+
+			model.addAttribute("mapSupplier",mapSupplier);
 			model.addAttribute("mapProduct", initMapProduct());
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 
-			
+
 		}
+		Supplier supplier = new Supplier();
+		supplier.setId(invoice.getSupplierId());
+		invoice.setSupplier(supplier);
+
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+
 		if(invoice.getId()!=null && invoice.getId()!=0) {
 			try {
 				invoiceService.update(invoice);
@@ -171,10 +233,13 @@ public class GoodsReceiptController {
 		return "redirect:/goods-receipt/list";
 	}
 	@GetMapping("/goods-receipt/export")
-	public ModelAndView exportReport() {
+	public ModelAndView exportReport(Model model, HttpSession session , @ModelAttribute("searchForm") @RequestBody Invoice invoice
+								) {
 		ModelAndView modelAndView = new ModelAndView();
-		Invoice invoice = new Invoice();
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+//		invoice.setCode(code);
+//		invoice.setFromDate(fromDate);
+//		invoice.setToDate(toDate);
 		List<Invoice> invoices = invoiceService.getList(invoice, null);
 		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, invoices);
 		modelAndView.setView(new GoodsReceiptReport());
@@ -190,5 +255,15 @@ public class GoodsReceiptController {
 		}
 		
 		return mapProduct;
+	}
+
+	private Map<String,String> initMapSupplier(){
+		List<Supplier> suppliers = productDetailService.getAllSupplier(null, null);
+		Map<String, String> mapSupplier = new HashMap<>();
+		for(Supplier supplier : suppliers) {
+			mapSupplier.put(supplier.getId().toString(),supplier.getName());
+		}
+
+		return mapSupplier;
 	}
 }

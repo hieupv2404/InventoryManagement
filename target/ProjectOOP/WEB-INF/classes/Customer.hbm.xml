@@ -24,11 +24,5 @@
         <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
             <column length="19" name="update_date" not-null="true"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="invoices" optimistic-lock="true" sort="unsorted" table="invoice">
-            <key on-delete="noaction">
-                <column name="customer_id" not-null="true"/>
-            </key>
-            <one-to-many class="inventory.model.Invoice" embed-xml="true" not-found="exception"/>
-        </set>
     </class>
 </hibernate-mapping>

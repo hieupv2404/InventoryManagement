@@ -18,12 +18,16 @@
 
 					<div class="clearfix"></div>
 				</div>
+
 				<div class="x_content">
 					<a href="<c:url value="/goods-receipt/add"/>" class="btn btn-app"><i class="fa fa-plus"></i>Add</a>
+<%--					<form:form  modelAttribute="searchForm" servletRelativeAction="/goods-receipt/export"  method="GET"> <a href="<c:url value="/goods-receipt/export"/>" class="btn btn-app"><i class="fa fa-cloud-download"></i>Export</a> </form:form>--%>
 					<a href="<c:url value="/goods-receipt/export"/>" class="btn btn-app"><i class="fa fa-cloud-download"></i>Export</a>
 					<div class="container" style="padding: 50px;">
 						<%--@elvariable id="searchForm" type=""--%>
-						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/goods-receipt/list/1" method="POST">
+						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/goods-receipt/list/1"  method="POST">
+<%--							<div class="form-group"><a href="<c:url value="/goods-receipt/export"/>" class="btn btn-app"><i class="fa fa-cloud-download"></i>Export</a></div>--%>
+
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -70,6 +74,7 @@
 									<th class="column-title">Price</th>
 									<th class="column-title">Product</th>
 									<th class="column-title">Update Date</th>
+									<th class="column-title">Supplier</th>
 									<th class="column-title no-link last text-center" colspan="3"><span class="nobr">Action</span></th>
 								</tr>
 							</thead>
@@ -91,6 +96,7 @@
 									<td class="price">${invoice.price }</td>
 									<td class=" ">${invoice.productInfo.name }</td>
 									<td class="date">${invoice.updateDate}</td>
+									<td class=" ">${invoice.supplier.name}</td>
 
 									<td class="text-center"><a href="<c:url value="/goods-receipt/view/${invoice.id }"/>" class="btn btn-round btn-default">View</a></td>
 									<td class="text-center"><a href="<c:url value="/goods-receipt/edit/${invoice.id }"/>" class="btn btn-round btn-primary">Edit</a></td>
@@ -114,9 +120,12 @@
 		 }
 	 }
 	 function gotoPage(page){
-		 $('#searchForm').attr('action','<c:url value="/goods-receipt/list"/>'+page);
+		 $('#searchForm').attr('action','<c:url value="/goods-receipt/list/"/>'+page);
+
 		 $('#searchForm').submit();
 	 }
+
+
 	 $(document).ready(function(){
 		 processMessage();
 		 $('#fromDatePicker').datetimepicker({

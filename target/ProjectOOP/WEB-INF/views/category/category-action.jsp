@@ -78,6 +78,6 @@
 				$('#categorylistId').parents().show();
 			});
 	function cancel() {
-		window.location.href = '<c:url value="/category/list"/>'
+		window.location.href = '<c:url value="/category/list/"/>'
 	}
 </script>

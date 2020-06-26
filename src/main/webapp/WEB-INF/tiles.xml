@@ -43,6 +43,28 @@
 		<put-attribute name="body"
 					   value="/WEB-INF/views/product-detail/productDetail-list.jsp"></put-attribute>
 	</definition>
+
+	<definition name="vatDetail-list" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/vat-detail/vatDetail-list.jsp"></put-attribute>
+	</definition>
+
+	<definition name="vatDetail-action" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/vat-detail/vatDetail-action.jsp"></put-attribute>
+	</definition>
+
+	<definition name="product-done-list-action" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/product-done-list/product-done-list-action.jsp"></put-attribute>
+	</definition>
+
+	<definition name="product-done-list-list" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/product-done-list/product-done-list-list.jsp"></put-attribute>
+	</definition>
+
+
 	<definition name="product-in-stock" extends="master">
 		<put-attribute name="body"
 			value="/WEB-INF/views/product-in-stock/product-in-stock.jsp"></put-attribute>
@@ -92,6 +114,14 @@
 	<definition name="menu-permission" extends="master">
 		<put-attribute name="body"
 			value="/WEB-INF/views/menu/menu-permission.jsp"></put-attribute>
+	</definition>
+	<definition name="vat-list" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/vat/vat-list.jsp"></put-attribute>
+	</definition>
+	<definition name="vat-action" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/vat/vat-action.jsp"></put-attribute>
 	</definition>
 
 </tiles-definitions>

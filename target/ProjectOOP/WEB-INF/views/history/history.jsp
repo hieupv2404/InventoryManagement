@@ -107,7 +107,7 @@
 <script type="text/javascript">
 	function gotoPage(page) {
 		$('#searchForm').attr('action',
-				'<c:url value="/history/list"/>' + page);
+				'<c:url value="/history/list/"/>' + page);
 		$('#searchForm').submit();
 	}
 	$(document).ready(function() {

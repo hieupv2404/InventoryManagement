@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="inventory_management" dynamic-insert="false" dynamic-update="false" mutable="true" name="inventory.model.VatDetail" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="vat_detail">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one class="inventory.model.Vat" embed-xml="true" lazy="false" fetch="select" insert="true" name="vat" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="vat_id" />
+        </many-to-one>
+
+        <many-to-one class="inventory.model.ProductInfo" embed-xml="true" lazy="false" fetch="select" insert="true" name="productInfo" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="product_id" />
+        </many-to-one>
+        <property generated="never" lazy="false" name="qty" optimistic-lock="true" type="int" unique="false">
+            <column length="11" name="qty" />
+        </property>
+        <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
+            <column length="11" name="active_flag" />
+        </property>
+        <property generated="never" lazy="false" name="priceOne" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="price_one"  precision="15"/>
+        </property>
+        <property generated="never" lazy="false" name="priceTotal" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="price_total"  precision="15"/>
+        </property>
+    </class>
+</hibernate-mapping>

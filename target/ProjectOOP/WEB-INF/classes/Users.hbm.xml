@@ -7,29 +7,33 @@
             <generator class="identity"/>
         </id>
         <property generated="never" lazy="false" name="userName" optimistic-lock="true" type="string" unique="false">
-            <column length="50" name="user_name" not-null="true"/>
+            <column length="50" name="user_name" />
         </property>
         <property generated="never" lazy="false" name="password" optimistic-lock="true" type="string" unique="false">
-            <column length="100" name="password" not-null="true"/>
+            <column length="100" name="password" />
         </property>
         <property generated="never" lazy="false" name="email" optimistic-lock="true" type="string" unique="false">
             <column length="100" name="email"/>
         </property>
         <property generated="never" lazy="false" name="name" optimistic-lock="true" type="string" unique="false">
-            <column length="100" name="name" not-null="true"/>
+            <column length="100" name="name" />
         </property>
         <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
-            <column name="active_flag" not-null="true"/>
+            <column name="active_flag" />
         </property>
         <property generated="never" lazy="false" name="createDate" optimistic-lock="true" type="timestamp" unique="false">
-            <column length="19" name="create_date" not-null="true"/>
+            <column length="19" name="create_date" />
         </property>
         <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
-            <column length="19" name="update_date" not-null="true"/>
+            <column length="19" name="update_date" />
         </property>
+        <property generated="never" lazy="false" name="status" optimistic-lock="true" type="int" unique="false">
+            <column length="11" name="status" />
+        </property>
+        
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="userRoles" optimistic-lock="true" sort="unsorted" table="user_role">
             <key on-delete="noaction">
-                <column name="user_id" not-null="true"/>
+                <column name="user_id" />
             </key>
             <one-to-many class="inventory.model.UserRole" embed-xml="true" not-found="exception"/>
         </set>

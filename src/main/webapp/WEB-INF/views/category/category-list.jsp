@@ -99,7 +99,7 @@
 		 }
 	 }
 	 function gotoPage(page){
-		 $('#searchForm').attr('action','<c:url value="/category/list"/>'+page);
+		 $('#searchForm').attr('action','<c:url value="/category/list/"/>'+page);
 		 $('#searchForm').submit();
 	 }
 	 $(document).ready(function(){

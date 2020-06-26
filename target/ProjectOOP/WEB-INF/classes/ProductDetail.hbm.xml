@@ -15,10 +15,7 @@
             <column name="product_id" not-null="true"/>
         </many-to-one>
         <many-to-one class="inventory.model.Invoice" embed-xml="true" fetch="select" insert="true" name="invoice" not-found="exception" optimistic-lock="true" unique="false" update="true">
-            <column name="invoice_id" not-null="true"/>
-        </many-to-one>
-        <many-to-one class="inventory.model.History" embed-xml="true" fetch="select" insert="true" name="history" not-found="exception" optimistic-lock="true" unique="false" update="true">
-            <column name="history_id" not-null="true"/>
+            <column name="invoice_id" not-null="false"/>
         </many-to-one>
         <property generated="never" lazy="false" name="priceIn" optimistic-lock="true" type="big_decimal" unique="false">
             <column length="100" name="price_in" not-null="true"/>
@@ -26,7 +23,7 @@
         <property generated="never" lazy="false" name="priceOut" optimistic-lock="true" type="big_decimal" unique="false">
             <column length="65535" name="price_out"/>
         </property>
-        <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="false">
+        <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="true">
             <column length="200" name="code" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">

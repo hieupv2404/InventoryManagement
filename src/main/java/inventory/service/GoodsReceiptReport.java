@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,6 +25,7 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		// TODO Auto-generated method stub
 		String fileName = "invoice-export-"+System.currentTimeMillis()+".xlsx";
 		response.setHeader("Content-Disposition", "attachment;filename=\""+fileName+"\"");
+
 		Sheet sheet = workbook.createSheet("data");
 		Row header = sheet.createRow(0);
 		header.createCell(0).setCellValue("#");
@@ -38,11 +41,16 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 			row.createCell(0).setCellValue(rownum-1);
 			row.createCell(1).setCellValue(invoice.getCode());
 			row.createCell(2).setCellValue(invoice.getQty());
-			row.createCell(3).setCellValue(invoice.getPrice().toString());
+			row.createCell(3).setCellValue(Float.parseFloat(invoice.getPrice().toString()));
 			row.createCell(4).setCellValue(invoice.getProductInfo().getName());
 			row.createCell(5).setCellValue(DateUtil.dateToString(invoice.getUpdateDate()));
-			
 		}
+			Row row = sheet.createRow(rownum++);
+//			HSSFCell cell = (HSSFCell) row.createCell(rownum, CellType.FORMULA);
+//		// Sét công thức.
+//			cell.setCellFormula("SUM(D2:D4)");
+			row.createCell(2).setCellValue("Total: ");
+			row.createCell(3).setCellValue("=SUM(D2:D"+String.valueOf(rownum-1)+")");
 	}
 
 }

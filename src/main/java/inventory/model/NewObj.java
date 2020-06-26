@@ -1,5 +1,6 @@
 package inventory.model;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class NewObj {
     @Id
+    @GeneratedValue
     private Integer id;
     private int activeFlag;
     private Date createDate;

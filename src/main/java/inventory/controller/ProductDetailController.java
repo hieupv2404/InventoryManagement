@@ -90,15 +90,25 @@ public class ProductDetailController {
         for(ProductInfo productInfo : productInfos) {
             mapProductInfo.put(String.valueOf(productInfo.getId()), productInfo.getName());
         }
+
         List<Supplier> suppliers = productDetailService.getAllSupplier(null, null);
         Map<String, String> mapSupplier = new HashMap<>();
         for(Supplier supplier : suppliers) {
             mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
         }
+
+        List<Invoice> invoices = productDetailService.getAllInvoice(null, null);
+        Map<String, String> mapInvoice = new HashMap<>();
+        for(Invoice invoice : invoices) {
+            mapInvoice.put(String.valueOf(invoice.getId()), invoice.getCode());
+        }
+
         model.addAttribute("mapProductInfo", mapProductInfo);
         model.addAttribute("mapProductInfo", mapProductInfo);
         model.addAttribute("mapSupplier",mapSupplier);
         model.addAttribute("mapSupplier",mapSupplier);
+        model.addAttribute("mapInvoice",mapInvoice);
+        model.addAttribute("mapInvoice",mapInvoice);
         model.addAttribute("viewOnly", false);
         return "productDetail-action";
     }
@@ -107,6 +117,7 @@ public class ProductDetailController {
         log.info("Edit productDetail with id="+id);
         ProductDetail productDetail = productDetailService.findByIdProductDetail(id);
         if(productDetail!=null) {
+
             List<ProductInfo> productInfos = productDetailService.getAllProductInfo(null, null);
             Map<String, String> mapProductInfo = new HashMap<>();
             for(ProductInfo productInfo : productInfos) {
@@ -121,8 +132,16 @@ public class ProductDetailController {
             }
             productDetail.setSupplierId(productDetail.getSupplier().getId());
 
+            List<Invoice> invoices = productDetailService.getAllInvoice(null, null);
+            Map<String, String> mapInvoice = new HashMap<>();
+            for(Invoice invoice : invoices) {
+                mapInvoice.put(String.valueOf(invoice.getId()), invoice.getCode());
+            }
+            productDetail.setInvoiceId(productDetail.getInvoice().getId());
+
             model.addAttribute("mapProductInfo", mapProductInfo);
             model.addAttribute("mapSupplier", mapSupplier);
+            model.addAttribute("mapInvoice",mapInvoice);
             model.addAttribute("titlePage", "Edit ProductDetail");
             model.addAttribute("modelForm", productDetail);
             model.addAttribute("modelForm", productDetail);
@@ -151,6 +170,7 @@ public class ProductDetailController {
             }else {
                 model.addAttribute("titlePage", "Add Product Detail");
             }
+
             List<ProductInfo> productInfos = productDetailService.getAllProductInfo(null, null);
             Map<String, String> mapProductInfo = new HashMap<>();
             for(ProductInfo productInfo : productInfos) {
@@ -163,8 +183,15 @@ public class ProductDetailController {
                 mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
             }
 
+            List<Invoice> invoices = productDetailService.getAllInvoice(null, null);
+            Map<String, String> mapInvoice = new HashMap<>();
+            for(Invoice invoice : invoices) {
+                mapInvoice.put(String.valueOf(invoice.getId()), invoice.getCode());
+            }
+
             model.addAttribute("mapProductInfo", mapProductInfo);
             model.addAttribute("mapSupplier", mapSupplier);
+            model.addAttribute("mapInvoice",mapInvoice);
             model.addAttribute("modelForm", productDetail);
             model.addAttribute("viewOnly", false);
         }
@@ -176,6 +203,10 @@ public class ProductDetailController {
         Supplier supplier = new Supplier();
         supplier.setId(productDetail.getSupplierId());
         productDetail.setSupplier(supplier);
+
+        Invoice invoice = new Invoice();
+        invoice.setId(productDetail.getInvoiceId());
+        productDetail.setInvoice(invoice);
 
         if(productDetail.getId()!=null && productDetail.getId()!=0) {
             try {

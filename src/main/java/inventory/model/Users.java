@@ -22,6 +22,7 @@ public class Users extends NewObj implements java.io.Serializable {
 //	private Date updateDate;
 	private Set userRoles = new HashSet(0);
 	private Integer roleID;
+	private int status;
 
 	public Users() {
 		super();
@@ -129,6 +130,12 @@ public class Users extends NewObj implements java.io.Serializable {
 	public void setRoleID(Integer roleID) {
 		this.roleID = roleID;
 	}
-	
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 }

@@ -14,7 +14,6 @@ import java.util.Set;
 public class Menu implements java.io.Serializable {
 
 	@Id
-	@Column(name = "id")
 	@GeneratedValue
 	private Integer id;
 	private int parentId;

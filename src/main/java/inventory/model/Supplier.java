@@ -19,7 +19,8 @@ public class Supplier implements Serializable {
     private Timestamp updateDate;
     private Integer activeFlag;
     private Set productDetails = new HashSet(0);
-
+    private Set invoices = new HashSet(0);
+    private Set vats = new HashSet(0);
 
     public Integer getId() {
         return id;
@@ -90,6 +91,22 @@ public class Supplier implements Serializable {
 
     public void setProductDetails(Set productDetails) {
         this.productDetails = productDetails;
+    }
+
+    public Set getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Set invoices) {
+        this.invoices = invoices;
+    }
+
+    public Set getVats() {
+        return vats;
+    }
+
+    public void setVats(Set vats) {
+        this.vats = vats;
     }
 
     @Override
