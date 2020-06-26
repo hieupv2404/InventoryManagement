@@ -16,5 +16,13 @@
 			</c:forEach>
 		</ul>
 	</div>
-
 </div>
+
+<%--<script type="text/javascript">--%>
+
+<%--		$('#goods-receiptlistId a').click(function (event) {--%>
+<%--			event.preventDefault();--%>
+<%--			window.location.href = '<c:url value="/goods-receipt/list/"/>'+"?digest="+Math.floor(Math.random() * Math.floor(10000000));--%>
+<%--	})--%>
+
+<%--</script>--%>

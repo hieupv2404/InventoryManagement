@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="inventory_management" dynamic-insert="false" dynamic-update="false" mutable="true" name="inventory.model.ProductStatusList" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="product_status_list">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one class="inventory.model.Supplier" embed-xml="true" lazy="false" fetch="select" insert="true" name="supplier" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="supplier_id" />
+        </many-to-one>
+
+        <many-to-one class="inventory.model.Users" embed-xml="true" lazy="false" fetch="select" insert="true" name="user" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="user_id" />
+        </many-to-one>
+
+        <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="true">
+            <column length="200" name="code" />
+        </property>
+        <property generated="never" lazy="false" name="type" optimistic-lock="true" type="int" unique="false">
+            <column length="1" name="type"/>
+        </property>
+
+        <property generated="never" lazy="false" name="price" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="price"  precision="15"/>
+        </property>
+
+        <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
+            <column name="active_flag" />
+        </property>
+        <property generated="never" lazy="false" name="createDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="create_date" />
+        </property>
+        <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="update_date" />
+        </property>
+
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="productStatusDetail" optimistic-lock="true" sort="unsorted" table="product_status_detail">
+            <key on-delete="noaction">
+                <column name="product_status_detail_id" />
+            </key>
+            <one-to-many class="inventory.model.ProductStatusList" embed-xml="true" not-found="exception"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

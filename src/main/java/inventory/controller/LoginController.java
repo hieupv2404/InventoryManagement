@@ -37,6 +37,11 @@ public class LoginController {
     @GetMapping("/login")
     //van chuyen du lieu tu backend len tang view. cua spring ui
     public String login(Model model){
+        List<Users> users = userService.findByProperty("status",1);
+        for(Users user : users) {
+            user.setStatus(0);
+            userService.updateStatus(user);
+        }
         model.addAttribute("loginForm",new Users());
         return "login/login";
     }
@@ -75,8 +80,11 @@ public class LoginController {
         for(Menu menu : menuList) {
             sortMenu(menu.getChild());
         }
+        user.setStatus(1);
+        userService.updateStatus(user);
         session.setAttribute(Constant.MENU_SESSION, menuList);
         session.setAttribute(Constant.USER_INFO, user);
+
         return "redirect:/index";
     }
     @GetMapping("/access-denied")
@@ -86,6 +94,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+
         session.removeAttribute(Constant.MENU_SESSION);
         session.removeAttribute(Constant.USER_INFO);
         return "redirect:/login";
