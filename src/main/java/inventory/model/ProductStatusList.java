@@ -26,7 +26,7 @@ public class ProductStatusList implements Serializable {
     private Supplier supplier;
     private Users user;
     private BigDecimal price;
-    private Set productStatusDetail = new HashSet();
+    private Set productStatusDetails = new HashSet(0);
     private int supplierId;
     private int userId;
 
@@ -121,12 +121,12 @@ public class ProductStatusList implements Serializable {
         this.price = price;
     }
 
-    public Set getProductStatusDetail() {
-        return productStatusDetail;
+    public Set getProductStatusDetails() {
+        return productStatusDetails;
     }
 
-    public void setProductStatusDetail(Set productStatusDetail) {
-        this.productStatusDetail = productStatusDetail;
+    public void setProductStatusDetails(Set productStatusDetails) {
+        this.productStatusDetails = productStatusDetails;
     }
 
     public int getSupplierId() {

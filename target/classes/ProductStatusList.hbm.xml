@@ -38,11 +38,11 @@
             <column length="19" name="update_date" />
         </property>
 
-        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="productStatusDetail" optimistic-lock="true" sort="unsorted" table="product_status_detail">
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="productStatusDetails" optimistic-lock="true" sort="unsorted" table="product_status_detail">
             <key on-delete="noaction">
-                <column name="product_status_detail_id" />
+                <column name="product_status_list_id" />
             </key>
-            <one-to-many class="inventory.model.ProductStatusList" embed-xml="true" not-found="exception"/>
+            <one-to-many class="inventory.model.ProductStatusDetail" embed-xml="true" not-found="exception"/>
         </set>
 
     </class>

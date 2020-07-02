@@ -36,7 +36,7 @@ public class VatDetailService {
 
     public void updateVatDetail(VatDetail vatDetail) throws Exception {
         log.info("Update VatDetail "+vatDetail.toString());
-        vatDetail.setPriceTotal(BigDecimal.valueOf(vatDetail.getQty()).movePointLeft(2).multiply(vatDetail.getPriceOne()));
+        vatDetail.setPriceTotal(BigDecimal.valueOf(vatDetail.getQty()).multiply(vatDetail.getPriceOne()));
 
         vatDetailDAO.update(vatDetail);
     }

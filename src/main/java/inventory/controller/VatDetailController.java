@@ -100,7 +100,7 @@ public class VatDetailController {
         return "vatDetail-action";
     }
 
-    @GetMapping("/vat-detail/{vatId}/edit/{id}")
+    @GetMapping("/vat-detail/edit/{id}")
     public String edit(Model model ,@PathVariable("id") int id) {
         log.info("Edit vat Detail with id="+id);
         VatDetail vatDetail = vatDetailService.findByIdVatDetail(id);
@@ -187,7 +187,7 @@ public class VatDetailController {
                 vatDetailService.updateVatDetail(vatDetail);
                 Vat vat1 = vatService.findByIdVat(vatDetail.getVat().getId());
                 vat1.setPrice(vat1.getPrice().add(vatDetail.getPriceTotal()));
-                vat1.setTotal(vat1.getPercent().multiply(vat1.getPrice()));
+                vat1.setTotal(vat1.getPrice().add(vat1.getPercent().multiply(vat1.getPrice())));
                 vatService.updateVat(vat1);
                 session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
             } catch (Exception e) {
@@ -203,7 +203,7 @@ public class VatDetailController {
                 session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");
                 Vat vat1 = vatService.findByIdVat(vatDetail.getVat().getId());
                 vat1.setPrice(vat1.getPrice().add(vatDetail.getPriceTotal()));
-                vat1.setTotal(vat1.getPercent().multiply(vat1.getPrice()));
+                vat1.setTotal(vat1.getPrice().add(vat1.getPercent().multiply(vat1.getPrice())));
                 vatService.updateVat(vat1);
 
             } catch (Exception e) {
@@ -225,7 +225,7 @@ public class VatDetailController {
                 session.setAttribute(Constant.MSG_SUCCESS, "Delete success!!!");
                 Vat vat = vatService.findByIdVat(vatDetail.getVat().getId());
                 vat.setPrice(vat.getPrice().subtract(vatDetail.getPriceTotal()));
-                vat.setTotal(vat.getPercent().multiply(vat.getPrice()));
+                vat.setTotal(vat.getPrice().add(vat.getPercent().multiply(vat.getPrice())));
                 vatService.updateVat(vat);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

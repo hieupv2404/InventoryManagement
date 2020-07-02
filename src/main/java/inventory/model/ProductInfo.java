@@ -30,6 +30,7 @@ public class ProductInfo implements java.io.Serializable {
 	private Integer cateId;
 	private Set productDetails = new HashSet(0);
 	private Set vatDetails = new HashSet(0);
+	private Set productStatusDetails = new HashSet(0);
 
 
 
@@ -180,5 +181,13 @@ public class ProductInfo implements java.io.Serializable {
 
 	public void setVatDetails(Set vatDetails) {
 		this.vatDetails = vatDetails;
+	}
+
+	public Set getProductStatusDetails() {
+		return productStatusDetails;
+	}
+
+	public void setProductStatusDetails(Set productStatusDetails) {
+		this.productStatusDetails = productStatusDetails;
 	}
 }

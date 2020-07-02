@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ProductDoneController {
+public class ProductDoneListController {
     @Autowired
     private ProductStatusListService productStatusListService;
 
@@ -33,7 +33,7 @@ public class ProductDoneController {
     @Autowired
     private UserService userService;
 
-    static final Logger log = Logger.getLogger(ProductDoneController.class);
+    static final Logger log = Logger.getLogger(ProductDoneListController.class);
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {

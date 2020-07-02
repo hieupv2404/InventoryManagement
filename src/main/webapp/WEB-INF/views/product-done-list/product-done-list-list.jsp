@@ -22,7 +22,7 @@
 
 				<div class="x_content">
 					<a href="<c:url value="/product-done-list/add"/>" class="btn btn-app"><i class="fa fa-plus"></i>Add</a>
-<%--					<a href="<c:url value="/product-done-detail/list"/>" class="btn btn-app"><i class="fa fa-forward"></i>Vat Item</a>--%>
+					<a href="<c:url value="/product-done-detail/list"/>" class="btn btn-app"><i class="fa fa-forward"></i>Product Done Item</a>
 					<div class="container" style="padding: 50px;">
 						<%--@elvariable id="searchForm" type=""--%>
 						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/product-done-list/list/1" method="POST">
@@ -116,14 +116,14 @@
 									<td class=" ">${product.code }</td>
 									<td class=" ">${product.supplier.name }</td>
 
-									<td class=" ">${product.price }</td>
+									<td class="price">${product.price }</td>
 									<td class=" ">${product.user.name }</td>
 									<td class=" ">${product.updateDate }</td>
 
 									<td class="text-center"><a href="<c:url value="/product-done-list/view/${product.id }"/>" class="btn btn-round btn-default">View</a></td>
 									<td class="text-center"><a href="<c:url value="/product-done-list/edit/${product.id }"/>" class="btn btn-round btn-primary">Edit</a></td>
 									<td class="text-center"><a href="javascript:void(0);" onclick="confirmDelete(${product.id});" class="btn btn-round btn-danger">Delete</a></td>
-									<td class="text-center"><a href="<c:url value="/vat-detail/${product.id }/add"/>" class="btn btn-round btn-info">Add Item</a></td>
+									<td class="text-center"><a href="<c:url value="/product-done-detail/${product.id }/add"/>" class="btn btn-round btn-info">Add Item</a></td>
 
 									</tr>
 								</c:forEach>
