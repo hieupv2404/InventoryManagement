@@ -19,6 +19,9 @@
         <property generated="never" lazy="false" name="qty" optimistic-lock="true" type="int" unique="false">
             <column length="11" name="qty" />
         </property>
+        <property generated="never" lazy="false" name="qtyRest" optimistic-lock="true" type="int" unique="false">
+            <column length="11" name="qty_rest" />
+        </property>
         <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
             <column length="11" name="active_flag" />
         </property>

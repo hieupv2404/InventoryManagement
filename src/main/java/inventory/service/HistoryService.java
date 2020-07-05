@@ -64,6 +64,8 @@ public class HistoryService {
 		history.setActionName(action);
 		history.setCreateDate(new Date());
 		history.setUpdateDate(new Date());
+		history.setUser(invoice.getUser());
+		history.setUpdateDate(invoice.getUpdateDate());
 		historyDAO.save(history);
 	}
 

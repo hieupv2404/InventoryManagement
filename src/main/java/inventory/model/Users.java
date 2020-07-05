@@ -21,6 +21,8 @@ public class Users extends NewObj implements java.io.Serializable {
 //	private Date createDate;
 //	private Date updateDate;
 	private Set userRoles = new HashSet(0);
+	private Set invoices = new HashSet(0);
+	private Set histories = new HashSet(0);
 	private Integer roleID;
 	private int status;
 
@@ -137,5 +139,21 @@ public class Users extends NewObj implements java.io.Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Set getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(Set invoices) {
+		this.invoices = invoices;
+	}
+
+	public Set getHistories() {
+		return histories;
+	}
+
+	public void setHistories(Set histories) {
+		this.histories = histories;
 	}
 }

@@ -64,6 +64,15 @@
 					   value="/WEB-INF/views/product-done-list/product-done-list-list.jsp"></put-attribute>
 	</definition>
 
+	<definition name="productDoneDetail-list" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/product-done-detail/productDoneDetail-list.jsp"></put-attribute>
+	</definition>
+	<definition name="productDoneDetail-action" extends="master">
+		<put-attribute name="body"
+					   value="/WEB-INF/views/product-done-detail/productDoneDetail-action.jsp"></put-attribute>
+	</definition>
+
 
 	<definition name="product-in-stock" extends="master">
 		<put-attribute name="body"

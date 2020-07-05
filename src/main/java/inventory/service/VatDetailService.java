@@ -70,22 +70,22 @@ public class VatDetailService {
             }
 
             if(vatDetail.getFromPriceOne()!=null) {
-                queryStr.append(" and model.fromPriceOne >= :fromPriceOne");
+                queryStr.append(" and model.priceOne >= :fromPriceOne");
                 mapParams.put("fromPriceOne", vatDetail.getFromPriceOne());
             }
 
             if(vatDetail.getToPriceOne()!=null) {
-                queryStr.append(" and model.toPriceOne >= :toPriceOne");
+                queryStr.append(" and model.priceOne <= :toPriceOne");
                 mapParams.put("toPriceOne", vatDetail.getToPriceOne());
             }
 
             if(vatDetail.getFromPriceTotal()!=null) {
-                queryStr.append(" and model.fromPriceTotal >= :fromPriceTotal");
+                queryStr.append(" and model.priceTotal >= :fromPriceTotal");
                 mapParams.put("fromPriceTotal", vatDetail.getFromPriceTotal());
             }
 
             if(vatDetail.getToPriceTotal()!=null) {
-                queryStr.append(" and model.toPriceTotal >= :toPriceTotal");
+                queryStr.append(" and model.priceTotal <= :toPriceTotal");
                 mapParams.put("toPriceTotal", vatDetail.getToPriceTotal());
             }
 

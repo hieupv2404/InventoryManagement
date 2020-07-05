@@ -76,22 +76,22 @@ public class ProductStatusDetailService {
             }
 
             if(productStatusDetail.getFromPriceOne()!=null) {
-                queryStr.append(" and model.fromPriceOne >= :fromPriceOne");
+                queryStr.append(" and model.priceOne >= :fromPriceOne");
                 mapParams.put("fromPriceOne", productStatusDetail.getFromPriceOne());
             }
 
             if(productStatusDetail.getToPriceOne()!=null) {
-                queryStr.append(" and model.toPriceOne >= :toPriceOne");
+                queryStr.append(" and model.priceOne <= :toPriceOne");
                 mapParams.put("toPriceOne", productStatusDetail.getToPriceOne());
             }
 
             if(productStatusDetail.getFromPriceTotal()!=null) {
-                queryStr.append(" and model.fromPriceTotal >= :fromPriceTotal");
+                queryStr.append(" and model.priceTotal >= :fromPriceTotal");
                 mapParams.put("fromPriceTotal", productStatusDetail.getFromPriceTotal());
             }
 
             if(productStatusDetail.getToPriceTotal()!=null) {
-                queryStr.append(" and model.toPriceTotal >= :toPriceTotal");
+                queryStr.append(" and model.priceTotal <= :toPriceTotal");
                 mapParams.put("toPriceTotal", productStatusDetail.getToPriceTotal());
             }
 

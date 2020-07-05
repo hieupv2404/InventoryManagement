@@ -22,6 +22,7 @@ public class History implements java.io.Serializable {
 	private int activeFlag;
 	private Date createDate;
 	private Date updateDate;
+	private Users user;
 
 	public History() {
 	}
@@ -110,4 +111,11 @@ public class History implements java.io.Serializable {
 		this.updateDate = updateDate;
 	}
 
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
 }

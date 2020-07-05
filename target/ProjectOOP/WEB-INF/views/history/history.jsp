@@ -62,6 +62,9 @@
 									<th class="column-title">Qty</th>
 									<th class="column-title">Price</th>
 									<th class="column-title">Type</th>
+									<th class="column-title">User</th>
+									<th class="column-title">Update Date</th>
+
 									<th class="column-title">Action</th>
 								</tr>
 							</thead>
@@ -82,7 +85,7 @@
 
 									<td class=" ">${history.productInfo.name }</td>
 									<td class="">${history.qty}</td>
-									<td class="">${history.price }</td>
+									<td class="price" style="font-size: 14px">${history.price }</td>
 									<c:choose>
 										<c:when test="${history.type==1}">
 											<td>Goods Receipt</td>
@@ -91,6 +94,8 @@
 											<td>Goods Issues</td>
 										</c:otherwise>
 									</c:choose>
+									<td>${history.user.name}</td>
+									<td>${history.updateDate}</td>
 									<td>${history.actionName}</td>
 									</tr>
 								</c:forEach>

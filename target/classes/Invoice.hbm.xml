@@ -33,5 +33,8 @@
         <many-to-one class="inventory.model.Supplier" embed-xml="true" fetch="select" insert="true" name="supplier" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="supplier_id" not-null="false"/>
         </many-to-one>
+        <many-to-one class="inventory.model.Users" embed-xml="true" fetch="select" insert="true" name="user" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="user_id" not-null="false"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

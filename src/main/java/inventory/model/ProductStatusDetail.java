@@ -25,6 +25,7 @@ public class ProductStatusDetail implements Serializable {
     private BigDecimal toPriceOne;
     private BigDecimal fromPriceTotal;
     private BigDecimal toPriceTotal;
+    private int qtyRest;
 
     public ProductStatusDetail() {
     }
@@ -131,5 +132,13 @@ public class ProductStatusDetail implements Serializable {
 
     public void setToPriceTotal(BigDecimal toPriceTotal) {
         this.toPriceTotal = toPriceTotal;
+    }
+
+    public int getQtyRest() {
+        return qtyRest;
+    }
+
+    public void setQtyRest(int qtyRest) {
+        this.qtyRest = qtyRest;
     }
 }

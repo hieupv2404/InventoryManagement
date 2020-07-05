@@ -32,6 +32,7 @@ public class Invoice implements java.io.Serializable {
 	private Supplier supplier;
 //	private Integer customerId;
 	private Integer supplierId;
+	private Users user;
 
 
 	public Invoice() {
@@ -183,5 +184,13 @@ public class Invoice implements java.io.Serializable {
 
 	public void setSupplierId(Integer supplierId) {
 		this.supplierId = supplierId;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
 	}
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import inventory.model.Supplier;
+import inventory.model.*;
 import inventory.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,9 +23,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import inventory.model.Invoice;
-import inventory.model.Paging;
-import inventory.model.ProductInfo;
 import inventory.util.Constant;
 import inventory.validate.InvoiceValidator;
 
@@ -37,6 +34,9 @@ public class GoodsReceiptController {
 	private InvoiceValidator invoiceValidator;
 	@Autowired
 	private ProductInfoService productInfoService;
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private SupplierService supplierService;
@@ -190,6 +190,8 @@ public class GoodsReceiptController {
 		invoice.setSupplier(supplier);
 
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+		Users user = userService.findByProperty("status",1).get(0);
+		invoice.setUser(user);
 
 		if(invoice.getId()!=null && invoice.getId()!=0) {
 			try {
