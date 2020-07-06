@@ -1,5 +1,6 @@
 package inventory.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,6 +70,15 @@ public class GoodsIssueController {
 		}
 		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		List<Invoice> invoices = invoiceService.getList(invoice,paging);
+		int totalQty = 0;
+		BigDecimal totalPrice = new BigDecimal(0);
+		for ( Invoice invoice1 : invoices)
+		{
+			totalQty+=invoice1.getQty();
+			totalPrice = totalPrice.add(invoice1.getPrice());
+		}
+		model.addAttribute("totalQty",totalQty);
+		model.addAttribute("totalPrice",totalPrice);
 		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
 			session.removeAttribute(Constant.MSG_SUCCESS);

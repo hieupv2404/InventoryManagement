@@ -80,6 +80,12 @@ public class InvoiceService {
 				queryStr.append(" and model.updateDate <= :toDate");
 				mapParams.put("toDate", invoice.getToDate());
 			}
+			if (invoice.getProductInfo()!=null)
+			{
+				queryStr.append(" and model.productInfo.name like :name ");
+				mapParams.put("name", "%"+invoice.getProductInfo().getName()+"%");
+
+			}
 		}
 		return invoiceDAO.findAll(queryStr.toString(), mapParams, paging);
 

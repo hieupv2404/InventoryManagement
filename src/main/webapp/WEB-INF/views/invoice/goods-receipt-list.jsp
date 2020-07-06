@@ -34,6 +34,14 @@
 									<form:input path="code" cssClass="form-control col-md-7 col-xs-12" />
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="productInfo.name">Name </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="productInfo.name" cssClass="form-control col-md-7 col-xs-12" />
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="fromDate">From Date</label>
 								<div class="col-md-6 col-sm-6 col-xs-12 ">
@@ -106,6 +114,26 @@
 
 							</tbody>
 						</table>
+
+						<div class="table-responsive">
+							<table class="table table-striped jambo_table bulk_action">
+								<tbody>
+									<td width="40px"></td>
+									<td width="80px">Total</td>
+									<td width="60.8px">${totalQty}</td>
+									<td class="price" width="96px">${totalPrice }</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tbody>
+							</table>
+						</div>
+
 						<jsp:include page="../layout/paging.jsp"></jsp:include>
 					</div>
 				</div>

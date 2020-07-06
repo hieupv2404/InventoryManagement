@@ -1,5 +1,6 @@
 package inventory.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,6 +73,15 @@ public class GoodsReceiptController {
 		}
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 		List<Invoice> invoices = invoiceService.getList(invoice, paging);
+		int totalQty = 0;
+		BigDecimal totalPrice = new BigDecimal(0);
+		for ( Invoice invoice1 : invoices)
+		{
+			totalQty+=invoice1.getQty();
+			totalPrice = totalPrice.add(invoice1.getPrice());
+		}
+		model.addAttribute("totalQty",totalQty);
+		model.addAttribute("totalPrice",totalPrice);
 
 //		if (session.getAttribute("DigestRequest") == null) {
 //			// lan vao dau tien, Digest null va tham so null
