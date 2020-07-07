@@ -13,4 +13,5 @@ public interface BaseDAO<E> {
 	public void save(E instance);
 	public int insert(E instance);
 	public void update(E instance);
+	public void deleteDone(E instance);
 }

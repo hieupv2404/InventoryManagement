@@ -39,6 +39,11 @@ public class InvoiceService {
 		
 		productInStockService.saveOrUpdate(invoice);
 	}
+	public void updateTemp(Invoice invoice) throws Exception {
+
+		invoiceDAO.update(invoice);
+
+	}
 
 	public void update(Invoice invoice) throws Exception {
 		int originQty = invoiceDAO.findById(Invoice.class, invoice.getId()).getQty();

@@ -78,6 +78,7 @@
                 <value>VatDetail.hbm.xml</value>
                 <value>ProductStatusList.hbm.xml</value>
                 <value>ProductStatusDetail.hbm.xml</value>
+                <value>InvoiceTemp.hbm.xml</value>
             </list>
         </property>
     </bean>

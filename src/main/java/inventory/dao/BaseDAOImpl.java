@@ -69,6 +69,7 @@ public class BaseDAOImpl<E> implements BaseDAO<E>{
 	public void save(E instance) {
 		log.info(" save instance");
 		sessionFactory.getCurrentSession().persist(instance);
+
 	}
 
 	public void update(E instance) {
@@ -81,6 +82,13 @@ public class BaseDAOImpl<E> implements BaseDAO<E>{
 		Integer id = (Integer) sessionFactory.getCurrentSession().save(instance);
 		return id;
 	}
+
+	@Override
+	public void deleteDone(E instance) {
+		log.info("Delete done");
+		sessionFactory.getCurrentSession().delete(instance);
+	}
+
 	//
 	public String getGenericName() {
 		String s = getClass().getGenericSuperclass().toString();
@@ -92,5 +100,6 @@ public class BaseDAOImpl<E> implements BaseDAO<E>{
 		}
 		return generic;
 	}
+
 
 }

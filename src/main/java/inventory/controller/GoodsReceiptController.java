@@ -2,10 +2,7 @@ package inventory.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,6 +40,9 @@ public class GoodsReceiptController {
 	private SupplierService supplierService;
 
 	@Autowired
+	private InvoiceTempService invoiceTempService;
+
+	@Autowired
 	private ProductDetailService productDetailService;
 	static final Logger log = Logger.getLogger(GoodsReceiptController.class);
 	@InitBinder
@@ -65,14 +65,32 @@ public class GoodsReceiptController {
 	@RequestMapping(value="/goods-receipt/list/{page}")
 	public String showInvoiceList(Model model,HttpSession session ,
 //								  HttpServletRequest request, @RequestParam("digest") int digest,
-								  @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) {
+								  @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) throws Exception {
 		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		if (invoice == null) {
 			invoice = new Invoice();
 		}
+		List<InvoiceTemp> invoiceTempList = invoiceTempService.findInvoiceTemp("activeFlag",1);
+		for(InvoiceTemp invoiceTemp : invoiceTempList)
+		{
+			invoiceTempService.deleteInvoiceTemp(invoiceTemp);
+		}
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 		List<Invoice> invoices = invoiceService.getList(invoice, paging);
+		for (Invoice invoice1 : invoices)
+		{
+			InvoiceTemp invoiceTemp = new InvoiceTemp();
+			invoiceTemp.setCode(invoice1.getCode());
+			invoiceTemp.setProductName(invoice1.getProductInfo().getName());
+			invoiceTemp.setQty(invoice1.getQty());
+			invoiceTemp.setPrice(invoice1.getPrice());
+			invoiceTemp.setActiveFlag(1);
+			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
+			invoiceTempService.saveInvoiceTemp(invoiceTemp);
+
+		}
+
 		int totalQty = 0;
 		BigDecimal totalPrice = new BigDecimal(0);
 		for ( Invoice invoice1 : invoices)
@@ -245,15 +263,17 @@ public class GoodsReceiptController {
 		return "redirect:/goods-receipt/list";
 	}
 	@GetMapping("/goods-receipt/export")
-	public ModelAndView exportReport(Model model, HttpSession session , @ModelAttribute("searchForm") @RequestBody Invoice invoice
+	public ModelAndView exportReport(Model model, HttpSession session , @ModelAttribute("searchForm") @RequestBody InvoiceTemp invoiceTemp
 								) {
 		ModelAndView modelAndView = new ModelAndView();
-		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+//		invoiceTemp.setType(Constant.TYPE_GOODS_RECEIPT);
 //		invoice.setCode(code);
 //		invoice.setFromDate(fromDate);
 //		invoice.setToDate(toDate);
-		List<Invoice> invoices = invoiceService.getList(invoice, null);
-		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, invoices);
+//		List<Invoice> invoices = invoiceService.getList(invoiceTemp, null);
+		List<InvoiceTemp> invoiceTempList = invoiceTempService.findInvoiceTemp("activeFlag",1);
+
+		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, invoiceTempList);
 		modelAndView.setView(new GoodsReceiptReport());
 		return modelAndView;
 	}

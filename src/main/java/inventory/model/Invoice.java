@@ -35,6 +35,7 @@ public class Invoice implements java.io.Serializable {
 	private Users user;
 
 
+
 	public Invoice() {
 	}
 
@@ -193,4 +194,6 @@ public class Invoice implements java.io.Serializable {
 	public void setUser(Users user) {
 		this.user = user;
 	}
+
+
 }

@@ -24,6 +24,40 @@
 
     <!-- Custom Theme Style -->
     <link href="<c:url value="/static/build/css/custom.min.css"/>" rel="stylesheet">
+
+    <!-- PNotify -->
+    <link href="<c:url value="/static/vendors/pnotify/dist/pnotify.css"/>" rel="stylesheet">
+    <link href="<c:url value="/static/vendors/pnotify/dist/pnotify.buttons.css"/>" rel="stylesheet">
+    <link href="<c:url value="/static/vendors/pnotify/dist/pnotify.nonblock.css"/>" rel="stylesheet">
+    <!-- bootstrap-datetimepicker -->
+    <link href="<c:url value="/static/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"/>" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="<c:url value="/static/vendors/jquery/dist/jquery.min.js"/>"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        processMessage();
+      });
+      function processMessage(){
+        var msgSuccess = '${msgSuccess}';
+        var msgError = '${msgError}';
+        if(msgSuccess){
+          new PNotify({
+            title: ' Success',
+            text: msgSuccess,
+            type: 'success',
+            styling: 'bootstrap3'
+          });
+        }
+        if(msgError){
+          new PNotify({
+            title: ' Error',
+            text: msgError,
+            type: 'error',
+            styling: 'bootstrap3'
+          });
+        }
+      }
+    </script>
   </head>
 
   <body class="login">
@@ -71,5 +105,6 @@
         
       </div>
     </div>
+
   </body>
 </html>

@@ -9,7 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import inventory.model.Category;
+import inventory.model.*;
+import inventory.service.InvoiceTempService;
 import inventory.service.ProductInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import inventory.model.Invoice;
-import inventory.model.Paging;
-import inventory.model.ProductInfo;
 import inventory.service.GoodsReceiptReport;
 import inventory.service.InvoiceService;
 import inventory.util.Constant;
@@ -43,6 +41,10 @@ public class GoodsIssueController {
 	private InvoiceValidator invoiceValidator;
 	@Autowired
 	private ProductInfoService productInfoService;
+
+	@Autowired
+	private InvoiceTempService invoiceTempService;
+
 	static final Logger log = Logger.getLogger(GoodsIssueController.class);
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
@@ -62,14 +64,31 @@ public class GoodsIssueController {
 	}
 	
 	@RequestMapping(value="/goods-issue/list/{page}")
-	public String showInvoiceList(Model model,HttpSession session , @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) {
+	public String showInvoiceList(Model model,HttpSession session , @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) throws Exception {
 		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		if(invoice==null) {
 			invoice = new Invoice();
 		}
+		List<InvoiceTemp> invoiceTempList = invoiceTempService.findInvoiceTemp("activeFlag",1);
+		for(InvoiceTemp invoiceTemp : invoiceTempList)
+		{
+			invoiceTempService.deleteInvoiceTemp(invoiceTemp);
+		}
 		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		List<Invoice> invoices = invoiceService.getList(invoice,paging);
+		for (Invoice invoice1 : invoices)
+		{
+			InvoiceTemp invoiceTemp = new InvoiceTemp();
+			invoiceTemp.setCode(invoice1.getCode());
+			invoiceTemp.setProductName(invoice1.getProductInfo().getName());
+			invoiceTemp.setQty(invoice1.getQty());
+			invoiceTemp.setPrice(invoice1.getPrice());
+			invoiceTemp.setActiveFlag(1);
+			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
+			invoiceTempService.saveInvoiceTemp(invoiceTemp);
+
+		}
 		int totalQty = 0;
 		BigDecimal totalPrice = new BigDecimal(0);
 		for ( Invoice invoice1 : invoices)
@@ -187,10 +206,9 @@ public class GoodsIssueController {
 	@GetMapping("/goods-issue/export")
 	public ModelAndView exportReport() {
 		ModelAndView modelAndView = new ModelAndView();
-		Invoice invoice = new Invoice();
-		invoice.setType(Constant.TYPE_GOODS_ISSUES);
-		List<Invoice> invoices = invoiceService.getList(invoice, null);
-		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, invoices);
+		List<InvoiceTemp> invoiceTempList = invoiceTempService.findInvoiceTemp("activeFlag",1);
+
+		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, invoiceTempList);
 		modelAndView.setView(new GoodsReceiptReport());
 		return modelAndView;
 	}
