@@ -2,16 +2,12 @@ package inventory.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
 import inventory.model.*;
-import inventory.service.InvoiceTempService;
-import inventory.service.ProductInfoService;
+import inventory.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -28,8 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import inventory.service.GoodsReceiptReport;
-import inventory.service.InvoiceService;
 import inventory.util.Constant;
 import inventory.validate.InvoiceValidator;
 
@@ -41,6 +35,12 @@ public class GoodsIssueController {
 	private InvoiceValidator invoiceValidator;
 	@Autowired
 	private ProductInfoService productInfoService;
+
+	@Autowired
+	private ProductDetailService productDetailService;
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private InvoiceTempService invoiceTempService;
@@ -145,44 +145,119 @@ public class GoodsIssueController {
 		return "redirect:/goods-issue/list";
 	}
 	@PostMapping("/goods-issue/save")
-	public String save(Model model,@ModelAttribute("modelForm") @Validated Invoice invoice,BindingResult result,HttpSession session) {
+	public String save(Model model,@ModelAttribute("modelForm") @Validated Invoice invoice,BindingResult result,HttpSession session) throws Exception {
 		if(result.hasErrors()) {
 			if(invoice.getId()!=null) {
 				model.addAttribute("titlePage", "Edit Invoice");
 			}else {
 				model.addAttribute("titlePage", "Add Invoice");
 			}
+
+			List<Supplier> suppliers = productDetailService.getAllSupplier(null, null);
+			Map<String, String> mapSupplier = new HashMap<>();
+			for(Supplier supplier : suppliers) {
+				mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
+			}
+
+			model.addAttribute("mapSupplier",mapSupplier);
 			model.addAttribute("mapProduct", initMapProduct());
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 
-			
+
 		}
+		invoice.setSupplierId(1);
+		Supplier supplier = new Supplier();
+		supplier.setId(invoice.getSupplierId());
+		invoice.setSupplier(supplier);
+
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.setId(invoice.getProductId());
+		invoice.setProductInfo(productInfo);
+
 		invoice.setType(Constant.TYPE_GOODS_ISSUES);
-		if(invoice.getId()!=null && invoice.getId()!=0) {
-			
+		Users user = userService.findByProperty("status",1).get(0);
+		invoice.setUser(user);
+
+		List <Invoice> invoiceListCode = invoiceService.find("code",invoice.getCode());
+
+
+		if (invoiceListCode.size()!=0)
+		{
+			for(Invoice invoice1:invoiceListCode)
+			{
+				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
+				{
+					invoice1.setQty(invoice1.getQty()+ invoice.getQty());
+					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {
+						invoice1.setPrice(invoice.getPrice());
+					}
+
+					invoiceService.update(invoice1);
+					session.setAttribute(Constant.MSG_SUCCESS, "Update success "+invoice1.getCode());
+
+					return "redirect:/goods-issue/list";
+				}
+			}
+		}
+		if(invoice.getId()!=null && invoice.getId()!=0 ) {
 			try {
-				invoiceService.update(invoice);
-				session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
+
+					int checkQty = 0, checkPrice = 0;
+
+					if (invoice.getPrice().compareTo(new BigDecimal(0)) < 0) {
+						invoice.setPrice(invoice.getPrice().abs());
+						checkPrice = 1;
+					}
+					if (invoice.getQty() < 0) {
+						invoice.setQty(Math.abs(invoice.getQty()));
+						checkQty = 1;
+					}
+
+					invoiceService.update(invoice);
+					if (checkQty == 1)
+						session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS-ed and Update success!!!");
+					if (checkPrice == 1)
+						session.setAttribute(Constant.MSG_SUCCESS, "Price has ABS-ed and Update success!!!");
+					if (checkPrice == 1 && checkQty == 1)
+						session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS and Price has ABS and Update success!!!");
+
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				log.error(e.getMessage());
 				session.setAttribute(Constant.MSG_ERROR, "Update has error");
 			}
-			
+
 		}else {
-				try {
-					invoiceService.save(invoice);
-					session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					session.setAttribute(Constant.MSG_ERROR, "Insert has error!!!");
+			try {
+				int checkQty=0, checkPrice = 0;
+
+				if(invoice.getPrice().compareTo(new BigDecimal(0)) < 0)
+				{
+					invoice.setPrice(invoice.getPrice().abs());
+					checkPrice = 1;
 				}
+				if(invoice.getQty()<0)
+				{
+					invoice.setQty(Math.abs(invoice.getQty()));
+					checkQty=1;
+				}
+
+				invoiceService.save(invoice);
+				if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Insert success!!!");
+				if (checkPrice==1) session.setAttribute(Constant.MSG_SUCCESS,"Price has ABS-ed and Insert success!!!");
+				if (checkPrice==1 && checkQty==1) session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS and Price has ABS and Insert success!!!");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				session.setAttribute(Constant.MSG_ERROR, "Insert has error!!!");
+			}
 		}
 		return "redirect:/goods-issue/list";
-		
+
+
 	}
 
 	@GetMapping("/goods-issue/delete/{id}")

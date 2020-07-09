@@ -27,8 +27,15 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		String fileName = "invoice-export-"+System.currentTimeMillis()+".xlsx";
 		response.setHeader("Content-Disposition", "attachment;filename=\""+fileName+"\"");
 
+
 		Sheet sheet = workbook.createSheet("data");
-		Row header = sheet.createRow(0);
+		Row title = sheet.createRow(0);
+//			HSSFCell cell = (HSSFCell) row.createCell(rownum, CellType.FORMULA);
+//		// Sét công thức.
+//			cell.setCellFormula("SUM(D2:D4)");
+		title.createCell(1).setCellValue(" Invoice Export");
+
+		Row header = sheet.createRow(1);
 		header.createCell(0).setCellValue("#");
 		header.createCell(1).setCellValue("Code");
 		header.createCell(2).setCellValue("Qty");
@@ -39,7 +46,7 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		List<InvoiceTemp> invoiceTempList =(List<InvoiceTemp>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
 //		List<Invoice> invoices =(List<Invoice>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
 
-		int rownum=1;
+		int rownum=2;
 		for(InvoiceTemp invoiceTemp :invoiceTempList) {
 			Row row = sheet.createRow(rownum++);
 			row.createCell(0).setCellValue(rownum-1);
@@ -63,8 +70,8 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 //		// Sét công thức.
 //			cell.setCellFormula("SUM(D2:D4)");
 			row.createCell(1).setCellValue("Total: ");
-		row.createCell(2).setCellValue("=SUM(C2:C"+String.valueOf(rownum-1)+")");
-			row.createCell(3).setCellValue("=SUM(D2:D"+String.valueOf(rownum-1)+")");
+		row.createCell(2).setCellValue("=SUM(C3:C"+String.valueOf(rownum-1)+")");
+			row.createCell(3).setCellValue("=SUM(D3:D"+String.valueOf(rownum-1)+")");
 	}
 
 }

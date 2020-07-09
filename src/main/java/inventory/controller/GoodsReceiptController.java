@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import inventory.model.*;
 import inventory.service.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.analysis.function.Abs;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -192,7 +193,7 @@ public class GoodsReceiptController {
 		return "redirect:/goods-receipt/list";
 	}
 	@PostMapping("/goods-receipt/save")
-	public String save(Model model,@ModelAttribute("modelForm") @Validated Invoice invoice,BindingResult result,HttpSession session) {
+	public String save(Model model,@ModelAttribute("modelForm") @Validated Invoice invoice,BindingResult result,HttpSession session) throws Exception {
 		if(result.hasErrors()) {
 			if(invoice.getId()!=null) {
 				model.addAttribute("titlePage", "Edit Invoice");
@@ -217,14 +218,54 @@ public class GoodsReceiptController {
 		supplier.setId(invoice.getSupplierId());
 		invoice.setSupplier(supplier);
 
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.setId(invoice.getProductId());
+		invoice.setProductInfo(productInfo);
+
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 		Users user = userService.findByProperty("status",1).get(0);
 		invoice.setUser(user);
 
+		List <Invoice> invoiceListCode = invoiceService.find("code",invoice.getCode());
+
+
+		if (invoiceListCode.size()!=0)
+		{
+			for(Invoice invoice1:invoiceListCode)
+			{
+				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
+				{
+					invoice1.setQty(invoice1.getQty()+ invoice.getQty());
+					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {
+						invoice1.setPrice(invoice.getPrice());
+					}
+
+					invoiceService.update(invoice1);
+					session.setAttribute(Constant.MSG_SUCCESS, "Update success "+invoice1.getCode());
+
+					return "redirect:/goods-receipt/list";
+				}
+			}
+		}
 		if(invoice.getId()!=null && invoice.getId()!=0) {
 			try {
+				int checkQty=0, checkPrice = 0;
+
+					if(invoice.getPrice().compareTo(new BigDecimal(0)) < 0)
+					{
+						invoice.setPrice(invoice.getPrice().abs());
+						checkPrice = 1;
+					}
+					if(invoice.getQty()<0)
+					{
+						invoice.setQty(Math.abs(invoice.getQty()));
+						checkQty=1;
+					}
+
 				invoiceService.update(invoice);
-				session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
+				if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Update success!!!");
+				if (checkPrice==1) session.setAttribute(Constant.MSG_SUCCESS,"Price has ABS-ed and Update success!!!");
+				if (checkPrice==1 && checkQty==1) session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS and Price has ABS and Update success!!!");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -234,8 +275,23 @@ public class GoodsReceiptController {
 			
 		}else {
 				try {
+					int checkQty=0, checkPrice = 0;
+
+					if(invoice.getPrice().compareTo(new BigDecimal(0)) < 0)
+					{
+						invoice.setPrice(invoice.getPrice().abs());
+						checkPrice = 1;
+					}
+					if(invoice.getQty()<0)
+					{
+						invoice.setQty(Math.abs(invoice.getQty()));
+						checkQty=1;
+					}
+
 					invoiceService.save(invoice);
-					session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");
+					if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Insert success!!!");
+					if (checkPrice==1) session.setAttribute(Constant.MSG_SUCCESS,"Price has ABS-ed and Insert success!!!");
+					if (checkPrice==1 && checkQty==1) session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS and Price has ABS and Insert success!!!");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
