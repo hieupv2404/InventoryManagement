@@ -188,9 +188,13 @@ public class GoodsIssueController {
 			{
 				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
 				{
-					invoice1.setQty(invoice1.getQty()+ invoice.getQty());
+					invoice1.setQty(invoice1.getQty()+ Math.abs(invoice.getQty()));
 					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {
 						invoice1.setPrice(invoice.getPrice());
+					}
+					if (invoice.getSupplier().getId().compareTo(invoice1.getSupplier().getId()) !=0)
+					{
+						invoice1.setSupplier(invoice.getSupplier());
 					}
 
 					invoiceService.update(invoice1);
