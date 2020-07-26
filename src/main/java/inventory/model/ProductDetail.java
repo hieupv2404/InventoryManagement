@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 public class ProductDetail implements Serializable {
@@ -25,6 +27,7 @@ public class ProductDetail implements Serializable {
     private Integer supplierId;
     private Integer invoiceId;
     private String status;
+
 
 
     public Integer getId() {
@@ -179,4 +182,6 @@ public class ProductDetail implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 }

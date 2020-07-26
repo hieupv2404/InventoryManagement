@@ -78,6 +78,10 @@ public class ProductDetailService {
                 queryStr.append(" and model.code like :code");
                 mapParams.put("code","%"+ productDetail.getCode()+"%");
             }
+            if(productDetail.getStatus()!=null && !StringUtils.isEmpty(productDetail.getStatus())) {
+                queryStr.append(" and model.status like :status");
+                mapParams.put("status",productDetail.getStatus()+"%");
+            }
             if(productDetail.getProductInfo().getName()!=null && !StringUtils.isEmpty(productDetail.getProductInfo().getName()) ) {
                 queryStr.append(" and model.productInfo.name like :name");
                 mapParams.put("name", "%"+productDetail.getProductInfo().getName()+"%");
