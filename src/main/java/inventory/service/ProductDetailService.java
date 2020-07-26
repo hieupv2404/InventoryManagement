@@ -41,6 +41,7 @@ public class ProductDetailService {
     public void saveProductDetail(ProductDetail productDetail){
         log.info("Insert productDetail "+productDetail.toString());
         productDetail.setActiveFlag(1);
+        productDetail.setStatus("Valid");
         productDetail.setCreateDate(new Date());
         productDetail.setUpdateDate(new Date());
 

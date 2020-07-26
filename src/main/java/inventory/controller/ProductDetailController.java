@@ -150,6 +150,22 @@ public class ProductDetailController {
         }
         return "redirect:/product-detail/list";
     }
+
+    @GetMapping("/product-detail/changeStatus/{id}")
+    public String changeStatus(Model model , @PathVariable("id") int id) throws Exception {
+        log.info("Change Status productDetail with id="+id);
+        ProductDetail productDetail = productDetailService.findByIdProductDetail(id);
+        if (productDetail.getStatus().equals("Valid"))
+        {
+            productDetail.setStatus("InValid");
+        }
+        else
+        {
+            productDetail.setStatus("Valid");
+        }
+        productDetailService.updateProductDetail(productDetail);
+        return "redirect:/product-detail/list";
+    }
     @GetMapping("/product-detail/view/{id}")
     public String view(Model model , @PathVariable("id") int id) {
         log.info("View productDetail with id="+id);

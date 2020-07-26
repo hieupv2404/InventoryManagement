@@ -24,6 +24,7 @@ public class ProductDetail implements Serializable {
     private Integer productInfoId;
     private Integer supplierId;
     private Integer invoiceId;
+    private String status;
 
 
     public Integer getId() {
@@ -169,5 +170,13 @@ public class ProductDetail implements Serializable {
 
     public void setInvoiceId(Integer invoiceId) {
         this.invoiceId = invoiceId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
