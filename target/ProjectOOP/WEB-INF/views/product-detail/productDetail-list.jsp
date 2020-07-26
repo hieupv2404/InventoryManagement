@@ -68,7 +68,8 @@
 									<th class="column-title">Price In</th>
 									<th class="column-title">Price Out</th>
 									<th class="column-title">Supplier</th>
-									<th class="column-title no-link last text-center" colspan="3"><span class="nobr">Action</span></th>
+									<th class="column-title">Status</th>
+									<th class="column-title no-link last text-center" colspan="4"><span class="nobr">Action</span></th>
 								</tr>
 							</thead>
 
@@ -91,10 +92,44 @@
 									<td class=" ">${product.priceIn }</td>
 									<td class=" ">${product.priceOut }</td>
 									<td class=" ">${product.supplier.name}</td>
+									<td class=" ">${product.status}</td>
 									<td class="text-center"><a href="<c:url value="/product-detail/view/${product.id }"/>" class="btn btn-round btn-default">View</a></td>
 									<td class="text-center"><a href="<c:url value="/product-detail/edit/${product.id }"/>" class="btn btn-round btn-primary">Edit</a></td>
 									<td class="text-center"><a href="javascript:void(0);" onclick="confirmDelete(${product.id});" class="btn btn-round btn-danger">Delete</a></td>
-									</tr>
+<%--										<td class="text-center"><a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Sell</a></td>--%>
+
+<%--									<c:if test="${product.status}=='Valid'">--%>
+<%--									<td class="text-center"><a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Sell</a></td>--%>
+<%--									</c:if>--%>
+<%--									<c:if test="${product.status}=='Sold'">--%>
+<%--									<td class="text-center"><a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Reimport</a></td>--%>
+<%--									</c:if>--%>
+									<td class="text-center">
+
+<%--										<c:if test="${product.status=='Valid'} ">--%>
+<%--											<a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Sell</a>--%>
+<%--											1--%>
+<%--										</c:if>--%>
+<%--										<c:if test="${product.status=='Sold'} ">--%>
+<%--											<a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Reimport</a>--%>
+<%--											2--%>
+<%--										</c:if>--%>
+										<c:choose>
+											<c:when test="${product.status=='Valid'}">
+												<a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-warning">Export</a>
+
+											</c:when>
+											<c:when test="${product.status=='InValid'}">
+												<a href="<c:url value="/product-detail/changeStatus/${product.id }"/>" class="btn btn-round btn-success">Reimport</a>
+
+											</c:when>
+										</c:choose>
+
+
+									</td>
+
+										</tr>
+
 								</c:forEach>
 
 							</tbody>
