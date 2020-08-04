@@ -89,6 +89,9 @@ public class GoodsIssueController {
 			invoiceTemp.setPrice(invoice1.getPrice());
 			invoiceTemp.setActiveFlag(1);
 			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
+			invoiceTemp.setSupplierName(invoice1.getSupplier().getName());
+
+			invoiceTemp.setUserName(invoice1.getUser().getName());
 			invoiceTempService.saveInvoiceTemp(invoiceTemp);
 
 		}

@@ -93,6 +93,7 @@ public class GoodsReceiptController {
 			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
 			invoiceTemp.setShelfName(invoice1.getShelf().getName());
 			invoiceTemp.setSupplierName(invoice1.getSupplier().getName());
+			invoiceTemp.setUserName(invoice1.getUser().getName());
 			invoiceTempService.saveInvoiceTemp(invoiceTemp);
 
 		}
@@ -267,7 +268,7 @@ public class GoodsReceiptController {
 			{
 				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
 				{
-					int qtyTemp = invoice.getQty() - invoice1.getQty();
+
 					invoice1.setQty(invoice1.getQty()+ Math.abs(invoice.getQty()));
 					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {
 						invoice1.setPrice(invoice.getPrice());
@@ -277,7 +278,7 @@ public class GoodsReceiptController {
 						invoice1.setSupplier(invoice.getSupplier());
 					}
 
-					shelf1.setQty(shelf1.getQty()-qtyTemp);
+					shelf1.setQty(shelf1.getQty()-invoice.getQty());
 					shelfService.updateShelf(shelf1);
 
 

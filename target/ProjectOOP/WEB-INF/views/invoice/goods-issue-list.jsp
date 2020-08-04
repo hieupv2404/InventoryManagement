@@ -114,10 +114,10 @@
 						<div class="table-responsive">
 							<table class="table table-striped jambo_table bulk_action">
 								<tbody>
-								<td width="45.6px"></td>
-								<td width="91.2px">Total</td>
-								<td width="68.8px">${totalQty}</td>
-								<td class="price" width="108.8px">${totalPrice }</td>
+								<td width="42.4px"></td>
+								<td width="84.8px">Total</td>
+								<td width="64.8px">${totalQty}</td>
+								<td class="price" width="101.8px">${totalPrice }</td>
 								<td></td>
 								<td></td>
 								<td></td>

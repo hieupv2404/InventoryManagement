@@ -43,7 +43,7 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		header.createCell(4).setCellValue("Product");
 		header.createCell(5).setCellValue("Update date");
 		header.createCell(6).setCellValue("Supplier");
-		header.createCell(7).setCellValue("Shelf");
+		header.createCell(7).setCellValue("User");
 
 		List<InvoiceTemp> invoiceTempList =(List<InvoiceTemp>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
 //		List<Invoice> invoices =(List<Invoice>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
@@ -58,7 +58,7 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 			row.createCell(4).setCellValue(invoiceTemp.getProductName());
 			row.createCell(5).setCellValue(DateUtil.dateToString(invoiceTemp.getUpdateDate()));
 			row.createCell(6).setCellValue(invoiceTemp.getSupplierName());
-			row.createCell(7).setCellValue(invoiceTemp.getShelfName());
+			row.createCell(7).setCellValue(invoiceTemp.getUserName());
 		}
 //		for(Invoice invoice :invoices) {
 //			Row row = sheet.createRow(rownum++);

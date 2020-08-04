@@ -20,6 +20,8 @@ public class InvoiceTemp implements Serializable {
     private Date updateDate;
     private String shelfName;
     private String supplierName;
+    private String userName;
+
 
 
     private int activeFlag;
@@ -100,5 +102,13 @@ public class InvoiceTemp implements Serializable {
 
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
