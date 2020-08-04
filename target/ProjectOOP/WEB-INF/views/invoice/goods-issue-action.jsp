@@ -63,15 +63,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="price" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
-									<div class="has-error">
-										<form:errors path="price" cssClass="help-block"></form:errors>
-									</div>
-								</div>
-							</div>
+
 							<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

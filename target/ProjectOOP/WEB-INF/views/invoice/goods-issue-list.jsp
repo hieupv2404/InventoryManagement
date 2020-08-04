@@ -78,6 +78,7 @@
 									<th class="column-title">Price</th>
 									<th class="column-title">Product</th>
 									<th class="column-title">Update Date</th>
+									<th class="column-title">User</th>
 									<th class="column-title no-link last text-center" colspan="3"><span class="nobr">Action</span></th>
 								</tr>
 							</thead>
@@ -99,6 +100,7 @@
 									<td class="price">${invoice.price }</td>
 									<td class=" ">${invoice.productInfo.name }</td>
 									<td class="date">${invoice.updateDate}</td>
+									<td class="date">${invoice.user.name}</td>
 
 									<td class="text-center"><a href="<c:url value="/goods-issue/view/${invoice.id }"/>" class="btn btn-round btn-default">View</a></td>
 									<td class="text-center"><a href="<c:url value="/goods-issue/edit/${invoice.id }"/>" class="btn btn-round btn-primary">Edit</a></td>

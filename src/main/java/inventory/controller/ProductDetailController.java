@@ -1,5 +1,7 @@
 package inventory.controller;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,8 +11,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import inventory.model.*;
+import inventory.service.InvoiceService;
 import inventory.service.ProductDetailService;
 import inventory.service.ProductInfoService;
+import inventory.service.ShelfService;
 import inventory.validate.ProductDetailValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +47,12 @@ public class ProductDetailController {
 
     @Autowired
     private ProductInfoService productInfoService;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
+    @Autowired
+    private ShelfService shelfService;
 
     static final Logger log = Logger.getLogger(ProductDetailController.class);
     @InitBinder
@@ -155,13 +165,20 @@ public class ProductDetailController {
     public String changeStatus(Model model , @PathVariable("id") int id) throws Exception {
         log.info("Change Status productDetail with id="+id);
         ProductDetail productDetail = productDetailService.findByIdProductDetail(id);
+        Shelf shelf = shelfService.findShelf("name",productDetail.getShelfName()).get(0);
+
+
         if (productDetail.getStatus().equals("Valid"))
         {
             productDetail.setStatus("InValid");
+            shelf.setQty(shelf.getQty()-1);
+            shelfService.updateShelf(shelf);
         }
         else
         {
             productDetail.setStatus("Valid");
+            shelf.setQty(shelf.getQty()+1);
+            shelfService.updateShelf(shelf);
         }
         productDetailService.updateProductDetail(productDetail);
         return "redirect:/product-detail/list";
@@ -224,6 +241,22 @@ public class ProductDetailController {
         invoice.setId(productDetail.getInvoiceId());
         productDetail.setInvoice(invoice);
 
+
+
+
+        List<Invoice> invoiceTemp = invoiceService.find("id",productDetail.getInvoiceId());
+        for (Invoice invoice1 : invoiceTemp)
+        {
+            if (invoice1.getProductInfo().getId() == productDetail.getProductInfo().getId())
+            {
+                productDetail.setPriceIn(invoice1.getPrice().divide(BigDecimal.valueOf(invoice1.getQty()), MathContext.DECIMAL128));
+                productDetail.setShelfName(invoice1.getShelf().getName());
+                break;
+            }
+        }
+
+
+
         if(productDetail.getId()!=null && productDetail.getId()!=0) {
             try {
 
@@ -238,6 +271,7 @@ public class ProductDetailController {
 
         }else {
             try {
+
                 productDetailService.saveProductDetail(productDetail);
                 session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");
             } catch (Exception e) {

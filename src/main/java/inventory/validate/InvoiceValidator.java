@@ -45,9 +45,9 @@ public class InvoiceValidator implements Validator {
 		if (invoice.getQty() <= 0) {
 			errors.rejectValue("qty", "msg.wrong.format");
 		}
-		if (invoice.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-			errors.rejectValue("price", "msg.wrong.format");
-		}
+//		if (invoice.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+//			errors.rejectValue("price", "msg.wrong.format");
+//		}
 		if (invoice.getFromDate() != null && invoice.getToDate() != null) {
 			if (invoice.getFromDate().after(invoice.getToDate())) {
 				errors.rejectValue("fromDate", "msg.wrong.date");

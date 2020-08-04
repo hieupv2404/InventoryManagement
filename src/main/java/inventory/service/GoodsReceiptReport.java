@@ -42,6 +42,8 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		header.createCell(3).setCellValue("Price");
 		header.createCell(4).setCellValue("Product");
 		header.createCell(5).setCellValue("Update date");
+		header.createCell(6).setCellValue("Supplier");
+		header.createCell(7).setCellValue("Shelf");
 
 		List<InvoiceTemp> invoiceTempList =(List<InvoiceTemp>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
 //		List<Invoice> invoices =(List<Invoice>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
@@ -49,12 +51,14 @@ public class GoodsReceiptReport extends AbstractXlsxView{
 		int rownum=2;
 		for(InvoiceTemp invoiceTemp :invoiceTempList) {
 			Row row = sheet.createRow(rownum++);
-			row.createCell(0).setCellValue(rownum-1);
+			row.createCell(0).setCellValue(rownum-2);
 			row.createCell(1).setCellValue(invoiceTemp.getCode());
 			row.createCell(2).setCellValue(invoiceTemp.getQty());
 			row.createCell(3).setCellValue(Float.parseFloat(invoiceTemp.getPrice().toString()));
 			row.createCell(4).setCellValue(invoiceTemp.getProductName());
 			row.createCell(5).setCellValue(DateUtil.dateToString(invoiceTemp.getUpdateDate()));
+			row.createCell(6).setCellValue(invoiceTemp.getSupplierName());
+			row.createCell(7).setCellValue(invoiceTemp.getShelfName());
 		}
 //		for(Invoice invoice :invoices) {
 //			Row row = sheet.createRow(rownum++);

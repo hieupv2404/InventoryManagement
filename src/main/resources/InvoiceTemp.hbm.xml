@@ -10,8 +10,14 @@
         <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="false">
             <column length="50" name="code" />
         </property>
+        <property generated="never" lazy="false" name="shelfName" optimistic-lock="true" type="string" unique="false">
+            <column length="20" name="shelf_name" />
+        </property>
         <property generated="never" lazy="false" name="productName" optimistic-lock="true" type="string" unique="false">
             <column length="50" name="product_name" />
+        </property>
+        <property generated="never" lazy="false" name="supplierName" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="supplier_name" />
         </property>
         <property generated="never" lazy="false" name="qty" optimistic-lock="true" type="int" unique="false">
             <column name="qty" />

@@ -63,6 +63,14 @@
 
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="shelf.name">Shelf </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="shelf.name" cssClass="form-control col-md-7 col-xs-12" />
+								</div>
+							</div>
+
 							<div class="form-group">
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 									<button type="submit" class="btn btn-success">Search</button>
@@ -83,6 +91,9 @@
 									<th class="column-title">Product</th>
 									<th class="column-title">Update Date</th>
 									<th class="column-title">Supplier</th>
+									<th class="column-title">Shelf</th>
+									<th class="column-title">User</th>
+
 									<th class="column-title no-link last text-center" colspan="3"><span class="nobr">Action</span></th>
 								</tr>
 							</thead>
@@ -105,6 +116,8 @@
 									<td class=" ">${invoice.productInfo.name }</td>
 									<td class="date">${invoice.updateDate}</td>
 									<td class=" ">${invoice.supplier.name}</td>
+									<td class=" ">${invoice.shelf.name}</td>
+									<td class=" ">${invoice.user.name}</td>
 
 									<td class="text-center"><a href="<c:url value="/goods-receipt/view/${invoice.id }"/>" class="btn btn-round btn-default">View</a></td>
 									<td class="text-center"><a href="<c:url value="/goods-receipt/edit/${invoice.id }"/>" class="btn btn-round btn-primary">Edit</a></td>
@@ -118,10 +131,10 @@
 						<div class="table-responsive">
 							<table class="table table-striped jambo_table bulk_action">
 								<tbody>
-									<td width="40px"></td>
-									<td width="80px">Total</td>
-									<td width="60.8px">${totalQty}</td>
-									<td class="price" width="96px">${totalPrice }</td>
+									<td width="35px"></td>
+									<td width="71.2px">Total</td>
+									<td width="54px">${totalQty}</td>
+									<td class="price" width="85px">${totalPrice }</td>
 									<td></td>
 									<td></td>
 									<td></td>

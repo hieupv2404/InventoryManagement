@@ -26,6 +26,9 @@
         <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="true">
             <column length="200" name="code" not-null="true"/>
         </property>
+        <property generated="never" lazy="false" name="shelfName" optimistic-lock="true" type="string" unique="true">
+            <column length="20" name="shelf_name" not-null="true"/>
+        </property>
         <property generated="never" lazy="false" name="status" optimistic-lock="true" type="string" >
             <column length="10" name="status" />
         </property>

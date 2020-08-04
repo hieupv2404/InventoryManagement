@@ -76,16 +76,6 @@
 <%--								</div>--%>
 <%--							</div>--%>
 
-							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceIn">Price In <span class="required">*</span>
-								</label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="priceIn" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
-									<div class="has-error">
-										<form:errors path="priceIn" cssClass="help-block"></form:errors>
-									</div>
-								</div>
-							</div>
 
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceOut">Price Out <span class="required">*</span>

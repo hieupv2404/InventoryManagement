@@ -43,6 +43,9 @@ public class GoodsIssueController {
 	private UserService userService;
 
 	@Autowired
+	private ShelfService shelfService;
+
+	@Autowired
 	private InvoiceTempService invoiceTempService;
 
 	static final Logger log = Logger.getLogger(GoodsIssueController.class);
@@ -175,6 +178,8 @@ public class GoodsIssueController {
 		productInfo.setId(invoice.getProductId());
 		invoice.setProductInfo(productInfo);
 
+		ProductDetail productDetailTemp = productDetailService.findProductDetail("productInfo.id",invoice.getProductId()).get(0);
+
 		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		Users user = userService.findByProperty("status",1).get(0);
 		invoice.setUser(user);
@@ -197,6 +202,7 @@ public class GoodsIssueController {
 						invoice1.setSupplier(invoice.getSupplier());
 					}
 
+					invoice1.setPrice(productDetailTemp.getPriceOut().multiply(BigDecimal.valueOf(invoice1.getQty())));
 					invoiceService.update(invoice1);
 					session.setAttribute(Constant.MSG_SUCCESS, "Update success "+invoice1.getCode());
 
@@ -209,16 +215,15 @@ public class GoodsIssueController {
 
 					int checkQty = 0, checkPrice = 0;
 
-					if (invoice.getPrice().compareTo(new BigDecimal(0)) < 0) {
-						invoice.setPrice(invoice.getPrice().abs());
-						checkPrice = 1;
-					}
+
 					if (invoice.getQty() < 0) {
 						invoice.setQty(Math.abs(invoice.getQty()));
 						checkQty = 1;
 					}
 
-					invoiceService.update(invoice);
+				invoice.setPrice(productDetailTemp.getPriceOut().multiply(BigDecimal.valueOf(invoice.getQty())));
+
+				invoiceService.update(invoice);
 					if (checkQty == 1)
 						session.setAttribute(Constant.MSG_SUCCESS, "Qty has ABS-ed and Update success!!!");
 					if (checkPrice == 1)
@@ -238,16 +243,13 @@ public class GoodsIssueController {
 			try {
 				int checkQty=0, checkPrice = 0;
 
-				if(invoice.getPrice().compareTo(new BigDecimal(0)) < 0)
-				{
-					invoice.setPrice(invoice.getPrice().abs());
-					checkPrice = 1;
-				}
+
 				if(invoice.getQty()<0)
 				{
 					invoice.setQty(Math.abs(invoice.getQty()));
 					checkQty=1;
 				}
+				invoice.setPrice(productDetailTemp.getPriceOut().multiply(BigDecimal.valueOf(invoice.getQty())));
 
 				invoiceService.save(invoice);
 				if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Insert success!!!");

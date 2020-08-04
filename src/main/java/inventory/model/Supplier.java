@@ -3,6 +3,7 @@ package inventory.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +16,8 @@ public class Supplier implements Serializable {
     private String name;
     private String phone;
     private String address;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+    private Date createDate;
+    private Date updateDate;
     private Integer activeFlag;
     private Set productDetails = new HashSet(0);
     private Set invoices = new HashSet(0);
@@ -58,20 +59,20 @@ public class Supplier implements Serializable {
     }
 
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
 
-    public Timestamp getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Timestamp updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

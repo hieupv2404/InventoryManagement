@@ -18,6 +18,8 @@ public class InvoiceTemp implements Serializable {
     private int qty;
     private BigDecimal price;
     private Date updateDate;
+    private String shelfName;
+    private String supplierName;
 
 
     private int activeFlag;
@@ -82,5 +84,21 @@ public class InvoiceTemp implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getShelfName() {
+        return shelfName;
+    }
+
+    public void setShelfName(String shelfName) {
+        this.shelfName = shelfName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 }

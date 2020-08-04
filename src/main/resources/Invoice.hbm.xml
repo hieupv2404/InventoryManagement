@@ -9,6 +9,9 @@
         <many-to-one class="inventory.model.ProductInfo" embed-xml="true" fetch="select" insert="true" name="productInfo" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="product_id" not-null="true"/>
         </many-to-one>
+        <many-to-one class="inventory.model.Shelf" embed-xml="true" fetch="select" insert="true" name="shelf" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="shelf_id"/>
+        </many-to-one>
         <property generated="never" lazy="false" name="code" optimistic-lock="true" type="string" unique="false">
             <column length="50" name="code" not-null="true"/>
         </property>

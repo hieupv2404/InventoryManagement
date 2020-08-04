@@ -33,6 +33,8 @@ public class Invoice implements java.io.Serializable {
 //	private Integer customerId;
 	private Integer supplierId;
 	private Users user;
+	private Shelf shelf;
+	private Integer shelfId;
 
 
 
@@ -195,5 +197,19 @@ public class Invoice implements java.io.Serializable {
 		this.user = user;
 	}
 
+	public Shelf getShelf() {
+		return shelf;
+	}
 
+	public void setShelf(Shelf shelf) {
+		this.shelf = shelf;
+	}
+
+	public Integer getShelfId() {
+		return shelfId;
+	}
+
+	public void setShelfId(Integer shelfId) {
+		this.shelfId = shelfId;
+	}
 }

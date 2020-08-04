@@ -44,6 +44,9 @@ public class GoodsReceiptController {
 	private InvoiceTempService invoiceTempService;
 
 	@Autowired
+	private ShelfService shelfService;
+
+	@Autowired
 	private ProductDetailService productDetailService;
 	static final Logger log = Logger.getLogger(GoodsReceiptController.class);
 	@InitBinder
@@ -88,6 +91,8 @@ public class GoodsReceiptController {
 			invoiceTemp.setPrice(invoice1.getPrice());
 			invoiceTemp.setActiveFlag(1);
 			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
+			invoiceTemp.setShelfName(invoice1.getShelf().getName());
+			invoiceTemp.setSupplierName(invoice1.getSupplier().getName());
 			invoiceTempService.saveInvoiceTemp(invoiceTemp);
 
 		}
@@ -148,10 +153,15 @@ public class GoodsReceiptController {
 		for(Supplier supplier : suppliers) {
 			mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
 		}
-
+		List<Shelf> shelves = shelfService.getAllShelf(null, null);
+		Map<String, String> mapShelf = new HashMap<>();
+		for(Shelf shelf : shelves) {
+			mapShelf.put(String.valueOf(shelf.getId()), shelf.getName());
+		}
 
 		model.addAttribute("mapSupplier",mapSupplier);
 		model.addAttribute("mapSupplier",mapSupplier);
+		model.addAttribute("mapShelf",mapShelf);
 //		model.addAttribute("mapSupplier",initMapSupplier());
 		model.addAttribute("viewOnly", false);
 		model.addAttribute("mapProduct", initMapProduct());
@@ -172,7 +182,15 @@ public class GoodsReceiptController {
 
 			invoice.setSupplierId(invoice.getSupplier().getId());
 
+			List<Shelf> shelves = shelfService.getAllShelf(null, null);
+			Map<String, String> mapShelf = new HashMap<>();
+			for(Shelf shelf : shelves) {
+				mapShelf.put(String.valueOf(shelf.getId()), shelf.getName());
+			}
+			invoice.setShelfId(invoice.getShelf().getId());
+
 			model.addAttribute("mapSupplier",initMapSupplier());
+			model.addAttribute("mapShelf", mapShelf);
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("mapProduct", initMapProduct());
@@ -207,8 +225,15 @@ public class GoodsReceiptController {
 				mapSupplier.put(String.valueOf(supplier.getId()), supplier.getName());
 			}
 
+			List<Shelf> shelves = shelfService.getAllShelf(null, null);
+			Map<String, String> mapShelf = new HashMap<>();
+			for(Shelf shelf : shelves) {
+				mapShelf.put(String.valueOf(shelf.getId()), shelf.getName());
+			}
+
 			model.addAttribute("mapSupplier",mapSupplier);
 			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("mapShelf", mapShelf);
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 
@@ -222,11 +247,18 @@ public class GoodsReceiptController {
 		productInfo.setId(invoice.getProductId());
 		invoice.setProductInfo(productInfo);
 
+		Shelf shelf = new Shelf();
+		shelf.setId(invoice.getShelfId());
+		invoice.setShelf(shelf);
+
+
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 		Users user = userService.findByProperty("status",1).get(0);
 		invoice.setUser(user);
 
 		List <Invoice> invoiceListCode = invoiceService.find("code",invoice.getCode());
+
+		Shelf shelf1 = shelfService.findByIdShelf(invoice.getShelf().getId());
 
 
 		if (invoiceListCode.size()!=0)
@@ -235,6 +267,7 @@ public class GoodsReceiptController {
 			{
 				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
 				{
+					int qtyTemp = invoice.getQty() - invoice1.getQty();
 					invoice1.setQty(invoice1.getQty()+ Math.abs(invoice.getQty()));
 					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {
 						invoice1.setPrice(invoice.getPrice());
@@ -243,6 +276,10 @@ public class GoodsReceiptController {
 					{
 						invoice1.setSupplier(invoice.getSupplier());
 					}
+
+					shelf1.setQty(shelf1.getQty()-qtyTemp);
+					shelfService.updateShelf(shelf1);
+
 
 					invoiceService.update(invoice1);
 					session.setAttribute(Constant.MSG_SUCCESS, "Update success "+invoice1.getCode());
@@ -265,6 +302,18 @@ public class GoodsReceiptController {
 						invoice.setQty(Math.abs(invoice.getQty()));
 						checkQty=1;
 					}
+				List<Invoice> invoice1 = invoiceService.find("id",invoice.getId());
+				int qtyTemp = 0;
+				for (Invoice invoice11 : invoice1)
+				{
+					if (invoice11.getProductInfo().getId() == invoice.getProductInfo().getId())
+					{
+						qtyTemp = invoice.getQty() - invoice11.getQty();
+					}
+				}
+
+				shelf1.setQty(shelf1.getQty()-qtyTemp);
+				shelfService.updateShelf(shelf1);
 
 				invoiceService.update(invoice);
 				if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Update success!!!");
@@ -292,6 +341,8 @@ public class GoodsReceiptController {
 						checkQty=1;
 					}
 
+					shelf1.setQty(shelf1.getQty()+invoice.getQty());
+					shelfService.updateShelf(shelf1);
 					invoiceService.save(invoice);
 					if (checkQty==1) session.setAttribute(Constant.MSG_SUCCESS,"Qty has ABS-ed and Insert success!!!");
 					if (checkPrice==1) session.setAttribute(Constant.MSG_SUCCESS,"Price has ABS-ed and Insert success!!!");
@@ -310,8 +361,12 @@ public class GoodsReceiptController {
 	public String delete(Model model , @PathVariable("id") int id,HttpSession session) {
 		log.info("Delete invoice with id="+id);
 		Invoice invoice = invoiceService.find("id",id).get(0);
+		Shelf shelf = shelfService.findByIdShelf(invoice.getShelf().getId());
+
 		if(invoice!=null) {
 			try {
+				shelf.setQty(shelf.getQty()-invoice.getQty());
+				shelfService.updateShelf(shelf);
 				invoiceService.deleteInvoice(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Delete success!!!");
 			} catch (Exception e) {
