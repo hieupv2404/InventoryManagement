@@ -106,6 +106,8 @@ public class ShelfController {
 		}
 		if(category.getId()!=null && category.getId()!=0) {
 			try {
+				Shelf shelfTemp = shelfService.findByIdShelf(category.getId());
+				category.setQty(shelfTemp.getQty());
 				shelfService.updateShelf(category);
 				session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
 			} catch (Exception e) {

@@ -194,7 +194,7 @@ public class GoodsIssueController {
 		{
 			for(Invoice invoice1:invoiceListCode)
 			{
-				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
+				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()) && invoice.getId() != invoice1.getId())
 				{
 					invoice1.setQty(invoice1.getQty()+ Math.abs(invoice.getQty()));
 					if (invoice.getPrice().compareTo(invoice1.getPrice())!=0) {

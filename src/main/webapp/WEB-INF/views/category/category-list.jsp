@@ -43,6 +43,9 @@
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 									<button type="submit" class="btn btn-success">Search</button>
 								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+									<button class="btn btn-success"><a href="/category/getAll"></a>Get All</button>
+								</div>
 							</div>
 
 						</form:form>

@@ -190,6 +190,8 @@ public class GoodsReceiptController {
 			}
 			invoice.setShelfId(invoice.getShelf().getId());
 
+			invoice.setProductId(invoice.getProductInfo().getId());
+
 			model.addAttribute("mapSupplier",initMapSupplier());
 			model.addAttribute("mapShelf", mapShelf);
 			model.addAttribute("modelForm", invoice);
@@ -266,7 +268,7 @@ public class GoodsReceiptController {
 		{
 			for(Invoice invoice1:invoiceListCode)
 			{
-				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()))
+				if(invoice.getProductInfo().getId().equals(invoice1.getProductInfo().getId()) && invoice.getId() != invoice1.getId())
 				{
 
 					invoice1.setQty(invoice1.getQty()+ Math.abs(invoice.getQty()));
@@ -303,17 +305,18 @@ public class GoodsReceiptController {
 						invoice.setQty(Math.abs(invoice.getQty()));
 						checkQty=1;
 					}
-				List<Invoice> invoice1 = invoiceService.find("id",invoice.getId());
+				Invoice invoice1 = invoiceService.find("id",invoice.getId()).get(0);
 				int qtyTemp = 0;
-				for (Invoice invoice11 : invoice1)
-				{
-					if (invoice11.getProductInfo().getId() == invoice.getProductInfo().getId())
-					{
-						qtyTemp = invoice.getQty() - invoice11.getQty();
-					}
-				}
+//				for (Invoice invoice11 : invoice1)
+//				{
+//					if (invoice11.getProductInfo().getId() == invoice.getProductInfo().getId())
+//					{
+//						qtyTemp = invoice.getQty() - invoice11.getQty();
+//					}
+//				}
+						qtyTemp = invoice.getQty() - invoice1.getQty();
 
-				shelf1.setQty(shelf1.getQty()-qtyTemp);
+				shelf1.setQty(shelf1.getQty()+qtyTemp);
 				shelfService.updateShelf(shelf1);
 
 				invoiceService.update(invoice);

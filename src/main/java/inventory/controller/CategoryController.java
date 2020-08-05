@@ -90,6 +90,15 @@ public class CategoryController {
 		return "redirect:/category/list";
 	}
 
+	@GetMapping("/category/getAll")
+	public String getAll(Model model ) {
+
+		List<Category> categories = categoryService.getAllCategory(null,null);
+		model.addAttribute("categories", categories);
+		return "redirect:/category/list";
+
+	}
+
 	@GetMapping("/category/view/{id}")
 	public String view(Model model , @PathVariable("id") int id) {
 		log.info("View category with id="+id);
