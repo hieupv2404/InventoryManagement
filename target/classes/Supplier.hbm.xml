@@ -7,22 +7,22 @@
             <generator class="identity"/>
         </id>
         <property generated="never" lazy="false" name="name" optimistic-lock="true" type="string" unique="false">
-            <column length="100" name="name" not-null="true"/>
+            <column length="100" name="name"  />
         </property>
         <property generated="never" lazy="false" name="phone" optimistic-lock="true" type="string" unique="false">
-            <column length="11" name="phone" not-null="true"/>
+            <column length="11" name="phone"  />
         </property>
         <property generated="never" lazy="false" name="address" optimistic-lock="true" type="string" unique="false">
             <column length="100" name="address"/>
         </property>
         <property generated="never" lazy="false" name="createDate" optimistic-lock="true" type="timestamp" unique="false">
-            <column length="19" name="create_date" not-null="true"/>
+            <column length="19" name="create_date"  />
         </property>
         <property generated="never" lazy="false" name="activeFlag" optimistic-lock="true" type="int" unique="false">
-            <column name="active_flag" not-null="true"/>
+            <column name="active_flag"  />
         </property>
         <property generated="never" lazy="false" name="updateDate" optimistic-lock="true" type="timestamp" unique="false">
-            <column length="19" name="update_date" not-null="true"/>
+            <column length="19" name="update_date"  />
         </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="productDetails" optimistic-lock="true" sort="unsorted" table="product_detail">
             <key on-delete="noaction">
