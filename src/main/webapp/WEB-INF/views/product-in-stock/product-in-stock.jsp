@@ -38,6 +38,29 @@
 							</div>
 
 							<div class="form-group">
+
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="qty">Qty </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="qty" cssClass="form-control col-md-7 col-xs-12" />
+								</div>
+							</div>
+
+							<div class="form-group">
+
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="fromPrice">From Price </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="fromPrice" cssClass="form-control col-md-7 col-xs-12" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="toPrice">To Price</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="toPrice" cssClass="form-control col-md-7 col-xs-12" />
+								</div>
+							</div>
+
+							<div class="form-group">
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 									<button type="submit" class="btn btn-success">Search</button>
 								</div>

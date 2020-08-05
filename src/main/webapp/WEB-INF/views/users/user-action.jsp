@@ -15,10 +15,11 @@
 
 					<div class="x_content">
 						<br />
-						<form:form modelAttribute="modelForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/user/save" method="POST" enctype="multipart/form-data">
+						<%--@elvariable id="modelForm" type=""--%>
+						<form:form modelAttribute="modelForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/user/save" method="POST">
 							<form:hidden path="id" />
 								<div class="form-group">
-								<label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Full Name</label>
+								<label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Full Name</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="name" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
 									<div class="has-error">
@@ -27,7 +28,7 @@
 								</div>
 							</div>
 								<div class="form-group">
-								<label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+								<label for="email" class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="email" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
 									<div class="has-error">
@@ -37,7 +38,7 @@
 							</div>
 							<div class="form-group">
 
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="cateId">Role <span class="required">*</span>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="roleID">Role <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 										
@@ -54,28 +55,31 @@
 
 							</div>
 
-							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Username <span class="required">*</span>
-								</label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="userName" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
-									<div class="has-error">
-										<form:errors path="userName" cssClass="help-block"></form:errors>
+							<c:if test="${userName!=false}">
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12" for="userName">User Name <span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<form:input path="userName" cssClass="form-control col-md-7 col-xs-12" disabled="${viewOnly}" />
+										<div class="has-error">
+											<form:errors path="userName" cssClass="help-block"></form:errors>
+										</div>
 									</div>
 								</div>
-							</div>
-							<c:if test="${editMode==null}">
+							</c:if>
+
+
 							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Password <span class="required">*</span>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="password" type="password" cssClass="form-control col-md-7 col-xs-12" />
+									<form:input path="password" type="password" cssClass="form-control col-md-7 col-xs-12"  disabled="${viewOnly}" />
 									<div class="has-error">
 										<form:errors path="password" cssClass="help-block"></form:errors>
 									</div>
 								</div>
 							</div>
-							</c:if>
+
 						
 							
 							<div class="ln_solid"></div>

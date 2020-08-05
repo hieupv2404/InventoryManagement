@@ -41,6 +41,19 @@ public class ProductInStockService {
 				queryStr.append(" and model.productInfo.name like :name");
 				mapParams.put("name", "%"+productInStock.getProductInfo().getName()+"%");
 			}
+			if(productInStock.getQty()!=0) {
+				queryStr.append(" and model.qty >= :qty");
+				mapParams.put("qty", productInStock.getQty());
+			}
+			if(productInStock.getFromPrice()!=null) {
+				queryStr.append(" and model.price >= :fromPrice");
+				mapParams.put("fromPrice", productInStock.getFromPrice());
+			}
+
+			if(productInStock.getToPrice()!=null) {
+				queryStr.append(" and model.price <= :toPrice");
+				mapParams.put("toPrice", productInStock.getToPrice());
+			}
 		}
 		return productInStockDAO.findAll(queryStr.toString(), mapParams,paging);
 	}

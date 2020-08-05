@@ -69,7 +69,7 @@
 
             <%--@elvariable id="loginForm" type=""--%>
             <form:form modelAttribute="loginForm" servletRelativeAction="/processLogin" method="POST" >
-              <h1>Login Form</h1>
+              <h1>Login</h1>
               <div>
                 <form:input path="userName" cssClass="form-control" placeholder="Username"/>
                 <div class="has-error">
@@ -105,6 +105,33 @@
         
       </div>
     </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        processMessage();
+      });
+      function processMessage(){
+        var msgSuccess = '${msgSuccess}';
+        var msgError = '${msgError}';
+        if(msgSuccess){
+          new PNotify({
+            title: ' Success',
+            text: msgSuccess,
+            type: 'success',
+            styling: 'bootstrap3'
+          });
+        }
+        if(msgError){
+          new PNotify({
+            title: ' Error',
+            text: msgError,
+            type: 'error',
+            styling: 'bootstrap3'
+          });
+        }
+      }
+
+
+    </script>
 
   </body>
 </html>

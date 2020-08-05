@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 	<div class="menu_section">
-		<h3>Danh mục chức năng</h3>
+		<h3>Menu</h3>
 		<ul class="nav side-menu">
 			<c:forEach items="${menuSession}" var="menu">
 				<li id="${menu.idMenu}"><a> ${menu.name} <span

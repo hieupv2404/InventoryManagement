@@ -92,6 +92,7 @@ public class LoginController {
                     session.setAttribute(Constant.MENU_SESSION, menuList);
                     session.setAttribute(Constant.USER_INFO, user);
 
+                    session.setAttribute(Constant.MSG_SUCCESS, "Login Successful");
                     return "redirect:/index";
 
                 } else {

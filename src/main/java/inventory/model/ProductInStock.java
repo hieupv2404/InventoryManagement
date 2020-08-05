@@ -20,6 +20,8 @@ public class ProductInStock implements java.io.Serializable {
 	private BigDecimal price;
 	private Date createDate;
 	private Date updateDate;
+	private BigDecimal fromPrice;
+	private BigDecimal toPrice;
 
 	public ProductInStock() {
 	}
@@ -87,6 +89,20 @@ public class ProductInStock implements java.io.Serializable {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
 
+	public BigDecimal getFromPrice() {
+		return fromPrice;
+	}
+
+	public void setFromPrice(BigDecimal fromPrice) {
+		this.fromPrice = fromPrice;
+	}
+
+	public BigDecimal getToPrice() {
+		return toPrice;
+	}
+
+	public void setToPrice(BigDecimal toPrice) {
+		this.toPrice = toPrice;
+	}
 }

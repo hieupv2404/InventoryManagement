@@ -109,6 +109,7 @@ public class UserController {
 			model.addAttribute("modelForm", user);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("editMode", true);
+			model.addAttribute("userName", false);
 			return "user-action";
 		}
 		return "redirect:/user/list";
@@ -150,10 +151,13 @@ public class UserController {
 			model.addAttribute("mapRole", mapRole);
 			model.addAttribute("modelForm", user);
 			model.addAttribute("viewOnly", false);
+			model.addAttribute("userName", false);
+
 			return "user-action";
 			
 		}
-		
+		Users users = userService.findById(user.getId());
+		user.setUserName(users.getUserName());
 	//	UserRole userRole =(UserRole) user.getUserRoles().iterator().next();
 		if(user.getId()!=null && user.getId()!=0) {
 			try {

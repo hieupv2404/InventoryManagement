@@ -52,7 +52,7 @@
                 <img src="<c:url value="/static/images/user.jpeg" />" alt="User Ava" class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Xin chào,</span>
+                <span>Hello,</span>
                 <h2>${userInfo.name}</h2>
               </div>
             </div>
