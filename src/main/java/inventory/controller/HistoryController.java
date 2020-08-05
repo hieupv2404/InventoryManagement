@@ -42,4 +42,19 @@ public class HistoryController {
 		model.addAttribute("mapType", mapType);
 		return "history";
 	}
+
+	@RequestMapping(value="/history/getAll/{page}")
+	public String getAll(Model model, @ModelAttribute("searchForm") History history,@PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<History> histories = historyService.getAll(null, paging);
+		Map<String,String> mapType = new HashMap<>();
+		mapType.put(String.valueOf(Constant.TYPE_ALL), "All");
+		mapType.put(String.valueOf(Constant.TYPE_GOODS_RECEIPT), "Goods Receipt");
+		mapType.put(String.valueOf(Constant.TYPE_GOODS_ISSUES), "Goods Issues");
+		model.addAttribute("histories", histories);
+		model.addAttribute("pageInfo", paging);
+		model.addAttribute("mapType", mapType);
+		return "history";
+	}
 }

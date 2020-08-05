@@ -73,6 +73,26 @@ public class ProductInfoController {
 		return "productInfo-list";
 		
 	}
+
+	@RequestMapping(value= "/product-info/getAll/{page}")
+	public String getAll(Model model,HttpSession session , @ModelAttribute("searchForm") ProductInfo productInfo,@PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<ProductInfo> products = productInfoService.getAllProductInfo(null,paging);
+
+		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+			session.removeAttribute(Constant.MSG_SUCCESS);
+		}
+		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+			session.removeAttribute(Constant.MSG_ERROR);
+		}
+		model.addAttribute("pageInfo", paging);
+		model.addAttribute("products", products);
+		return "productInfo-list";
+
+	}
 	@GetMapping("/product-info/add")
 	public String add(Model model) {
 		model.addAttribute("titlePage", "Add ProductInfo");

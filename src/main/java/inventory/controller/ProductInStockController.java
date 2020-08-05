@@ -34,5 +34,15 @@ public class ProductInStockController {
 		model.addAttribute("pageInfo", paging);
 		return "product-in-stock";
 	}
+
+	@RequestMapping(value="/product-in-stock/getAll/{page}")
+	public String getAll(Model model, @ModelAttribute("searchForm") ProductInStock productInStock,@PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<ProductInStock> productInStocks = productInStockService.getAll(null, paging);
+		model.addAttribute("products", productInStocks);
+		model.addAttribute("pageInfo", paging);
+		return "product-in-stock";
+	}
 	
 }

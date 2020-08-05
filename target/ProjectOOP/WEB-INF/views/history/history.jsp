@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <div class="right_col" role="main">
 	<div class="">
 
@@ -20,19 +21,19 @@
 						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/history/list/1" method="POST">
 							
 							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Category</label>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="productInfo.category.name">Category</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="productInfo.category.name" cssClass="form-control col-md-7 col-xs-12" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Action </label>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="actionName">Action </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="actionName" cssClass="form-control col-md-7 col-xs-12" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Type </label>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type">Type </label>
 
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:select path="type" cssClass="form-control">
@@ -41,10 +42,34 @@
 								</div>
 							</div>
 
+<%--							<div class="form-group">--%>
+<%--								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="fromDate">From Date</label>--%>
+<%--								<div class="col-md-6 col-sm-6 col-xs-12 ">--%>
+<%--									<div class="input-group date" id='fromDatePicker'>--%>
+<%--										<form:input path="fromDate" class="form-control" />--%>
+<%--										<span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>--%>
+<%--										</span>--%>
+<%--									</div>--%>
+<%--								</div>--%>
+<%--							</div>--%>
+
+<%--							<div class="form-group">--%>
+<%--								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="toDate">To Date </label>--%>
+<%--								<div class="col-md-6 col-sm-6 col-xs-12 ">--%>
+<%--									<div class="input-group date" id='toDatePicker'>--%>
+<%--										<form:input path="toDate" class="form-control" />--%>
+<%--										<span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>--%>
+<%--										</span>--%>
+<%--									</div>--%>
+<%--								</div>--%>
+<%--							</div>--%>
+
 
 							<div class="form-group">
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 									<button type="submit" class="btn btn-success">Search</button>
+									<button class="btn btn-success"><a href="<c:url value="/history/getAll/1"/>"  style="color: white">Get All</a></button>
+
 								</div>
 							</div>
 
@@ -111,10 +136,21 @@
 </div>
 <script type="text/javascript">
 	function gotoPage(page) {
-		$('#searchForm').attr('action',
-				'<c:url value="/history/list/"/>' + page);
+		$('#searchForm').attr('action','<c:url value="/history/list/"/>' + page);
 		$('#searchForm').submit();
 	}
+
+	$(document).ready(function(){
+		processMessage();
+		$('#fromDatePicker').datetimepicker({
+			format : 'YYYY-MM-DD HH:mm:ss'
+		});
+		$('#toDatePicker').datetimepicker({
+			format : 'YYYY-MM-DD HH:mm:ss'
+		})
+
+	});
+
 	$(document).ready(function() {
 		processMessage();
 	});

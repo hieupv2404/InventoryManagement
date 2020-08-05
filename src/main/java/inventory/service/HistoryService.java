@@ -51,6 +51,14 @@ public class HistoryService {
 				queryStr.append(" and model.type = :type");
 				mapParams.put("type", history.getType());
 			}
+			if(history.getFromDate()!=null) {
+				queryStr.append(" and model.updateDate >= :fromDate");
+				mapParams.put("fromDate", history.getFromDate());
+			}
+			if(history.getToDate()!=null) {
+				queryStr.append(" and model.updateDate <= :toDate");
+				mapParams.put("toDate", history.getToDate());
+			}
 		}
 		return historyDAO.findAll(queryStr.toString(), mapParams,paging);
 	}

@@ -59,6 +59,25 @@ public class SupplierController {
 		return "supplier-list";
 		
 	}
+
+	@RequestMapping(value="/supplier/getAll/{page}")
+	public String getAll(Model model, HttpSession session , @ModelAttribute("searchForm") Supplier supplier, @PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<Supplier> categories = supplierService.getAllSupplier(null,paging);
+		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+			session.removeAttribute(Constant.MSG_SUCCESS);
+		}
+		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+			session.removeAttribute(Constant.MSG_ERROR);
+		}
+		model.addAttribute("pageInfo", paging);
+		model.addAttribute("categories", categories);
+		return "supplier-list";
+
+	}
 	@GetMapping("/supplier/add")
 	public String add(Model model) {
 		model.addAttribute("titlePage", "Add Supplier");

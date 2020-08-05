@@ -90,12 +90,22 @@ public class CategoryController {
 		return "redirect:/category/list";
 	}
 
-	@GetMapping("/category/getAll")
-	public String getAll(Model model ) {
-
-		List<Category> categories = categoryService.getAllCategory(null,null);
+	@RequestMapping(value="/category/getAll/{page}")
+	public String getAll(Model model,HttpSession session , @ModelAttribute("searchForm") Category category,@PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<Category> categories = categoryService.getAllCategory(null,paging);
+		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+			session.removeAttribute(Constant.MSG_SUCCESS);
+		}
+		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+			session.removeAttribute(Constant.MSG_ERROR);
+		}
+		model.addAttribute("pageInfo", paging);
 		model.addAttribute("categories", categories);
-		return "redirect:/category/list";
+		return "category-list";
 
 	}
 

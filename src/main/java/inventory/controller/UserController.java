@@ -78,6 +78,25 @@ public class UserController {
 		return "user-list";
 		
 	}
+
+	@RequestMapping(value="/user/getAll/{page}")
+	public String getAll(Model model,HttpSession session , @ModelAttribute("searchForm") Users user,@PathVariable("page") int page) {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		List<Users> users = userService.getUsersList(null,paging);
+		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+			session.removeAttribute(Constant.MSG_SUCCESS);
+		}
+		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+			session.removeAttribute(Constant.MSG_ERROR);
+		}
+		model.addAttribute("pageInfo", paging);
+		model.addAttribute("users", users);
+		return "user-list";
+
+	}
 	@GetMapping("/user/add")
 	public String add(Model model) {
 		model.addAttribute("titlePage", "Add Users");

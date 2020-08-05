@@ -23,6 +23,9 @@ public class History implements java.io.Serializable {
 	private Date createDate;
 	private Date updateDate;
 	private Users user;
+	private Date fromDate;
+	private Date toDate;
+
 
 	public History() {
 	}
@@ -117,5 +120,21 @@ public class History implements java.io.Serializable {
 
 	public void setUser(Users user) {
 		this.user = user;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 }

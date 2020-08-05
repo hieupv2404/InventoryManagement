@@ -94,7 +94,9 @@ public class GoodsReceiptController {
 			invoiceTemp.setShelfName(invoice1.getShelf().getName());
 			invoiceTemp.setSupplierName(invoice1.getSupplier().getName());
 			invoiceTemp.setUserName(invoice1.getUser().getName());
+
 			invoiceTempService.saveInvoiceTemp(invoiceTemp);
+
 
 		}
 
@@ -142,6 +144,87 @@ public class GoodsReceiptController {
 
 		return "goods-receipt-list";
 		
+	}
+
+	@RequestMapping(value="/goods-receipt/getAll/{page}")
+	public String getAll(Model model,HttpSession session ,
+//								  HttpServletRequest request, @RequestParam("digest") int digest,
+								  @ModelAttribute("searchForm") Invoice invoice,@PathVariable("page") int page) throws Exception {
+		Paging paging = new Paging(5);
+		paging.setIndexPage(page);
+		if (invoice == null) {
+			invoice = new Invoice();
+		}
+		List<InvoiceTemp> invoiceTempList = invoiceTempService.findInvoiceTemp("activeFlag",1);
+		for(InvoiceTemp invoiceTemp : invoiceTempList)
+		{
+			invoiceTempService.deleteInvoiceTemp(invoiceTemp);
+		}
+		Invoice invoiceTemp1 = new Invoice();
+		invoiceTemp1.setType(Constant.TYPE_GOODS_RECEIPT);
+		List<Invoice> invoices = invoiceService.getList(invoiceTemp1, paging);
+		for (Invoice invoice1 : invoices)
+		{
+			InvoiceTemp invoiceTemp = new InvoiceTemp();
+			invoiceTemp.setCode(invoice1.getCode());
+			invoiceTemp.setProductName(invoice1.getProductInfo().getName());
+			invoiceTemp.setQty(invoice1.getQty());
+			invoiceTemp.setPrice(invoice1.getPrice());
+			invoiceTemp.setActiveFlag(1);
+			invoiceTemp.setUpdateDate(invoice1.getUpdateDate());
+			invoiceTemp.setShelfName(invoice1.getShelf().getName());
+			invoiceTemp.setSupplierName(invoice1.getSupplier().getName());
+			invoiceTemp.setUserName(invoice1.getUser().getName());
+
+			invoiceTempService.saveInvoiceTemp(invoiceTemp);
+
+
+		}
+
+		int totalQty = 0;
+		BigDecimal totalPrice = new BigDecimal(0);
+		for ( Invoice invoice1 : invoices)
+		{
+			totalQty+=invoice1.getQty();
+			totalPrice = totalPrice.add(invoice1.getPrice());
+		}
+		model.addAttribute("totalQty",totalQty);
+		model.addAttribute("totalPrice",totalPrice);
+
+//		if (session.getAttribute("DigestRequest") == null) {
+//			// lan vao dau tien, Digest null va tham so null
+//
+//			if (StringUtils.isEmpty(invoice.getCode()) && invoice.getFromDate() == null && invoice.getToDate() == null) {
+//				session.setAttribute("DigestRequest", System.currentTimeMillis());
+//			}
+//
+//		}
+//		// load lai trang, giu nguyen session
+//		else
+//		{
+//			// tu trang khac ve
+//			if ()
+//		}
+//			session.setAttribute("searchedCode", invoice.getCode());
+//			session.setAttribute("searchedFromDate", invoice.getFromDate());
+//			session.setAttribute("searchedToDate", invoice.getToDate());
+//		}
+
+		if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+
+			session.removeAttribute(Constant.MSG_SUCCESS);
+		}
+		if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+			session.removeAttribute(Constant.MSG_ERROR);
+		}
+
+		model.addAttribute("pageInfo", paging);
+		model.addAttribute("invoices", invoices);
+
+		return "goods-receipt-list";
+
 	}
 	@GetMapping("/goods-receipt/add")
 	public String add(Model model) {

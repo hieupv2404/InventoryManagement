@@ -90,6 +90,24 @@ public class ProductDetailController {
         return "productDetail-list";
 
     }
+    @RequestMapping(value="/product-detail/getAll/{page}")
+    public String getAll(Model model,HttpSession session , @ModelAttribute("searchForm") ProductDetail productDetail,@PathVariable("page") int page) {
+        Paging paging = new Paging(5);
+        paging.setIndexPage(page);
+        List<ProductDetail> products = productDetailService.getAllProductDetail(null,paging);
+        if(session.getAttribute(Constant.MSG_SUCCESS)!=null ) {
+            model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
+            session.removeAttribute(Constant.MSG_SUCCESS);
+        }
+        if(session.getAttribute(Constant.MSG_ERROR)!=null ) {
+            model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
+            session.removeAttribute(Constant.MSG_ERROR);
+        }
+        model.addAttribute("pageInfo", paging);
+        model.addAttribute("products", products);
+        return "productDetail-list";
+
+    }
     @GetMapping("/product-detail/add")
     public String add(Model model) {
         model.addAttribute("titlePage", "Add Product Detail");
