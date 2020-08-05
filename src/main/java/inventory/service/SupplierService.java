@@ -42,7 +42,7 @@ public class SupplierService {
     }
 
     public void saveSupplier(Supplier supplier)  throws Exception{
-        log.info("Insert supplier "+supplier.toString());
+//        log.info("Insert supplier "+supplier.toString());
         supplier.setActiveFlag(1);
         supplier.setCreateDate(new Date());
         supplier.setUpdateDate(new Date());

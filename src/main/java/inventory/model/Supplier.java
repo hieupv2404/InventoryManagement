@@ -10,7 +10,6 @@ import java.util.Set;
 @Entity
 public class Supplier implements Serializable {
     @Id
-    @Column(name = "id")
     @GeneratedValue
     private Integer id;
     private String name;
@@ -110,33 +109,33 @@ public class Supplier implements Serializable {
         this.vats = vats;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Supplier that = (Supplier) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
-        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
-        if (activeFlag != null ? !activeFlag.equals(that.activeFlag) : that.activeFlag != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
-        result = 31 * result + (activeFlag != null ? activeFlag.hashCode() : 0);
-        return result;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Supplier that = (Supplier) o;
+//
+//        if (id != that.id) return false;
+//        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+//        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+//        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+//        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+//        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
+//        if (activeFlag != null ? !activeFlag.equals(that.activeFlag) : that.activeFlag != null) return false;
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = id;
+//        result = 31 * result + (name != null ? name.hashCode() : 0);
+//        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+//        result = 31 * result + (address != null ? address.hashCode() : 0);
+//        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+//        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+//        result = 31 * result + (activeFlag != null ? activeFlag.hashCode() : 0);
+//        return result;
+//    }
 }

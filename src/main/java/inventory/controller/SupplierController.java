@@ -105,6 +105,7 @@ public class SupplierController {
 			return "supplier-action";
 			
 		}
+		supplier.setActiveFlag(1);
 		if(supplier.getId()!=null && supplier.getId()!=0) {
 			try {
 				supplierService.updateSupplier(supplier);

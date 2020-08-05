@@ -156,11 +156,13 @@ public class UserController {
 			return "user-action";
 			
 		}
-		Users users = userService.findById(user.getId());
-		user.setUserName(users.getUserName());
+
+
 	//	UserRole userRole =(UserRole) user.getUserRoles().iterator().next();
 		if(user.getId()!=null && user.getId()!=0) {
 			try {
+				Users users = userService.findById(user.getId());
+				user.setUserName(users.getUserName());
 				userService.update(user);
 				session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
 			} catch (Exception e) { 

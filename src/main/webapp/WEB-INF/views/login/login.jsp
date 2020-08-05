@@ -33,31 +33,31 @@
     <link href="<c:url value="/static/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"/>" rel="stylesheet">
     <!-- jQuery -->
     <script src="<c:url value="/static/vendors/jquery/dist/jquery.min.js"/>"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        processMessage();
-      });
-      function processMessage(){
-        var msgSuccess = '${msgSuccess}';
-        var msgError = '${msgError}';
-        if(msgSuccess){
-          new PNotify({
-            title: ' Success',
-            text: msgSuccess,
-            type: 'success',
-            styling: 'bootstrap3'
-          });
-        }
-        if(msgError){
-          new PNotify({
-            title: ' Error',
-            text: msgError,
-            type: 'error',
-            styling: 'bootstrap3'
-          });
-        }
-      }
-    </script>
+<%--    <script type="text/javascript">--%>
+<%--      $(document).ready(function(){--%>
+<%--        processMessage();--%>
+<%--      });--%>
+<%--      function processMessage(){--%>
+<%--        var msgSuccess = '${msgSuccess}';--%>
+<%--        var msgError = '${msgError}';--%>
+<%--        if(msgSuccess){--%>
+<%--          new PNotify({--%>
+<%--            title: ' Success',--%>
+<%--            text: msgSuccess,--%>
+<%--            type: 'success',--%>
+<%--            styling: 'bootstrap3'--%>
+<%--          });--%>
+<%--        }--%>
+<%--        if(msgError){--%>
+<%--          new PNotify({--%>
+<%--            title: ' Error',--%>
+<%--            text: msgError,--%>
+<%--            type: 'error',--%>
+<%--            styling: 'bootstrap3'--%>
+<%--          });--%>
+<%--        }--%>
+<%--      }--%>
+<%--    </script>--%>
   </head>
 
   <body class="login">

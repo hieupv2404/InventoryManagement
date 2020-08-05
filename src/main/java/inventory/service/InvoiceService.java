@@ -87,6 +87,12 @@ public class InvoiceService {
 				mapParams.put("name", "%"+invoice.getProductInfo().getName()+"%");
 
 			}
+			if (invoice.getShelf()!=null)
+			{
+				queryStr.append(" and model.shelf.name like :shelfName ");
+				mapParams.put("shelfName", "%"+invoice.getShelf().getName()+"%");
+
+			}
 		}
 		return invoiceDAO.findAll(queryStr.toString(), mapParams, paging);
 

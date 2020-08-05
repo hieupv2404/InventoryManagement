@@ -28,6 +28,8 @@ public class LoginController {
     @Autowired
     private LoginValidator loginValidator;
 
+    private int check =1;
+
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         if (binder.getTarget() == null) return;
@@ -38,18 +40,26 @@ public class LoginController {
 
     @GetMapping("/login")
     //van chuyen du lieu tu backend len tang view. cua spring ui
-    public String login(Model model) {
+    public String login(Model model, HttpSession session) {
         List<Users> users = userService.findByProperty("status", 1);
         for (Users user : users) {
             user.setStatus(0);
             userService.updateStatus(user);
         }
+
+
+
         model.addAttribute("loginForm", new Users());
+        if(check==2)
+            session.setAttribute(Constant.MSG_ERROR, "PassWord is wrong!!!");
+        if (check==3)
+            session.setAttribute(Constant.MSG_ERROR, "UserName doesn't exist!!!");
         return "login/login";
     }
 
     @PostMapping("/processLogin")
     public String processLogin(Model model, @ModelAttribute("loginForm") @Validated Users users, BindingResult result, HttpSession session) {
+
         if (result.hasErrors()) {
             return "login/login";
         }
@@ -92,16 +102,19 @@ public class LoginController {
                     session.setAttribute(Constant.MENU_SESSION, menuList);
                     session.setAttribute(Constant.USER_INFO, user);
 
-                    session.setAttribute(Constant.MSG_SUCCESS, "Login Successful");
+
+                    session.setAttribute(Constant.MSG_SUCCESS, "Login Successful!");
                     return "redirect:/index";
 
                 } else {
                     session.setAttribute(Constant.MSG_ERROR, "PassWord is wrong!!!");
+                    check=2;
                     return "redirect:/login";
                 }
 
         } else {
             session.setAttribute(Constant.MSG_ERROR, "UserName doesn't exist!!!");
+            check=3;
             return "redirect:/login";
         }
     }
