@@ -18,7 +18,7 @@ public class Shelf implements Serializable {
     private Date createDate;
     private int total;
     private int qty;
-    private int qtyRest;
+    private Integer qtyRest;
     private Set invoices = new HashSet(0);
 
     public Shelf() {
@@ -88,11 +88,11 @@ public class Shelf implements Serializable {
         this.qty = qty;
     }
 
-    public int getQtyRest() {
+    public Integer getQtyRest() {
         return qtyRest;
     }
 
-    public void setQtyRest(int qtyRest) {
+    public void setQtyRest(Integer qtyRest) {
         this.qtyRest = qtyRest;
     }
 

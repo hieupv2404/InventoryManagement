@@ -55,7 +55,7 @@ public class ShelfService {
                 queryStr.append(" and model.id=:id");
                 mapParams.put("id", category.getId());
             }
-            if(category.getQtyRest() != 0 ) {
+            if(category.getQtyRest() != null ) {
                 queryStr.append(" and model.qtyRest >= :qtyRest");
                 mapParams.put("qtyRest", category.getQtyRest());
             }
