@@ -2,7 +2,7 @@
 **Inventory Management- Project OOP by Group 1**
 
 ## Yêu cầu chương trình
-1. IDE IntelliJ Ultimate
+1. IntelliJ IDEA Ultimate
 2. Apache Tomcat
 3. MySQL
 
