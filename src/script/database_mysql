@@ -1,410 +1,1500 @@
-create table category
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(100)                        not null,
-    code        varchar(50)                         not null,
-    description text                                null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null
-);
+-- phpMyAdmin SQL Dump
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
+--
+-- Máy chủ: localhost
+-- Thời gian đã tạo: Th8 13, 2020 lúc 03:45 PM
+-- Phiên bản máy phục vụ: 8.0.17
+-- Phiên bản PHP: 7.3.10
 
-create table customer
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(255)                        null,
-    phone       varchar(11)                         null,
-    address     varchar(255)                        null,
-    create_date timestamp default CURRENT_TIMESTAMP null,
-    update_date timestamp default CURRENT_TIMESTAMP null,
-    active_flag int(1)    default 1                 null
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-create table invoice_temp
-(
-    id            int auto_increment
-        primary key,
-    active_flag   int default 1  null,
-    code          varchar(100)   null,
-    product_name  varchar(100)   null,
-    qty           int            null,
-    price         decimal(15, 2) null,
-    update_date   timestamp      null,
-    shelf_name    varchar(20)    null,
-    supplier_name varchar(50)    null,
-    user_name     varchar(100)   null
-);
 
-create table menu
-(
-    id          int auto_increment
-        primary key,
-    parent_id   int                                 not null,
-    url         varchar(100)                        not null,
-    name        varchar(100)                        not null,
-    order_index int(1)    default 0                 not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-create table product_info
-(
-    id          int auto_increment
-        primary key,
-    cate_id     int                                 not null,
-    name        varchar(100)                        not null,
-    description text                                null,
-    img_url     varchar(200)                        null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    constraint cateid_fk_product_info
-        foreign key (cate_id) references category (id)
-            on update cascade
-);
+--
+-- Cơ sở dữ liệu: `inventory_management`
+--
 
-create table product_in_stock
-(
-    id          int auto_increment
-        primary key,
-    product_id  int                                 not null,
-    qty         int(100)                            not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    price       decimal(15, 2)                      not null,
-    constraint productid_fk_product_instock
-        foreign key (product_id) references product_info (id)
-            on update cascade
-);
+-- --------------------------------------------------------
 
-create table product_status_detail_temp
-(
-    id                  int auto_increment
-        primary key,
-    product_name        varchar(100)   null,
-    product_status_name varchar(100)   null,
-    qty                 int            null,
-    price_one           decimal(15, 2) null,
-    price_total         decimal(15, 2) null,
-    active_flag         int default 1  null,
-    shelf_name          varchar(100)   null
-);
+--
+-- Cấu trúc bảng cho bảng `auth`
+--
 
-create table role
-(
-    id          int auto_increment
-        primary key,
-    role_name   varchar(50)                         not null,
-    description varchar(200)                        not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null
-);
+CREATE TABLE `auth` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `permission` int(1) NOT NULL DEFAULT '1',
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-create table auth
-(
-    id          int auto_increment
-        primary key,
-    role_id     int                                 not null,
-    menu_id     int                                 not null,
-    permission  int(1)    default 1                 not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    constraint menuid_fk
-        foreign key (menu_id) references menu (id)
-            on update cascade,
-    constraint roleid_fk_auth
-        foreign key (role_id) references role (id)
-            on update cascade
-);
+--
+-- Đang đổ dữ liệu cho bảng `auth`
+--
 
-create index menuid_fk_auth
-    on auth (menu_id);
+INSERT INTO `auth` (`id`, `role_id`, `menu_id`, `permission`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 1, 1, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(2, 1, 2, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(3, 1, 3, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(4, 1, 4, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(5, 1, 5, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(6, 1, 6, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(7, 1, 7, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(8, 1, 8, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(9, 1, 9, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(10, 1, 10, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(11, 1, 11, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(12, 1, 12, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(13, 1, 13, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(14, 1, 14, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(15, 1, 15, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(16, 1, 16, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(17, 1, 17, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(18, 1, 18, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(19, 1, 19, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(20, 1, 20, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(21, 1, 21, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(22, 1, 22, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(23, 1, 23, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(24, 1, 24, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(25, 1, 25, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(26, 1, 26, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(27, 1, 27, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(28, 1, 28, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(29, 1, 29, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(30, 1, 30, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(172, 1, 31, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(173, 1, 32, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(174, 1, 33, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(175, 1, 34, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(176, 1, 35, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(177, 1, 36, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(178, 1, 37, 1, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(179, 1, 38, 1, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(180, 1, 39, 1, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(181, 1, 40, 1, 1, '2020-08-02 10:07:56', '2020-08-02 10:07:56'),
+(182, 1, 41, 1, 1, '2020-08-02 10:58:40', '2020-08-02 10:58:40'),
+(183, 1, 42, 1, 1, '2020-08-02 15:43:59', '2020-08-02 15:43:59'),
+(184, 1, 43, 1, 1, '2020-08-03 08:59:01', '2020-08-03 08:59:01'),
+(185, 1, 44, 1, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(186, 1, 45, 1, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(187, 1, 46, 1, 1, '2020-08-04 15:52:26', '2020-08-04 15:52:26'),
+(188, 1, 47, 1, 1, '2020-08-05 08:08:23', '2020-08-05 08:08:23'),
+(189, 1, 48, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(190, 1, 49, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(191, 1, 50, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(192, 1, 51, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(193, 1, 52, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(194, 1, 53, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(195, 1, 54, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(196, 1, 55, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(197, 1, 56, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(198, 1, 57, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(199, 1, 58, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(200, 1, 59, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(201, 1, 60, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(202, 1, 61, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(203, 1, 62, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(204, 1, 63, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(205, 1, 64, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(206, 1, 65, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(207, 1, 66, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(208, 1, 67, 1, 1, '2020-08-05 08:27:16', '2020-08-05 08:27:16'),
+(209, 1, 68, 1, 1, '2020-08-05 08:29:15', '2020-08-05 08:29:15'),
+(210, 1, 69, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(211, 1, 70, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(212, 1, 71, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(213, 1, 72, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(214, 1, 73, 1, 1, '2020-08-05 18:49:16', '2020-08-05 18:49:16'),
+(215, 1, 74, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(216, 1, 75, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(217, 1, 76, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(218, 1, 77, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(219, 1, 78, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(220, 1, 79, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(221, 1, 80, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(222, 1, 81, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(223, 1, 82, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(224, 1, 83, 1, 1, '2020-08-08 17:48:27', '2020-08-08 17:48:27'),
+(225, 1, 84, 1, 1, '2020-08-10 14:45:42', '2020-08-10 14:45:42'),
+(226, 4, 1, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(227, 4, 2, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(228, 4, 3, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(229, 4, 4, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(230, 4, 5, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(231, 4, 6, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(232, 4, 7, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(233, 4, 8, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(234, 4, 9, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(235, 4, 10, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(236, 4, 11, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(237, 4, 12, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(238, 4, 13, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(239, 4, 14, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(240, 4, 15, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(241, 4, 16, 0, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(242, 4, 17, 0, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(243, 4, 18, 0, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(244, 4, 19, 0, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(245, 4, 20, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(246, 4, 21, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(247, 4, 22, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(248, 4, 23, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(249, 4, 24, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(250, 4, 25, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(251, 4, 26, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(252, 4, 27, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(253, 4, 28, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(254, 4, 29, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(255, 4, 30, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(256, 4, 31, 0, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(257, 4, 32, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(258, 4, 33, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(259, 4, 34, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(260, 4, 35, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(261, 4, 36, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(262, 4, 37, 0, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(263, 4, 38, 1, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(264, 4, 39, 1, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(265, 4, 40, 1, 1, '2020-08-02 10:07:56', '2020-08-02 10:07:56'),
+(266, 4, 41, 1, 1, '2020-08-02 10:58:40', '2020-08-02 10:58:40'),
+(267, 4, 42, 1, 1, '2020-08-02 15:43:59', '2020-08-02 15:43:59'),
+(268, 4, 43, 1, 1, '2020-08-03 08:59:01', '2020-08-03 08:59:01'),
+(269, 4, 44, 1, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(270, 4, 45, 1, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(271, 4, 46, 0, 1, '2020-08-04 15:52:26', '2020-08-04 15:52:26'),
+(272, 4, 47, 1, 1, '2020-08-05 08:08:23', '2020-08-05 08:08:23'),
+(273, 4, 48, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(274, 4, 49, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(275, 4, 50, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(276, 4, 51, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(277, 4, 52, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(278, 4, 53, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(279, 4, 54, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(280, 4, 55, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(281, 4, 56, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(282, 4, 57, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(283, 4, 58, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(284, 4, 59, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(285, 4, 60, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(286, 4, 61, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(287, 4, 62, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(288, 4, 63, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(289, 4, 64, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(290, 4, 65, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(291, 4, 66, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(292, 4, 67, 1, 1, '2020-08-05 08:27:16', '2020-08-05 08:27:16'),
+(293, 4, 68, 1, 1, '2020-08-05 08:29:15', '2020-08-05 08:29:15'),
+(294, 4, 69, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(295, 4, 70, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(296, 4, 71, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(297, 4, 72, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(298, 4, 73, 1, 1, '2020-08-05 18:49:16', '2020-08-05 18:49:16'),
+(299, 4, 74, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(300, 4, 75, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(301, 4, 76, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(302, 4, 77, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(303, 4, 78, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(304, 4, 79, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(305, 4, 80, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(306, 4, 81, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(307, 4, 82, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(308, 4, 83, 1, 1, '2020-08-08 17:48:27', '2020-08-08 17:48:27'),
+(309, 4, 84, 1, 1, '2020-08-10 14:45:42', '2020-08-10 14:45:42'),
+(310, 5, 1, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(311, 5, 2, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(312, 5, 3, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(313, 5, 4, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(314, 5, 5, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(315, 5, 6, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(316, 5, 7, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(317, 5, 8, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(318, 5, 9, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(319, 5, 10, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(320, 5, 11, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(321, 5, 12, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(322, 5, 13, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(323, 5, 14, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(324, 5, 15, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(325, 5, 16, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(326, 5, 17, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(327, 5, 18, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(328, 5, 19, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(329, 5, 20, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(330, 5, 21, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(331, 5, 22, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(332, 5, 23, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(333, 5, 24, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(334, 5, 25, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(335, 5, 26, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(336, 5, 27, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(337, 5, 28, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(338, 5, 29, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(339, 5, 30, 1, 1, '2020-04-05 18:44:06', '2020-04-05 18:44:06'),
+(340, 5, 31, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(341, 5, 32, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(342, 5, 33, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(343, 5, 34, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(344, 5, 35, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(345, 5, 36, 1, 1, '2020-04-26 12:32:49', '2020-04-26 12:32:49'),
+(346, 5, 37, 0, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(347, 5, 38, 0, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(348, 5, 39, 0, 1, '2020-08-01 16:30:51', '2020-08-01 16:30:51'),
+(349, 5, 40, 0, 1, '2020-08-02 10:07:56', '2020-08-02 10:07:56'),
+(350, 5, 41, 1, 1, '2020-08-02 10:58:40', '2020-08-02 10:58:40'),
+(351, 5, 42, 0, 1, '2020-08-02 15:43:59', '2020-08-02 15:43:59'),
+(352, 5, 43, 0, 1, '2020-08-03 08:59:01', '2020-08-03 08:59:01'),
+(353, 5, 44, 0, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(354, 5, 45, 0, 1, '2020-08-03 09:39:25', '2020-08-03 09:39:25'),
+(355, 5, 46, 1, 1, '2020-08-04 15:52:26', '2020-08-04 15:52:26'),
+(356, 5, 47, 1, 1, '2020-08-05 08:08:23', '2020-08-05 08:08:23'),
+(357, 5, 48, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(358, 5, 49, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(359, 5, 50, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(360, 5, 51, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(361, 5, 52, 1, 1, '2020-08-05 08:12:09', '2020-08-05 08:12:09'),
+(362, 5, 53, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(363, 5, 54, 1, 1, '2020-08-05 08:13:59', '2020-08-05 08:13:59'),
+(364, 5, 55, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(365, 5, 56, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(366, 5, 57, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(367, 5, 58, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(368, 5, 59, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(369, 5, 60, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(370, 5, 61, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(371, 5, 62, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(372, 5, 63, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(373, 5, 64, 1, 1, '2020-08-05 08:19:46', '2020-08-05 08:19:46'),
+(374, 5, 65, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(375, 5, 66, 1, 1, '2020-08-05 08:25:55', '2020-08-05 08:25:55'),
+(376, 5, 67, 1, 1, '2020-08-05 08:27:16', '2020-08-05 08:27:16'),
+(377, 5, 68, 1, 1, '2020-08-05 08:29:15', '2020-08-05 08:29:15'),
+(378, 5, 69, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(379, 5, 70, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(380, 5, 71, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(381, 5, 72, 1, 1, '2020-08-05 08:29:16', '2020-08-05 08:29:16'),
+(382, 5, 73, 1, 1, '2020-08-05 18:49:16', '2020-08-05 18:49:16'),
+(383, 5, 74, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(384, 5, 75, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(385, 5, 76, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(386, 5, 77, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(387, 5, 78, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(388, 5, 79, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(389, 5, 80, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(390, 5, 81, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(391, 5, 82, 1, 1, '2020-08-05 19:45:55', '2020-08-05 19:45:55'),
+(392, 5, 83, 0, 1, '2020-08-08 17:48:27', '2020-08-08 17:48:27'),
+(393, 5, 84, 1, 1, '2020-08-10 14:45:42', '2020-08-10 14:45:42');
 
-create table shelf
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(10) default 'Z'               not null,
-    description varchar(200)                          null,
-    active_flag int(1)      default 1                 not null,
-    create_date timestamp   default CURRENT_TIMESTAMP not null,
-    update_date timestamp   default CURRENT_TIMESTAMP not null,
-    total       int         default 500               null,
-    qty         int                                   null,
-    qty_rest    int                                   null
-);
+-- --------------------------------------------------------
 
-create table shelf_oop
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(20)                         not null,
-    description varchar(200)                        null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    total       int       default 500               null,
-    qty         int                                 null,
-    qty_rest    int                                 null
-);
+--
+-- Cấu trúc bảng cho bảng `category`
+--
 
-create table supplier
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(100)                        not null,
-    phone       varchar(11)                         not null,
-    address     varchar(100)                        not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    active_flag int(1)    default 1                 null
-);
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `description` text,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-create table users
-(
-    id          int auto_increment
-        primary key,
-    user_name   varchar(50)                         not null,
-    password    varchar(100)                        not null,
-    email       varchar(100)                        null,
-    name        varchar(100)                        not null,
-    active_flag int(2)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    status      int       default 0                 null
-);
+--
+-- Đang đổ dữ liệu cho bảng `category`
+--
 
-create table history
-(
-    id          int auto_increment
-        primary key,
-    action_name varchar(100)                        not null,
-    type        int(1)                              not null,
-    product_id  int                                 not null,
-    qty         int                                 not null,
-    price       decimal(15, 2)                      not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    user_id     int                                 null,
-    constraint history___fk_user
-        foreign key (user_id) references users (id)
-            on update cascade on delete cascade,
-    constraint productid_fk_history
-        foreign key (product_id) references product_info (id)
-            on update cascade
-);
+INSERT INTO `category` (`id`, `name`, `code`, `description`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 'Xiaomi', 'xiaomi', 'Xiaomi from China', 1, '2020-04-14 18:14:52', '2020-04-15 12:18:26'),
+(2, 'Apple', 'apple', 'Apple from USA', 1, '2020-04-19 14:14:04', '2020-04-29 09:46:45'),
+(3, 'Oppo', 'Oppo', 'Oppo from VietNam', 1, '2020-05-10 01:56:20', '2020-05-10 01:56:47'),
+(4, 'Nokia', 'nokia', 'Nokia from VN', 0, '2020-05-11 22:56:52', '2020-05-11 22:57:03'),
+(5, 'Nokia', 'nokia', 'This is Nokia from USA', 1, '2020-08-01 11:33:33', '2020-08-01 11:33:42'),
+(6, 'Black Berry', 'blackberry', 'This is Black Berry 1', 1, '2020-08-01 14:57:19', '2020-08-01 14:57:26'),
+(7, 'AB', 'ab', 'this', 0, '2020-08-05 08:40:06', '2020-08-05 08:40:17'),
+(8, 'agf', 'ag', 'agagf', 0, '2020-08-05 08:44:06', '2020-08-05 08:44:12'),
+(9, 'Motorola', 'motorola', 'Motorola from USA', 0, '2020-08-05 12:41:47', '2020-08-05 12:45:19'),
+(10, 'Motorola', 'motorola', 'Motorola from USA', 0, '2020-08-05 12:45:32', '2020-08-06 01:44:38'),
+(11, 'Motorola', 'motorola', 'Motorola from USA', 1, '2020-08-06 01:44:49', '2020-08-06 01:44:49');
 
-create table invoice
-(
-    id          int auto_increment
-        primary key,
-    code        varchar(50)                         not null,
-    type        int(1)                              not null,
-    product_id  int                                 not null,
-    qty         int                                 not null,
-    price       decimal(15, 2)                      not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    supplier_id int                                 null,
-    user_id     int                                 null,
-    shelf_id    int                                 null,
-    constraint invoice___fk_shelf
-        foreign key (shelf_id) references shelf_oop (id)
-            on update cascade on delete cascade,
-    constraint invoice___fk_user
-        foreign key (user_id) references users (id)
-            on update cascade on delete cascade,
-    constraint productid_fk_invoice
-        foreign key (product_id) references product_info (id)
-            on update cascade,
-    constraint supplierid_fk_invoice
-        foreign key (supplier_id) references supplier (id)
-            on update cascade
-);
+-- --------------------------------------------------------
 
-create table product_detail
-(
-    id          int auto_increment
-        primary key,
-    product_id  int                                   not null,
-    invoice_id  int                                   null,
-    price_in    decimal(15, 2)                        not null,
-    active_flag int(1)                                null,
-    create_date timestamp   default CURRENT_TIMESTAMP null,
-    update_date timestamp   default CURRENT_TIMESTAMP null,
-    price_out   decimal(15, 2)                        null,
-    supplier_id int                                   null,
-    code        varchar(50)                           not null,
-    status      varchar(10) default 'Valid'           null,
-    shelf_name  varchar(20)                           null,
-    constraint code
-        unique (code),
-    constraint invoiceid_fk_productdetail
-        foreign key (invoice_id) references invoice (id)
-            on update cascade,
-    constraint product_info_id_fk_productdetail
-        foreign key (product_id) references product_info (id)
-            on update cascade,
-    constraint supplierid_fk_productdetail
-        foreign key (supplier_id) references supplier (id)
-            on update cascade
-);
+--
+-- Cấu trúc bảng cho bảng `customer`
+--
 
-create table user_role
-(
-    id          int auto_increment
-        primary key,
-    user_id     int                                 not null,
-    role_id     int                                 not null,
-    active_flag int(1)    default 1                 not null,
-    create_date timestamp default CURRENT_TIMESTAMP not null,
-    update_date timestamp default CURRENT_TIMESTAMP not null,
-    constraint roleid_fk
-        foreign key (role_id) references role (id)
-            on update cascade,
-    constraint userid_fk
-        foreign key (user_id) references users (id)
-            on update cascade
-);
+CREATE TABLE `customer` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `active_flag` int(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-create index roleid_fk_user_role
-    on user_role (role_id);
+-- --------------------------------------------------------
 
-create index userid_fk_user_role
-    on user_role (user_id);
+--
+-- Cấu trúc bảng cho bảng `history`
+--
 
-create table vat
-(
-    id          int auto_increment
-        primary key,
-    code        varchar(200)                            null,
-    tax         varchar(50)   default '123456789'       null,
-    supplier_id int                                     null,
-    percent     decimal(2, 1) default 0.1               null,
-    price       decimal(15, 2)                          null,
-    total       decimal(15, 2)                          null,
-    active_flag int           default 1                 null,
-    create_date timestamp     default CURRENT_TIMESTAMP null,
-    update_date timestamp     default CURRENT_TIMESTAMP null,
-    user_id     int                                     null,
-    constraint vat_code_uindex
-        unique (code),
-    constraint supplierid_fk_vat
-        foreign key (supplier_id) references supplier (id)
-            on delete cascade,
-    constraint vat___fk_user
-        foreign key (user_id) references users (id)
-            on update cascade on delete cascade
-);
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL,
+  `action_name` varchar(100) NOT NULL,
+  `type` int(1) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-create table product_status_list
-(
-    id          int auto_increment
-        primary key,
-    code        varchar(50)                         not null,
-    type        int(1)                              null,
-    active_flag int(1)    default 1                 null,
-    create_date timestamp default CURRENT_TIMESTAMP null,
-    update_date timestamp default CURRENT_TIMESTAMP null,
-    user_id     int                                 null,
-    price       decimal(15, 2)                      null,
-    vat_id      int                                 null,
-    constraint import_list_code_uindex
-        unique (code),
-    constraint usersid_fk_importliststaudlist
-        foreign key (user_id) references users (id),
-    constraint vatid_product_status_list___fk
-        foreign key (vat_id) references vat (id)
-            on update cascade on delete cascade
-);
+--
+-- Đang đổ dữ liệu cho bảng `history`
+--
 
-create table product_detail_pt
-(
-    id                     int auto_increment
-        primary key,
-    product_id             int                                   not null,
-    product_status_list_id int                                   null,
-    price_in               decimal(15, 2)                        not null,
-    active_flag            int(1)                                null,
-    create_date            timestamp   default CURRENT_TIMESTAMP null,
-    update_date            timestamp   default CURRENT_TIMESTAMP null,
-    price_out              decimal(15, 2)                        null,
-    code                   varchar(50)                           not null,
-    status                 varchar(10) default 'Valid'           null,
-    supplier_id            int                                   null,
-    shelf_name             varchar(50)                           null,
-    constraint code
-        unique (code),
-    constraint product_info_id_fk_productdetail_pt
-        foreign key (product_id) references product_info (id)
-            on update cascade,
-    constraint product_status_list_fk_productdetail_pt
-        foreign key (product_status_list_id) references product_status_list (id)
-            on update cascade,
-    constraint supplier_product_detail_pt___fk
-        foreign key (supplier_id) references supplier (id)
-            on update cascade on delete cascade
-);
+INSERT INTO `history` (`id`, `action_name`, `type`, `product_id`, `qty`, `price`, `active_flag`, `create_date`, `update_date`, `user_id`) VALUES
+(1, 'Add', 1, 1, 1, '10000.00', 1, '2020-04-29 13:36:39', '2020-04-29 13:36:39', NULL),
+(2, 'Add', 1, 1, 5, '50000.00', 1, '2020-05-11 19:21:49', '2020-05-11 19:21:49', NULL),
+(3, 'Add', 1, 4, 10, '100000.00', 1, '2020-05-11 21:22:50', '2020-05-11 21:22:50', NULL),
+(4, 'Add', 1, 4, 3, '100000.00', 1, '2020-05-11 21:33:09', '2020-05-11 21:33:09', NULL),
+(5, 'Add', 1, 1, 2, '50000.00', 1, '2020-05-11 21:50:18', '2020-05-11 21:50:18', NULL),
+(6, 'Add', 1, 4, 10, '20000.00', 1, '2020-05-11 21:58:08', '2020-05-11 21:58:08', NULL),
+(7, 'Add', 2, 1, 1, '15000.00', 1, '2020-05-11 22:08:48', '2020-05-11 22:08:48', NULL),
+(8, 'Add', 2, 4, 3, '50000.00', 1, '2020-05-11 22:20:19', '2020-05-11 22:20:19', NULL),
+(9, 'Edit', 2, 1, 2, '15000.00', 1, '2020-05-11 22:27:48', '2020-05-11 22:27:48', NULL),
+(10, 'Add', 1, 1, 10, '10000.00', 1, '2020-05-11 22:51:54', '2020-05-11 22:51:54', NULL),
+(11, 'Add', 2, 4, 3, '50000.00', 1, '2020-05-11 22:53:10', '2020-05-11 22:53:10', NULL),
+(12, 'Edit', 2, 1, 4, '50000.00', 1, '2020-05-11 22:53:23', '2020-05-11 22:53:23', NULL),
+(13, 'Add', 1, 1, 3, '30000.00', 1, '2020-05-11 22:54:21', '2020-05-11 22:54:21', NULL),
+(14, 'Edit', 2, 1, 1, '15000.00', 1, '2020-05-15 20:22:34', '2020-05-15 20:22:34', NULL),
+(15, 'Add', 1, 1, 10, '10000.00', 1, '2020-05-15 20:49:47', '2020-05-15 20:49:47', NULL),
+(16, 'Add', 1, 1, -2, '189.00', 1, '2020-07-07 04:16:59', '2020-07-07 04:16:59', 1),
+(17, 'Add', 1, 1, 2, '50000.00', 1, '2020-07-07 05:06:56', '2020-07-07 05:06:56', 1),
+(18, 'Edit', 1, 1, -3, '50000.00', 1, '2020-07-14 23:16:58', '2020-07-14 23:16:58', NULL),
+(19, 'Edit', 1, 1, 5, '50000.00', 1, '2020-07-14 23:21:34', '2020-07-14 23:21:34', NULL),
+(20, 'Edit', 1, 1, 12, '50000.00', 1, '2020-07-14 23:27:39', '2020-07-14 23:27:39', NULL),
+(21, 'Add', 1, 11, 7, '50000.00', 1, '2020-08-04 15:56:43', '2020-08-04 15:56:43', 1),
+(22, 'Add', 2, 11, 2, '40000.00', 1, '2020-08-04 16:03:30', '2020-08-04 16:03:30', 1),
+(23, 'Edit', 1, 11, 9, '50000.00', 1, '2020-08-04 16:08:02', '2020-08-04 16:08:02', 1),
+(24, 'Edit', 1, 11, 6, '50000.00', 1, '2020-08-05 14:04:19', '2020-08-05 14:04:19', 1),
+(25, 'Edit', 1, 11, 12, '50000.00', 1, '2020-08-05 14:04:58', '2020-08-05 14:04:58', 1),
+(26, 'Edit', 1, 11, 2, '50000.00', 1, '2020-08-05 14:05:25', '2020-08-05 14:05:25', 1),
+(27, 'Edit', 1, 11, 5, '20000.00', 1, '2020-08-05 14:16:11', '2020-08-05 14:16:11', 1),
+(28, 'Edit', 1, 11, 10, '50000.00', 1, '2020-08-05 14:19:09', '2020-08-05 14:19:09', 1),
+(29, 'Add', 1, 6, 50, '100000.00', 1, '2020-08-05 14:28:25', '2020-08-05 14:28:25', 1),
+(30, 'Edit', 1, 11, 20, '100000.00', 1, '2020-08-05 14:28:45', '2020-08-05 14:28:45', 1),
+(31, 'Edit', 1, 11, 30, '100000.00', 1, '2020-08-05 14:29:18', '2020-08-05 14:29:18', 1),
+(32, 'Edit', 1, 11, 20, '100000.00', 1, '2020-08-05 14:31:50', '2020-08-05 14:31:50', 1),
+(33, 'Edit', 1, 11, 60, '100000.00', 1, '2020-08-05 14:32:18', '2020-08-05 14:32:18', 1),
+(34, 'Edit', 1, 11, 20, '100000.00', 1, '2020-08-05 14:32:31', '2020-08-05 14:32:31', 1),
+(35, 'Add', 1, 9, 50, '50000.00', 1, '2020-08-05 14:33:02', '2020-08-05 14:33:02', 1),
+(36, 'Edit', 1, 11, 20, '50000.00', 1, '2020-08-05 14:33:23', '2020-08-05 14:33:23', 1),
+(37, 'Edit', 1, 11, 10, '50000.00', 1, '2020-08-05 14:33:48', '2020-08-05 14:33:48', 1),
+(38, 'Add', 1, 8, 50, '50000.00', 1, '2020-08-05 14:35:03', '2020-08-05 14:35:03', 1),
+(39, 'Edit', 1, 11, 20, '50000.00', 1, '2020-08-05 14:44:18', '2020-08-05 14:44:18', 1),
+(40, 'Add', 1, 5, 50, '50000.00', 1, '2020-08-05 14:45:39', '2020-08-05 14:45:39', 1),
+(41, 'Edit', 1, 11, 44, '50000.00', 1, '2020-08-05 14:46:06', '2020-08-05 14:46:05', 1),
+(42, 'Add', 1, 5, 50, '60000.00', 1, '2020-08-05 14:47:45', '2020-08-05 14:47:45', 1),
+(43, 'Edit', 1, 11, 20, '60000.00', 1, '2020-08-05 14:48:14', '2020-08-05 14:48:14', 1),
+(44, 'Edit', 1, 5, 20, '60000.00', 1, '2020-08-05 14:52:14', '2020-08-05 14:52:14', 1),
+(45, 'Edit', 1, 5, 40, '60000.00', 1, '2020-08-05 14:52:50', '2020-08-05 14:52:50', 1),
+(46, 'Add', 1, 14, 10, '50000.00', 1, '2020-08-06 01:48:21', '2020-08-06 01:48:21', 1),
+(47, 'Edit', 1, 14, 15, '50000.00', 1, '2020-08-06 01:49:51', '2020-08-06 01:49:51', 1),
+(48, 'Add', 2, 14, 5, '150000.00', 1, '2020-08-06 01:52:58', '2020-08-06 01:52:58', 1);
 
-create table product_status_detail
-(
-    id                     int auto_increment
-        primary key,
-    product_status_list_id int            not null,
-    product_id             int            not null,
-    qty                    int            not null,
-    price_one              decimal(15, 2) null,
-    price_total            decimal(15, 2) null,
-    active_flag            int default 1  null,
-    qty_rest               int            null,
-    shelf_id               int            null,
-    constraint importlistid_fk_productstatsdetail
-        foreign key (product_status_list_id) references product_status_list (id)
-            on delete cascade,
-    constraint productinfoid_fk_importdetailstatusdetail
-        foreign key (product_id) references product_info (id)
-            on delete cascade,
-    constraint shelfid_product_status_detail___fk
-        foreign key (shelf_id) references shelf (id)
-            on update cascade on delete cascade
-);
+-- --------------------------------------------------------
 
-create table vat_detail
-(
-    id          int auto_increment
-        primary key,
-    vat_id      int            not null,
-    product_id  int            null,
-    qty         int            null,
-    price_one   decimal(15, 2) null,
-    price_total decimal(15, 2) null,
-    active_flag int default 1  null,
-    constraint productinfoid_fk_vatdetail
-        foreign key (product_id) references product_info (id)
-            on delete cascade,
-    constraint vatid_fk_vatdetail
-        foreign key (vat_id) references vat (id)
-            on delete cascade
-);
+--
+-- Cấu trúc bảng cho bảng `invoice`
+--
 
-create table vat_detail_temp
-(
-    id            int auto_increment
-        primary key,
-    product_name  varchar(100)   null,
-    qty           int            null,
-    price_one     decimal(15, 2) null,
-    price_total   decimal(15, 2) null,
-    vat_name      varchar(50)    null,
-    active_flag   int default 1  null,
-    supplier_name varchar(100)   null
-);
+CREATE TABLE `invoice` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `type` int(1) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supplier_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `shelf_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `code`, `type`, `product_id`, `qty`, `price`, `active_flag`, `create_date`, `update_date`, `supplier_id`, `user_id`, `shelf_id`) VALUES
+(1, 'X2', 2, 1, 1, '15000.00', 1, '2020-05-10 02:03:43', '2020-05-15 20:22:33', 1, 1, 2),
+(2, 'N1', 1, 11, 10, '50000.00', 0, '2020-05-11 19:21:47', '2020-08-05 14:44:37', 1, 1, 1),
+(3, 'N2', 1, 4, 10, '100000.00', 0, '2020-05-11 21:22:50', '2020-05-11 21:57:44', 1, 1, 1),
+(4, 'N3', 1, 4, 3, '100000.00', 0, '2020-05-11 21:33:09', '2020-05-11 21:50:31', 1, 1, 1),
+(5, 'N4', 1, 1, 2, '50000.00', 0, '2020-05-11 21:50:18', '2020-05-11 21:50:27', 1, 1, 1),
+(6, 'N2', 1, 11, 5, '20000.00', 0, '2020-05-11 21:58:07', '2020-08-05 14:44:47', 1, 1, 1),
+(7, 'X1', 2, 1, 2, '15000.00', 1, '2020-05-11 22:08:48', '2020-05-11 22:27:48', 1, 1, 2),
+(8, 'X2', 2, 4, 3, '50000.00', 0, '2020-05-11 22:20:19', '2020-05-11 22:53:30', 1, 1, 2),
+(9, 'N4', 1, 1, 10, '10000.00', 0, '2020-05-11 22:51:54', '2020-08-05 14:44:51', 1, 1, 1),
+(10, 'X5', 2, 1, 4, '50000.00', 1, '2020-05-11 22:53:10', '2020-05-11 22:53:23', 1, 1, 1),
+(11, 'N1', 1, 1, 3, '30000.00', 0, '2020-05-11 22:54:21', '2020-07-14 23:21:11', 1, 1, 2),
+(12, 'N10', 1, 1, 10, '10000.00', 0, '2020-05-15 20:49:47', '2020-07-14 23:27:06', 1, 1, 1),
+(13, '1', 1, 1, -2, '189.00', 0, '2020-07-07 04:16:59', '2020-07-07 04:17:46', 1, 1, 1),
+(14, 'N1', 1, 1, 2, '50000.00', 0, '2020-07-07 05:06:56', '2020-07-14 23:27:52', 1, 1, 1),
+(15, 'N7', 1, 11, 9, '50000.00', 0, '2020-08-04 15:56:43', '2020-08-05 14:45:12', 1, 1, 1),
+(16, 'X7', 2, 11, 2, '40000.00', 1, '2020-08-04 16:03:30', '2020-08-04 16:03:30', 1, 1, NULL),
+(17, 'N10', 1, 11, 20, '100000.00', 0, '2020-08-05 14:28:25', '2020-08-05 14:45:15', 1, 1, 1),
+(18, 'N11', 1, 11, 10, '50000.00', 1, '2020-08-05 14:33:02', '2020-08-05 14:33:48', 1, 1, 1),
+(19, 'N12', 1, 11, 20, '50000.00', 1, '2020-08-05 14:35:03', '2020-08-05 14:44:18', 1, 1, 1),
+(20, 'N1', 1, 11, 44, '50000.00', 1, '2020-08-05 14:45:39', '2020-08-05 14:46:05', 1, 1, 1),
+(21, 'N5', 1, 5, 40, '60000.00', 1, '2020-08-05 14:47:45', '2020-08-05 14:52:50', 1, 1, 1),
+(22, 'N10', 1, 14, 15, '50000.00', 1, '2020-08-06 01:48:21', '2020-08-06 01:49:51', 3, 1, 1),
+(23, 'X10', 2, 14, 5, '150000.00', 1, '2020-08-06 01:52:58', '2020-08-06 01:52:58', 1, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `invoice_temp`
+--
+
+CREATE TABLE `invoice_temp` (
+  `id` int(11) NOT NULL,
+  `active_flag` int(11) DEFAULT '1',
+  `code` varchar(100) DEFAULT NULL,
+  `product_name` varchar(100) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price` decimal(15,2) DEFAULT NULL,
+  `update_date` timestamp NULL DEFAULT NULL,
+  `shelf_name` varchar(20) DEFAULT NULL,
+  `supplier_name` varchar(50) DEFAULT NULL,
+  `user_name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `invoice_temp`
+--
+
+INSERT INTO `invoice_temp` (`id`, `active_flag`, `code`, `product_name`, `qty`, `price`, `update_date`, `shelf_name`, `supplier_name`, `user_name`) VALUES
+(789, 1, 'X2', 'Xiaomi Mi 8', 1, '15000.00', '2020-05-15 20:22:33', NULL, NULL, NULL),
+(790, 1, 'X1', 'Xiaomi Mi 8', 2, '15000.00', '2020-05-11 22:27:48', NULL, NULL, NULL),
+(791, 1, 'X5', 'Xiaomi Mi 8', 4, '50000.00', '2020-05-11 22:53:23', NULL, NULL, NULL),
+(792, 1, 'X7', 'BB1', 2, '40000.00', '2020-08-04 16:03:30', NULL, NULL, NULL),
+(793, 1, 'X10', 'Iphone 9', 5, '150000.00', '2020-08-06 01:52:58', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `menu`
+--
+
+CREATE TABLE `menu` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `url` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `order_index` int(1) NOT NULL DEFAULT '0',
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `menu`
+--
+
+INSERT INTO `menu` (`id`, `parent_id`, `url`, `name`, `order_index`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 0, '/product', 'Product', 1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(2, 0, '/stock', 'Inventory', 2, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(3, 0, '/management', 'Management', 3, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(4, 1, '/product-info/list', 'Product Info', 2, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(5, 1, '/category/list', 'Category', 1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(6, 1, '/category/edit', 'Sửa', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(7, 1, '/category/view', 'Xem', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(8, 1, '/category/add', 'Thêm mới', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(9, 1, '/category/save', 'Lưu', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(10, 1, '/category/delete', 'Xoá', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(11, 1, '/product-info/edit', 'Sửa', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(12, 1, '/product-info/view', 'Xem', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(13, 1, '/product-info/add', 'Thêm mới', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(14, 1, '/product-info/save', 'Lưu', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(15, 1, '/product-info/delete', 'Xoá', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(16, 2, '/goods-receipt/list', 'Goods Receipt', 1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(17, 2, '/goods-issue/list', 'Goods Issue', 2, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(18, 2, '/product-in-stock/list', 'Product In Stock', 3, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(19, 2, '/history/list', 'History', 4, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(20, 3, '/user/list', 'Users', 1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(21, 3, '/menu/list', 'Menu', 3, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(22, 3, '/role/list', 'Role', 2, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(23, 3, '/user/save', 'Lưu', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(24, 3, '/user/edit', 'Sửa', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(25, 3, '/user/view', 'Xem', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(26, 3, '/user/add', 'Thêm mới', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(27, 3, '/role/save', 'Lưu', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(28, 3, '/role/edit', 'Sửa', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(29, 3, '/role/view', 'Xem', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(30, 3, '/role/add', 'Thêm mới', -1, 1, '2020-04-05 18:22:46', '2020-04-05 18:22:46'),
+(31, 1, '/product-detail/list', 'Product Detail', 3, 1, '2020-04-26 12:30:15', '2020-04-26 12:30:15'),
+(32, 1, '/product-detail/edit', 'Sửa', -1, 1, '2020-04-26 12:31:37', '2020-04-26 12:31:37'),
+(33, 1, '/product-detail/view', 'Xem', -1, 1, '2020-04-26 12:31:37', '2020-04-26 12:31:37'),
+(34, 1, '/product-detail/add', 'Thêm', -1, 1, '2020-04-26 12:31:37', '2020-04-26 12:31:37'),
+(35, 1, '/product-detail/save', 'Lưu', -1, 1, '2020-04-26 12:31:37', '2020-04-26 12:31:37'),
+(36, 1, '/product-detail/delete', 'Xoá', -1, 1, '2020-04-26 12:31:37', '2020-04-26 12:31:37'),
+(37, 0, '/report', 'Báo Cáo', 4, 1, '2020-08-01 16:30:25', '2020-08-01 16:30:25'),
+(38, 2, '/vat/list', 'Vat', 5, 1, '2020-08-01 16:30:25', '2020-08-01 16:30:25'),
+(39, 2, '/product-done-list/list', 'Product Done', 6, 1, '2020-08-01 16:30:25', '2020-08-01 16:30:25'),
+(40, 2, '/product-back-list/list', 'Product Back', 8, 1, '2020-08-02 10:07:32', '2020-08-02 10:07:32'),
+(41, 3, '/supplier/list', 'Supplier', 4, 1, '2020-08-02 10:58:25', '2020-08-02 10:58:25'),
+(42, 1, '/product-detail-pt/list', 'Product Detail', 4, 1, '2020-08-02 15:43:48', '2020-08-02 15:43:48'),
+(43, 2, '/shelf/list', 'Shelf', 10, 1, '2020-08-03 08:58:50', '2020-08-03 08:58:50'),
+(44, 2, '/product-done-detail/list', 'Product Done Detail', 7, 1, '2020-08-03 09:39:08', '2020-08-03 09:39:08'),
+(45, 2, '/product-back-detail/list', 'Product Back Detail', 9, 1, '2020-08-03 09:39:08', '2020-08-03 09:39:08'),
+(46, 2, '/shelfoop/list', 'Shelf', 11, 1, '2020-08-04 15:52:15', '2020-08-04 15:52:15'),
+(47, 3, '/menu/permission', 'Menu Permission', -1, 1, '2020-08-05 08:07:49', '2020-08-05 08:07:49'),
+(48, 2, '/shelfoop/add', 'Shelf Add', -1, 1, '2020-08-05 08:11:40', '2020-08-05 08:11:40'),
+(49, 2, '/shelfoop/edit', 'Edit', -1, 1, '2020-08-05 08:11:41', '2020-08-05 08:11:41'),
+(50, 2, '/shelfoop/view', 'View', -1, 1, '2020-08-05 08:11:41', '2020-08-05 08:11:41'),
+(51, 2, '/shelfoop/save', 'save', -1, 1, '2020-08-05 08:11:41', '2020-08-05 08:11:41'),
+(52, 2, '/shelfoop/delete', 'delete', -1, 1, '2020-08-05 08:11:41', '2020-08-05 08:11:41'),
+(53, 2, '/goods-issue/export', 'export is', -1, 1, '2020-08-05 08:13:47', '2020-08-05 08:13:47'),
+(54, 2, '/goods-receipt/export', 'export rc', -1, 1, '2020-08-05 08:13:47', '2020-08-05 08:13:47'),
+(55, 2, '/goods-receipt/edit', 'edit', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(56, 2, '/goods-receipt/view', 'view', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(57, 2, '/goods-receipt/add', 'adsd', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(58, 2, '/goods-receipt/save', 'save', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(59, 2, '/goods-receipt/delete', 'dele', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(60, 2, '/goods-issue/edit', 'edit', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(61, 2, '/goods-issue/view', 'view', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(62, 2, '/goods-issue/add', 'add', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(63, 2, '/goods-issue/save', 'save', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(64, 2, '/goods-issue/delete', 'dele', -1, 1, '2020-08-05 08:18:54', '2020-08-05 08:18:54'),
+(65, 3, '/user/delete', 'dele', -1, 1, '2020-08-05 08:25:38', '2020-08-05 08:25:38'),
+(66, 3, '/role/delete', 'dele', -1, 1, '2020-08-05 08:25:38', '2020-08-05 08:25:38'),
+(67, 3, '/menu/change-status', 'change', -1, 1, '2020-08-05 08:27:06', '2020-08-05 08:27:06'),
+(68, 3, '/supplier/add', 'ad', -1, 1, '2020-08-05 08:28:50', '2020-08-05 08:28:50'),
+(69, 3, '/supplier/edit', 'ed', -1, 1, '2020-08-05 08:28:50', '2020-08-05 08:28:50'),
+(70, 3, '/supplier/view', 'v', -1, 1, '2020-08-05 08:28:50', '2020-08-05 08:28:50'),
+(71, 3, '/supplier/save', 's', -1, 1, '2020-08-05 08:28:50', '2020-08-05 08:28:50'),
+(72, 3, '/supplier/delete', 'd', -1, 1, '2020-08-05 08:28:50', '2020-08-05 08:28:50'),
+(73, 1, '/category/getAll', 'getall', -1, 1, '2020-08-05 18:49:03', '2020-08-05 18:49:03'),
+(74, 2, '/goods-receipt/getAll', 'ge', -1, 1, '2020-08-05 19:26:04', '2020-08-05 19:26:04'),
+(75, 2, '/goods-issue/getAll', 'ger', -1, 1, '2020-08-05 19:26:04', '2020-08-05 19:26:04'),
+(76, 1, '/product-info/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(77, 1, '/product-detail/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(78, 2, '/product-in-stock/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(79, 2, '/history/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(80, 2, '/shelfoop/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(81, 3, '/user/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(82, 3, '/supplier/getAll', 'g', -1, 1, '2020-08-05 19:44:08', '2020-08-05 19:44:08'),
+(83, 2, '/vat-detail/list', 'Vat Detail', 5, 1, '2020-08-08 17:48:17', '2020-08-08 17:48:17'),
+(84, 2, '/vat-detail/getAll', 'get', -1, 1, '2020-08-10 14:45:24', '2020-08-10 14:45:24');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_detail`
+--
+
+CREATE TABLE `product_detail` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `invoice_id` int(11) DEFAULT NULL,
+  `price_in` decimal(15,2) NOT NULL,
+  `active_flag` int(1) DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `price_out` decimal(15,2) DEFAULT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `code` varchar(50) NOT NULL,
+  `status` varchar(10) DEFAULT 'Valid',
+  `shelf_name` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_detail`
+--
+
+INSERT INTO `product_detail` (`id`, `product_id`, `invoice_id`, `price_in`, `active_flag`, `create_date`, `update_date`, `price_out`, `supplier_id`, `code`, `status`, `shelf_name`) VALUES
+(1, 1, NULL, '10000.00', 1, '2020-04-29 13:36:44', '2020-07-26 08:59:00', '15000.00', 1, '123456', 'InValid', 'A'),
+(3, 4, 1, '15000.00', 1, '2020-05-11 16:49:41', '2020-07-26 08:59:02', '20000.00', 1, '123654', 'InValid', 'A'),
+(4, 1, 1, '25000.00', 1, '2020-05-11 22:18:14', '2020-08-05 13:53:23', '30000.00', 1, '456', 'Valid', 'A'),
+(5, 11, 15, '7142.86', 1, '2020-08-04 16:00:11', '2020-08-06 01:52:32', '20000.00', 1, '45673', 'Valid', 'A'),
+(6, 14, 22, '3333.33', 0, '2020-08-06 01:51:17', '2020-08-06 01:51:36', '30000.00', 3, '97655123', NULL, 'A'),
+(7, 14, 22, '3333.33', 1, '2020-08-06 01:51:50', '2020-08-06 01:51:50', '30000.00', 3, '7461', 'Valid', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_detail_pt`
+--
+
+CREATE TABLE `product_detail_pt` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_status_list_id` int(11) DEFAULT NULL,
+  `price_in` decimal(15,2) NOT NULL,
+  `active_flag` int(1) DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `price_out` decimal(15,2) DEFAULT NULL,
+  `code` varchar(50) NOT NULL,
+  `status` varchar(10) DEFAULT 'Valid',
+  `supplier_id` int(11) DEFAULT NULL,
+  `shelf_name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_detail_pt`
+--
+
+INSERT INTO `product_detail_pt` (`id`, `product_id`, `product_status_list_id`, `price_in`, `active_flag`, `create_date`, `update_date`, `price_out`, `code`, `status`, `supplier_id`, `shelf_name`) VALUES
+(1, 5, 1, '10000.00', 1, '2020-08-02 16:43:03', '2020-08-12 03:41:26', '20000.00', '123444', 'InValid', 1, 'A'),
+(2, 14, 10, '20000.00', 1, '2020-08-12 03:28:51', '2020-08-12 03:28:51', '50000.00', '24041412', 'Valid', 1, 'A'),
+(3, 14, 15, '1000.00', 1, '2020-08-13 03:12:02', '2020-08-13 03:13:42', '50000.00', '9999', 'InValid', 1, 'A'),
+(4, 14, 15, '1000.00', 1, '2020-08-13 03:17:57', '2020-08-13 03:17:57', '50000.00', '9992', 'Valid', 1, 'A'),
+(5, 14, 15, '1000.00', 1, '2020-08-13 03:18:24', '2020-08-13 03:18:24', '50000.00', '9993', 'Valid', 1, 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_info`
+--
+
+CREATE TABLE `product_info` (
+  `id` int(11) NOT NULL,
+  `cate_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `img_url` varchar(200) DEFAULT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_info`
+--
+
+INSERT INTO `product_info` (`id`, `cate_id`, `name`, `description`, `img_url`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 1, 'Xiaomi Mi 8', 'Mi 8 UD', 'https://msmobile.com.vn/images/products/2019/08/16/large/xiaomi-mi8-pro-msmobile-2_1565954247.jpg', 1, '2020-04-19 13:01:58', '2020-04-19 13:01:58'),
+(2, 1, 'Xiaomi Mi 9', 'Xiaomi Mi 9', '/upload/1588676046535_a.jpg', 0, '2020-05-04 13:52:14', '2020-05-04 13:59:39'),
+(3, 2, 'Iphone XS Max', 'Iphone XS Max', '/upload/a.jpg', 0, '2020-05-04 13:58:23', '2020-05-04 19:06:04'),
+(4, 2, 'Iphone XS Max', 'Iphone XS Max', '/upload/1588695416493_1588695402090_b.jpg', 1, '2020-05-04 19:12:08', '2020-05-04 21:01:03'),
+(5, 2, 'Iphone 7', 'Iphone 7', 'https://bachlongmobile.com/media/catalog/product/cache/2/image/040ec09b1e35df139433887a97daa66f/7/p/7pgold.jpg', 1, '2020-05-10 01:58:11', '2020-05-10 01:58:11'),
+(6, 3, 'Oppoo Find X', 'Oppoo Find X', '/upload/1589288307885_article_3149.jpg', 1, '2020-05-11 22:58:28', '2020-05-11 22:58:28'),
+(7, 1, 'Xiaomi Mi 10', 'Xiaomi Mi 10', '/upload/1594916971277_mi10-pro.jpg', 0, '2020-07-16 16:29:31', '2020-07-16 16:32:10'),
+(8, 1, 'Xiaomi Mi 10', 'Xiaomi Mi 10', '/upload/1594917812920_mi10-pro.jpg', 1, '2020-07-16 16:32:24', '2020-07-16 16:43:33'),
+(9, 5, 'Nokia 1280', 'This is Nokia 1280', '/upload/1596281728478_uploaded_c252a5a934028101e6e8f6d9c5605c73.jpg', 1, '2020-08-01 11:34:03', '2020-08-01 11:35:28'),
+(10, 1, '', 'áº©g', '/upload/1596281752982_', 0, '2020-08-01 11:35:53', '2020-08-01 11:36:00'),
+(11, 6, 'BB1', 'This is BB1', '/upload/1597203004314_blackberry-passport-sp-1-x600.jpg', 1, '2020-08-01 14:57:40', '2020-08-12 03:30:04'),
+(12, 2, '', '', '/upload/1596640567642_', 0, '2020-08-05 15:16:08', '2020-08-05 15:16:20'),
+(13, 1, '', '', '/upload/1596641349403_', 0, '2020-08-05 15:29:09', '2020-08-05 15:29:18'),
+(14, 2, 'Iphone 9', 'Iphone 9', '/upload/1597202995357_600_iphone_11_pro_xanh_reu_xtmobile_1.jpg', 1, '2020-08-06 01:45:53', '2020-08-12 03:29:55');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_in_stock`
+--
+
+CREATE TABLE `product_in_stock` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(100) NOT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `price` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_in_stock`
+--
+
+INSERT INTO `product_in_stock` (`id`, `product_id`, `qty`, `active_flag`, `create_date`, `update_date`, `price`) VALUES
+(1, 1, 44, 1, '2020-05-11 19:21:49', '2020-07-14 23:27:39', '50000.00'),
+(2, 4, 17, 1, '2020-05-11 21:22:50', '2020-05-11 22:53:10', '20000.00'),
+(3, 11, 70, 1, '2020-08-04 15:56:43', '2020-08-05 14:48:14', '50000.00'),
+(4, 6, 50, 1, '2020-08-05 14:28:25', '2020-08-05 14:28:25', '100000.00'),
+(5, 9, 50, 1, '2020-08-05 14:33:03', '2020-08-05 14:33:03', '50000.00'),
+(6, 8, 50, 1, '2020-08-05 14:35:03', '2020-08-05 14:35:03', '50000.00'),
+(7, 5, 120, 1, '2020-08-05 14:45:39', '2020-08-05 14:52:50', '60000.00'),
+(8, 14, 10, 1, '2020-08-06 01:48:21', '2020-08-06 01:52:58', '50000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_status_detail`
+--
+
+CREATE TABLE `product_status_detail` (
+  `id` int(11) NOT NULL,
+  `product_status_list_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price_one` decimal(15,2) DEFAULT NULL,
+  `price_total` decimal(15,2) DEFAULT NULL,
+  `active_flag` int(11) DEFAULT '1',
+  `qty_rest` int(11) DEFAULT NULL,
+  `shelf_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_status_detail`
+--
+
+INSERT INTO `product_status_detail` (`id`, `product_status_list_id`, `product_id`, `qty`, `price_one`, `price_total`, `active_flag`, `qty_rest`, `shelf_id`) VALUES
+(1, 1, 5, 2, '10000.00', '20000.00', 1, 1, 5),
+(2, 2, 11, 3, '10000.00', '30000.00', 0, 0, 5),
+(3, 3, 11, 1, '10000.00', '10000.00', 1, 2, 6),
+(4, 1, 1, 3, '10000.00', '30000.00', 0, 1, 5),
+(5, 1, 5, 10, '10000.00', '100000.00', 0, -7, 5),
+(14, 7, 14, 5, '70000.00', '350000.00', 0, 2, 5),
+(15, 7, 1, 2, '10000.00', '20000.00', 0, 2, 5),
+(17, 10, 14, 4, '20000.00', '80000.00', 0, 1, 5),
+(18, 12, 14, 1, '20000.00', '20000.00', 0, 4, 6),
+(19, 13, 9, 2, '100000.00', '200000.00', 0, 0, 5),
+(20, 13, 14, 5, '1000.00', '5000.00', 0, 5, 5),
+(21, 14, 14, 3, '1000.00', '3000.00', 0, 7, 6),
+(22, 15, 14, 8, '1000.00', '8000.00', 1, 2, 5),
+(23, 16, 14, 5, '10000.00', '50000.00', 0, 5, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_status_detail_temp`
+--
+
+CREATE TABLE `product_status_detail_temp` (
+  `id` int(11) NOT NULL,
+  `product_name` varchar(100) DEFAULT NULL,
+  `product_status_name` varchar(100) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price_one` decimal(15,2) DEFAULT NULL,
+  `price_total` decimal(15,2) DEFAULT NULL,
+  `active_flag` int(11) DEFAULT '1',
+  `shelf_name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_status_detail_temp`
+--
+
+INSERT INTO `product_status_detail_temp` (`id`, `product_name`, `product_status_name`, `qty`, `price_one`, `price_total`, `active_flag`, `shelf_name`) VALUES
+(472, 'Iphone 7', 'D1', 2, '10000.00', '20000.00', 1, 'A'),
+(473, 'Iphone 9', 'D10', 8, '1000.00', '8000.00', 1, 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_status_list`
+--
+
+CREATE TABLE `product_status_list` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `type` int(1) DEFAULT NULL,
+  `active_flag` int(1) DEFAULT '1',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) DEFAULT NULL,
+  `price` decimal(15,2) DEFAULT NULL,
+  `vat_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_status_list`
+--
+
+INSERT INTO `product_status_list` (`id`, `code`, `type`, `active_flag`, `create_date`, `update_date`, `user_id`, `price`, `vat_id`) VALUES
+(1, 'D1', 1, 1, '2020-08-01 15:44:33', '2020-08-11 19:12:05', 1, '100000.00', 1),
+(2, 'D2', 1, 1, '2020-08-01 16:19:12', '2020-08-13 02:39:33', 1, '0.00', 1),
+(3, 'B1', 2, 1, '2020-08-02 10:18:06', '2020-08-02 10:18:15', 1, '10000.00', 1),
+(7, 'D3', 1, 0, '2020-08-10 17:28:37', '2020-08-10 18:19:41', 1, '350000.00', 3),
+(10, 'D4', 1, 0, '2020-08-11 19:08:49', '2020-08-13 02:39:14', 1, '80000.00', 2),
+(12, 'B2', 2, 0, '2020-08-11 19:33:41', '2020-08-13 02:39:15', 1, '20000.00', 2),
+(13, '0125478', 1, 0, '2020-08-13 01:16:47', '2020-08-13 02:10:09', 1, '205000.00', 5),
+(14, '012458', 2, 0, '2020-08-13 01:24:30', '2020-08-13 02:10:10', 1, '3000.00', 5),
+(15, 'D10', 1, 1, '2020-08-13 02:55:19', '2020-08-13 02:55:45', 1, '8000.00', 6),
+(16, 'D20', 1, 1, '2020-08-13 02:58:24', '2020-08-13 03:15:23', 1, '0.00', 7),
+(17, 'B10', 2, 1, '2020-08-13 02:59:08', '2020-08-13 02:59:08', 1, '0.00', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `role`
+--
+
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL,
+  `role_name` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `role`
+--
+
+INSERT INTO `role` (`id`, `role_name`, `description`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 'admin', 'Admin of system', 1, '2020-04-05 18:27:21', '2020-04-05 18:27:21'),
+(2, 'staff', 'Staff of system', 1, '2020-04-05 18:27:21', '2020-04-05 18:27:21'),
+(4, 'Admin_PTTK', 'Admin for PTTK', 1, '2020-08-13 15:27:24', '2020-08-13 15:27:24'),
+(5, 'Admin_OOP', 'Admin for OOP', 1, '2020-08-13 15:27:36', '2020-08-13 15:27:36');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `shelf`
+--
+
+CREATE TABLE `shelf` (
+  `id` int(11) NOT NULL,
+  `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Z',
+  `description` varchar(200) DEFAULT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total` int(11) DEFAULT '500',
+  `qty` int(11) DEFAULT NULL,
+  `qty_rest` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `shelf`
+--
+
+INSERT INTO `shelf` (`id`, `name`, `description`, `active_flag`, `create_date`, `update_date`, `total`, `qty`, `qty_rest`) VALUES
+(5, 'A', 'For iphone, xiaomi', 1, '2020-08-03 09:15:56', '2020-08-13 03:15:23', 500, 85, 415),
+(6, 'Z', 'for product back', 1, '2020-08-03 09:18:23', '2020-08-13 02:39:15', 405, 1, 404);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `shelf_oop`
+--
+
+CREATE TABLE `shelf_oop` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total` int(11) DEFAULT '500',
+  `qty` int(11) DEFAULT NULL,
+  `qty_rest` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `shelf_oop`
+--
+
+INSERT INTO `shelf_oop` (`id`, `name`, `description`, `active_flag`, `create_date`, `update_date`, `total`, `qty`, `qty_rest`) VALUES
+(1, 'A', 'for iphone', 1, '2020-08-04 14:08:21', '2020-08-06 01:52:31', 1000, 226, 774),
+(2, 'Z', 'for back', 1, '2020-08-04 14:08:21', '2020-08-04 15:56:14', 400, 0, 400);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active_flag` int(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `name`, `phone`, `address`, `create_date`, `update_date`, `active_flag`) VALUES
+(1, 'Group1', '038516', '55 Giai Phong', '2020-05-01 13:05:42', '2020-05-01 13:05:42', 1),
+(2, 'Phanh', '0385163198', 'D5', '2020-08-05 08:49:13', '2020-08-05 08:52:02', 0),
+(3, 'PM32', '0183617834', 'Ha Noi', '2020-08-06 01:47:11', '2020-08-12 09:35:11', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `active_flag` int(2) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `user_name`, `password`, `email`, `name`, `active_flag`, `create_date`, `update_date`, `status`) VALUES
+(1, 'hieupv', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'hieu79062@nuce.edu.vn', 'Hieu', 1, '2020-04-05 17:38:16', '2020-04-05 17:38:16', 0),
+(2, 'hoanganh', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'vuanh141299@gmail.com', 'Anh', 1, '2020-04-05 18:50:10', '2020-04-05 18:50:10', 0),
+(3, 'my', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'mybui12334@gmail.com', 'My ABC', 0, '2020-08-05 04:19:22', '2020-08-05 08:52:40', 0),
+(4, 'mybui', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'mybui@gmail.com', 'My ABC TYY', 0, '2020-08-05 08:54:27', '2020-08-12 18:26:07', 0),
+(5, 'mybui', '3kqjU1tr3tJn9a4Yr4xTfgCzAnvWTyWT', 'my@gmail.com', 'My', 1, '2020-08-12 18:26:26', '2020-08-12 18:26:26', 0),
+(6, 'hieupv_oop', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'hieu79062@nuce.edu.vn', 'Hieu', 1, '2020-08-13 15:27:58', '2020-08-13 15:27:58', 1),
+(7, 'hieupv_pttk', 'g/Fp1WdaKMWLAURClWmo7ygf5+pUr9O/', 'hieu79062@nuce.edu.vn', 'Hieu', 1, '2020-08-13 15:28:24', '2020-08-13 15:28:24', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `user_role`
+--
+
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `active_flag` int(1) NOT NULL DEFAULT '1',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user_role`
+--
+
+INSERT INTO `user_role` (`id`, `user_id`, `role_id`, `active_flag`, `create_date`, `update_date`) VALUES
+(1, 1, 1, 1, '2020-04-05 18:40:56', '2020-04-05 18:40:56'),
+(2, 2, 2, 1, '2020-04-05 18:50:24', '2020-04-05 18:50:24'),
+(5, 3, 2, 1, '2020-08-05 04:19:22', '2020-08-05 06:36:34'),
+(6, 4, 2, 1, '2020-08-05 08:54:27', '2020-08-12 09:02:02'),
+(7, 5, 2, 1, '2020-08-12 18:26:26', '2020-08-12 18:26:26'),
+(8, 6, 5, 1, '2020-08-13 15:27:58', '2020-08-13 15:27:58'),
+(9, 7, 4, 1, '2020-08-13 15:28:24', '2020-08-13 15:28:24');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vat`
+--
+
+CREATE TABLE `vat` (
+  `id` int(11) NOT NULL,
+  `code` varchar(200) DEFAULT NULL,
+  `tax` varchar(50) DEFAULT '123456789',
+  `supplier_id` int(11) DEFAULT NULL,
+  `percent` decimal(2,1) DEFAULT '0.1',
+  `price` decimal(15,2) DEFAULT NULL,
+  `total` decimal(15,2) DEFAULT NULL,
+  `active_flag` int(11) DEFAULT '1',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `vat`
+--
+
+INSERT INTO `vat` (`id`, `code`, `tax`, `supplier_id`, `percent`, `price`, `total`, `active_flag`, `create_date`, `update_date`, `user_id`) VALUES
+(1, 'V1', '123456', 1, '0.1', '30000.00', '33000.00', 1, '2020-07-06 21:56:45', '2020-08-13 02:09:39', 1),
+(2, 'V2', '123456', 1, '0.1', '10000.00', '11000.00', 0, '2020-08-01 16:50:08', '2020-08-13 02:39:14', 1),
+(3, 'V3', '123456', 3, '0.1', '490000.00', '539000.00', 0, '2020-08-10 15:13:26', '2020-08-10 18:19:41', 1),
+(5, 'vn', '0254589', 1, '0.1', '200000.00', '220000.00', 0, '2020-08-13 01:05:03', '2020-08-13 02:10:09', 1),
+(6, 'V10', '123456', 1, '0.1', '20000.00', '22000.00', 1, '2020-08-13 02:51:01', '2020-08-13 02:54:20', 1),
+(7, 'V20', '123456', 3, '0.1', '100000.00', '110000.00', 1, '2020-08-13 02:53:56', '2020-08-13 02:58:03', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vat_detail`
+--
+
+CREATE TABLE `vat_detail` (
+  `id` int(11) NOT NULL,
+  `vat_id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price_one` decimal(15,2) DEFAULT NULL,
+  `price_total` decimal(15,2) DEFAULT NULL,
+  `active_flag` int(11) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `vat_detail`
+--
+
+INSERT INTO `vat_detail` (`id`, `vat_id`, `product_id`, `qty`, `price_one`, `price_total`, `active_flag`) VALUES
+(1, 1, 5, 3, '10000.00', '30000.00', 0),
+(2, 1, 11, 3, '10000.00', '30000.00', 1),
+(3, 2, 1, 4, '10000.00', '40000.00', 0),
+(4, 3, 14, 7, '70000.00', '490000.00', 0),
+(5, 2, 14, 5, '20000.00', '100000.00', 0),
+(6, 2, 5, 10, '1000.00', '10000.00', 0),
+(7, 5, 9, 2, '100000.00', '200000.00', 0),
+(8, 5, 14, 10, '1000.00', '10000.00', 0),
+(9, 6, 14, 10, '1000.00', '10000.00', 1),
+(10, 6, 1, 5, '2000.00', '10000.00', 1),
+(11, 7, 14, 10, '10000.00', '100000.00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vat_detail_temp`
+--
+
+CREATE TABLE `vat_detail_temp` (
+  `id` int(11) NOT NULL,
+  `product_name` varchar(100) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price_one` decimal(15,2) DEFAULT NULL,
+  `price_total` decimal(15,2) DEFAULT NULL,
+  `vat_name` varchar(50) DEFAULT NULL,
+  `active_flag` int(11) DEFAULT '1',
+  `supplier_name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `vat_detail_temp`
+--
+
+INSERT INTO `vat_detail_temp` (`id`, `product_name`, `qty`, `price_one`, `price_total`, `vat_name`, `active_flag`, `supplier_name`) VALUES
+(201, 'BB1', 3, '10000.00', '30000.00', 'V1', 1, 'Group1'),
+(202, 'Iphone 9', 10, '1000.00', '10000.00', 'V10', 1, 'Group1'),
+(203, 'Xiaomi Mi 8', 5, '2000.00', '10000.00', 'V10', 1, 'Group1'),
+(204, 'Iphone 9', 10, '10000.00', '100000.00', 'V20', 1, 'PM32');
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `auth`
+--
+ALTER TABLE `auth`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `menuid_fk_auth` (`menu_id`) USING BTREE,
+  ADD KEY `roleid_fk_auth` (`role_id`);
+
+--
+-- Chỉ mục cho bảng `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `productid_fk_history` (`product_id`),
+  ADD KEY `history___fk_user` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `productid_fk_invoice` (`product_id`),
+  ADD KEY `supplierid_fk_invoice` (`supplier_id`),
+  ADD KEY `invoice___fk_user` (`user_id`),
+  ADD KEY `invoice___fk_shelf` (`shelf_id`);
+
+--
+-- Chỉ mục cho bảng `invoice_temp`
+--
+ALTER TABLE `invoice_temp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `product_detail`
+--
+ALTER TABLE `product_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`),
+  ADD KEY `product_info_id_fk_productdetail` (`product_id`),
+  ADD KEY `invoiceid_fk_productdetail` (`invoice_id`),
+  ADD KEY `supplierid_fk_productdetail` (`supplier_id`);
+
+--
+-- Chỉ mục cho bảng `product_detail_pt`
+--
+ALTER TABLE `product_detail_pt`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`),
+  ADD KEY `product_status_list_fk_productdetail_pt` (`product_status_list_id`),
+  ADD KEY `product_info_id_fk_productdetail_pt` (`product_id`),
+  ADD KEY `supplier_product_detail_pt___fk` (`supplier_id`);
+
+--
+-- Chỉ mục cho bảng `product_info`
+--
+ALTER TABLE `product_info`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cateid_fk_product_info` (`cate_id`);
+
+--
+-- Chỉ mục cho bảng `product_in_stock`
+--
+ALTER TABLE `product_in_stock`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `productid_fk_product_instock` (`product_id`);
+
+--
+-- Chỉ mục cho bảng `product_status_detail`
+--
+ALTER TABLE `product_status_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `importlistid_fk_productstatsdetail` (`product_status_list_id`),
+  ADD KEY `productinfoid_fk_importdetailstatusdetail` (`product_id`),
+  ADD KEY `shelfid_product_status_detail___fk` (`shelf_id`);
+
+--
+-- Chỉ mục cho bảng `product_status_detail_temp`
+--
+ALTER TABLE `product_status_detail_temp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `product_status_list`
+--
+ALTER TABLE `product_status_list`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `import_list_code_uindex` (`code`),
+  ADD KEY `usersid_fk_importliststaudlist` (`user_id`),
+  ADD KEY `vatid_product_status_list___fk` (`vat_id`);
+
+--
+-- Chỉ mục cho bảng `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `shelf`
+--
+ALTER TABLE `shelf`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `shelf_oop`
+--
+ALTER TABLE `shelf_oop`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `user_role`
+--
+ALTER TABLE `user_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid_fk_user_role` (`user_id`) USING BTREE,
+  ADD KEY `roleid_fk_user_role` (`role_id`) USING BTREE;
+
+--
+-- Chỉ mục cho bảng `vat`
+--
+ALTER TABLE `vat`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `vat_code_uindex` (`code`),
+  ADD KEY `supplierid_fk_vat` (`supplier_id`),
+  ADD KEY `vat___fk_user` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `vat_detail`
+--
+ALTER TABLE `vat_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `vatid_fk_vatdetail` (`vat_id`),
+  ADD KEY `productinfoid_fk_vatdetail` (`product_id`);
+
+--
+-- Chỉ mục cho bảng `vat_detail_temp`
+--
+ALTER TABLE `vat_detail_temp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `auth`
+--
+ALTER TABLE `auth`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
+
+--
+-- AUTO_INCREMENT cho bảng `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `history`
+--
+ALTER TABLE `history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT cho bảng `invoice_temp`
+--
+ALTER TABLE `invoice_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=794;
+
+--
+-- AUTO_INCREMENT cho bảng `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT cho bảng `product_detail`
+--
+ALTER TABLE `product_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `product_detail_pt`
+--
+ALTER TABLE `product_detail_pt`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `product_info`
+--
+ALTER TABLE `product_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT cho bảng `product_in_stock`
+--
+ALTER TABLE `product_in_stock`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT cho bảng `product_status_detail`
+--
+ALTER TABLE `product_status_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT cho bảng `product_status_detail_temp`
+--
+ALTER TABLE `product_status_detail_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=474;
+
+--
+-- AUTO_INCREMENT cho bảng `product_status_list`
+--
+ALTER TABLE `product_status_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT cho bảng `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `shelf`
+--
+ALTER TABLE `shelf`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `shelf_oop`
+--
+ALTER TABLE `shelf_oop`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `user_role`
+--
+ALTER TABLE `user_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `vat`
+--
+ALTER TABLE `vat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `vat_detail`
+--
+ALTER TABLE `vat_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `vat_detail_temp`
+--
+ALTER TABLE `vat_detail_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `auth`
+--
+ALTER TABLE `auth`
+  ADD CONSTRAINT `menuid_fk` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `roleid_fk_auth` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `history`
+--
+ALTER TABLE `history`
+  ADD CONSTRAINT `history___fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `productid_fk_history` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  ADD CONSTRAINT `invoice___fk_shelf` FOREIGN KEY (`shelf_id`) REFERENCES `shelf_oop` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice___fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `productid_fk_invoice` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `supplierid_fk_invoice` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_detail`
+--
+ALTER TABLE `product_detail`
+  ADD CONSTRAINT `invoiceid_fk_productdetail` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_info_id_fk_productdetail` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `supplierid_fk_productdetail` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_detail_pt`
+--
+ALTER TABLE `product_detail_pt`
+  ADD CONSTRAINT `product_info_id_fk_productdetail_pt` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_status_list_fk_productdetail_pt` FOREIGN KEY (`product_status_list_id`) REFERENCES `product_status_list` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `supplier_product_detail_pt___fk` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_info`
+--
+ALTER TABLE `product_info`
+  ADD CONSTRAINT `cateid_fk_product_info` FOREIGN KEY (`cate_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_in_stock`
+--
+ALTER TABLE `product_in_stock`
+  ADD CONSTRAINT `productid_fk_product_instock` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_status_detail`
+--
+ALTER TABLE `product_status_detail`
+  ADD CONSTRAINT `importlistid_fk_productstatsdetail` FOREIGN KEY (`product_status_list_id`) REFERENCES `product_status_list` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `productinfoid_fk_importdetailstatusdetail` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `shelfid_product_status_detail___fk` FOREIGN KEY (`shelf_id`) REFERENCES `shelf` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `product_status_list`
+--
+ALTER TABLE `product_status_list`
+  ADD CONSTRAINT `usersid_fk_importliststaudlist` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `vatid_product_status_list___fk` FOREIGN KEY (`vat_id`) REFERENCES `vat` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `user_role`
+--
+ALTER TABLE `user_role`
+  ADD CONSTRAINT `roleid_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `userid_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `vat`
+--
+ALTER TABLE `vat`
+  ADD CONSTRAINT `supplierid_fk_vat` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `vat___fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `vat_detail`
+--
+ALTER TABLE `vat_detail`
+  ADD CONSTRAINT `productinfoid_fk_vatdetail` FOREIGN KEY (`product_id`) REFERENCES `product_info` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `vatid_fk_vatdetail` FOREIGN KEY (`vat_id`) REFERENCES `vat` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
