@@ -34,7 +34,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code </label>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Imei </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="code" cssClass="form-control col-md-7 col-xs-12" />
 								</div>
@@ -72,7 +72,7 @@
 								<tr class="headings">
 									<th class="column-title">#</th>
 									<th class="column-title">Id</th>
-									<th class="column-title">Code</th>
+									<th class="column-title">Imei</th>
 									<th class="column-title">Name</th>
 									<th class="column-title">Image</th>
 									<th class="column-title">Price In</th>
